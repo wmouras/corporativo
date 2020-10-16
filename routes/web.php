@@ -35,6 +35,8 @@ Route::get('/', function () {
     |
     */
 
+    Route::redirect("/","/pf/pessoafisica", 301)->name("home");
+
     Route::get('/pessoajuridica/listatipo', [PessoaJuridicaController::class, 'listaTipoEmpresa']);
     Route::get('/pessoajuridica/listatpestabelecimento', [PessoaJuridicaController::class, 'listaTipoEstabelecimento']);
     Route::get('/pessoajuridica/salvar', [PessoaJuridicaController::class, 'salvar'])->middleware(['auth:sanctum', 'verified']);
