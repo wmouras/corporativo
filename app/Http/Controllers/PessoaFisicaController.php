@@ -21,6 +21,10 @@ class PessoaFisicaController extends Controller
 
             return view('pf/index', ['pessoa' => $pessoa] );
         }
+        else
+        {
+            return $this->lista();
+        }
     }
 
     public function lista(){
