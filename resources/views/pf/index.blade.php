@@ -7,18 +7,18 @@
 
     <div class="py-3">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg center">
 
                 <div class="flex flex-row flex-wrap flex-1 flex-grow content-start pl-16">
 
                     <!--Dash Content -->
-                    <div id="dash-content" class="bg-gray-200 py-6 lg:py-0 w-full lg:max-w-sm flex flex-wrap content-start">
+                    <div id="dash-content" class="bg-gray-200 py-6 lg:py-0 w-full lg:max-w-sm flex flex-wrap content-start text-center">
 
                         <div class="w-1/2 lg:w-full">
                             <div class="border-2 border-gray-400 border-dashed hover:border-transparent hover:bg-white hover:shadow-xl rounded p-6 m-2 md:mx-10 md:my-6">
                                 <div class="flex flex-col items-center">
-                                    <div class="flex-shrink pr-4">
-                                        <div class="rounded-full p-3 bg-gray-300"><i class="fa fa-id-card fa-fw fa-inverse text-indigo-500"></i></div>
+                                    <div class="flex-shrink">
+                                        <div class="rounded-full p-3 bg-green-300"><i class="fa fa-id-card fa-fw fa-inverse text-indigo-500"></i></div>
                                     </div>
                                     <div class="flex-1">
                                         <h3 class="font-bold text-3xl">OK<span class="text-green-500"></span></h3>
@@ -31,8 +31,8 @@
                         <div class="w-1/2 lg:w-full">
                             <div class="border-2 border-gray-400 border-dashed hover:border-transparent hover:bg-white hover:shadow-xl rounded p-6 m-2 md:mx-10 md:my-6">
                                 <div class="flex flex-col items-center">
-                                    <div class="flex-shrink pr-4">
-                                        <div class="rounded-full p-3 bg-gray-300"><i class="fas fa-building fa-fw fa-inverse text-indigo-500"></i></div>
+                                    <div class="flex-shrink">
+                                        <div class="rounded-full p-3 bg-green-300"><i class="fas fa-building fa-fw fa-inverse text-indigo-500"></i></div>
                                     </div>
                                     <div class="flex-1">
                                         <h3 class="font-bold text-3xl">21 <span class="text-orange-500"><i class="fas fa-exchange-alt"></i></span></h3>
@@ -45,8 +45,8 @@
                         <div class="w-1/2 lg:w-full">
                             <div class="border-2 border-gray-400 border-dashed hover:border-transparent hover:bg-white hover:shadow-xl rounded p-6 m-2 md:mx-10 md:my-6">
                                 <div class="flex flex-col items-center">
-                                    <div class="flex-shrink pr-4">
-                                        <div class="rounded-full p-3 bg-gray-300"><i class="fas fa-money-check-alt fa-fw fa-inverse text-indigo-500"></i></div>
+                                    <div class="flex-shrink">
+                                        <div class="rounded-full p-3 bg-green-300"><i class="fas fa-money-check-alt fa-fw fa-inverse text-indigo-500"></i></div>
                                     </div>
                                     <div class="flex-1">
                                         <h3 class="font-bold text-3xl">0 <span class="text-yellow-600"></span></h3>
@@ -59,8 +59,8 @@
                         <div class="w-1/2 lg:w-full">
                             <div class="border-2 border-gray-400 border-dashed hover:border-transparent hover:bg-white hover:shadow-xl rounded p-6 m-2 md:mx-10 md:my-6">
                                 <div class="flex flex-col items-center">
-                                    <div class="flex-shrink pr-4">
-                                        <div class="rounded-full p-3 bg-gray-300"><i class="fas fa-history fa-fw fa-inverse text-indigo-500"></i></div>
+                                    <div class="flex-shrink">
+                                        <div class="rounded-full p-3 bg-green-300"><i class="fas fa-history fa-fw fa-inverse text-indigo-500"></i></div>
                                     </div>
                                     <div class="flex-1">
                                         <h3 class="font-bold text-3xl">8 anos</h3>
@@ -92,9 +92,14 @@
                                             <li class="text-light px-3 w-44 mb-2">{{ $pessoa->cpf }}</li>
                                             <li class="text-light px-3 w-44 mb-2">{{ Auth::user()->email }}</li>
                                         </ul>
-                                            <a href="/pf/pessoafisica/dados/{{ $pessoa->fk_id_pessoa }}" class="relative inline-flex items-center mt-2 px-4 py-2 text-sm font-medium text-green-700 bg-white">
-                                                <i class="fa fa-edit"></i>&nbsp;Editar
-                                            </a>
+                                        <div class="flex-shrink">
+                                            <div class="rounded-full w-56 p-1 bg-green-300">
+                                                <a href="/pf/pessoafisica/dados/{{ $pessoa->fk_id_pessoa }}" class="relative inline-flex items-center ml-3 px-4 py-2 text-sm font-medium text-green-800">
+                                                    <i class="fa fa-edit"></i>&nbsp;&nbsp;Editar meus dados
+                                                </a>
+                                            </div>
+                                        </div>
+
 </div>
                                     <!--/Gráfico Card-->
 
@@ -192,13 +197,10 @@
     </div>
 </x-app-layout>
 
-@push('scripts')
-
 <script>
-    /* Refer to https://gionkunz.github.io/chartist-js/examples.html for setting up the Gráficos */
 
     var mainChart = new Chartist.Line('#chart1', {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
         series: [
             [1, 5, 2, 5, 4, 3],
             [2, 3, 4, 8, 1, 2],
@@ -252,11 +254,11 @@
     });
 
     var chartBar = new Chartist.Bar('#chart3', {
-        labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+        labels: ['2018', '2019', '2020'],
         series: [
-            [800000, 1200000, 1400000, 1300000],
-            [200000, 400000, 500000, 300000],
-            [100000, 200000, 400000, 600000]
+            [120, 140, 130],
+            [40, 50, 30],
+            [100, 40, 60]
         ]
     }, {
         stackBars: true,
@@ -361,5 +363,3 @@
         return false;
     }
 </script>
-
-@endpush

@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Auth;
     Route::get('/pessoajuridica/salvar', [PessoaJuridicaController::class, 'salvar'])->middleware(['auth:sanctum', 'verified']);
     Route::get('/pj/pessoajuridica/lista', [PessoaJuridicaController::class, 'lista'])->middleware(['auth:sanctum', 'verified']);
     Route::get('/pf/pessoafisica/lista', [PessoaJuridicaController::class, 'lista'])->middleware(['auth:sanctum', 'verified']);
-    Route::get('/pf/pessoafisica', [PessoaFisicaController::class, 'index'])->middleware(['auth:sanctum', 'verified']);
+    Route::get('/pf/pessoafisica', [PessoaFisicaController::class, 'index'])->middleware(['auth:sanctum', 'verified'])->name('pessoafisica');
 
     Route::get('/pessoafisica/nacionalidade', [PessoaFisicaController::class, 'listaNacionalidade'])->middleware(['auth:sanctum', 'verified']);
 
