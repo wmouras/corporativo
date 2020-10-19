@@ -230,7 +230,7 @@
                                         <h5 class="font-bold text-black">Benefícios Mutua</h5>
                                     </div>
                                     <div class="p-5">
-                                        <div class="" ><img src="https://www.mutua.com.br/wp-content/uploads/2019/08/logo_bco.png" alt="Benefícios mutua" width="150px"></div>
+                                        <div class=".bg-blue-600" ><img src="https://www.mutua.com.br/wp-content/uploads/2019/08/logo_bco.png" alt="Benefícios mutua" width="150px"></div>
                                     </div>
 
                                 </div>
