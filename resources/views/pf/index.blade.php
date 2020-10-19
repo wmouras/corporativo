@@ -106,7 +106,7 @@
                                     <!--Table Card-->
                                     <div class="p-3">
                                         <div class="border-b p-3">
-                                            <h5 class="font-bold text-black">Tabela ART</h5>
+                                            <h5 class="font-bold text-black">ARTs</h5>
                                         </div>
                                         <div class="p-5">
                                             <table class="w-full p-5 text-gray-700">
@@ -236,6 +236,21 @@
                                             </a>
                                         </div>
                                     </div>
+                                    <div class="p-5">
+                                        <div class="bg-blue-100 hover:bg-blue-300" >
+                                            <a href="http://www.abenc.org.br/" class="no-underline" target="_blank">
+                                                <img src="http://www.abenc.org.br/imagens/logo.png" alt="Benefícios mutua" width="175px">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="p-5">
+                                        <div class="bg-blue-700 hover:bg-blue-400" >
+                                            <a href="https://sites.google.com/view/abemec-df/" class="no-underline w-full" target="_blank">
+                                                <img src="https://images.sympla.com.br/5926e6a65ad97.jpg" alt="Benefícios mutua" width="80%">
+                                            </a>
+                                        </div>
+                                    </div>                                
 
                                 </div>
 
