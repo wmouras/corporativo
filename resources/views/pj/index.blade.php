@@ -138,48 +138,7 @@
                                                 </tbody>
                                             </table>
 
-                                            <p class="py-2"><a href="http://servicos.creadf.org.br/binn/serv-online-prof.htm">Acesso às ARTs</a></p>
-
-                                        </div>
-                                    </div>
-                                    <!--/table Card-->
-
-                                    <!--Table Card-->
-                                    <div class="p-3">
-                                        <div class="border-b p-3">
-                                            <h5 class="font-bold text-black">Protocolos</h5>
-                                        </div>
-                                        <div class="p-5">
-                                            <table class="w-full p-5 text-gray-700">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="text-left text-blue-900">Data</th>
-                                                        <th class="text-left text-blue-900">Número</th>
-                                                        <th class="text-left text-blue-900">Status</th>
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody>
-                                                    <tr>
-                                                        <td>25/10/2020</td>
-                                                        <td>202101/2020</td>
-                                                        <td>Em análise</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>18/10/2020</td>
-                                                        <td>56546/2019</td>
-                                                        <td>Aguardando resposta</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>16/10/2020</td>
-                                                        <td>55151/2020</td>
-                                                        <td>Finalizada</td>
-                                                    </tr>
-
-                                                </tbody>
-                                            </table>
-
-                                            <p class="py-2"><a href="http://servicos.creadf.org.br/binn/serv-online-prof.htm">Acesso aos protocolos</a></p>
+                                            <p class="py-2"><a href="#">Lista Completa...</a></p>
 
                                         </div>
                                     </div>
@@ -225,13 +184,6 @@
                                     </div>
 
                                     <!--/Gráfico Card-->
-
-                                    <div class="border-b p-3">
-                                        <h5 class="font-bold text-black">Benefícios Mutua</h5>
-                                    </div>
-                                    <div class="p-5">
-                                        <div class="" ><img src="https://www.mutua.com.br/wp-content/uploads/2019/08/logo_bco.png" alt="Benefícios mutua" width="100px"></div>
-                                    </div>
 
                                 </div>
 
