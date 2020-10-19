@@ -138,7 +138,7 @@
                                                 </tbody>
                                             </table>
 
-                                            <p class="py-2"><a href="http://servicos.creadf.org.br/binn/serv-online-prof.htm">Acesso às ARTs</a></p>
+                                            <p class="py-2"><a href="https://www.mutua.com.br/beneficios/" class="no-underline text-blue-700 hover:text-green-400" target="_blank">Acesso às ARTs</a></p>
 
                                         </div>
                                     </div>
@@ -179,7 +179,7 @@
                                                 </tbody>
                                             </table>
 
-                                            <p class="py-2"><a href="http://servicos.creadf.org.br/binn/serv-online-prof.htm">Acesso aos protocolos</a></p>
+                                            <p class="py-2"> <a href="https://www.mutua.com.br/beneficios/" class="no-underline text-blue-700 hover:text-green-400" target="_blank">Acesso aos protocolos</a></p>
 
                                         </div>
                                     </div>
@@ -227,10 +227,14 @@
                                     <!--/Gráfico Card-->
 
                                     <div class="border-b p-3">
-                                        <h5 class="font-bold text-black">Benefícios Mutua</h5>
+                                        <h5 class="font-bold text-black">Links</h5>
                                     </div>
                                     <div class="p-5">
-                                        <div class=".bg-blue-600" ><img src="https://www.mutua.com.br/wp-content/uploads/2019/08/logo_bco.png" alt="Benefícios mutua" width="150px"></div>
+                                        <div class="bg-blue-700 hover:bg-blue-400" >
+                                            <a href="https://www.mutua.com.br/beneficios/" class="no-underline" target="_blank">
+                                                <img src="https://www.mutua.com.br/wp-content/uploads/2019/08/logo_bco.png" alt="Benefícios mutua" width="150px">
+                                            </a>
+                                        </div>
                                     </div>
 
                                 </div>
