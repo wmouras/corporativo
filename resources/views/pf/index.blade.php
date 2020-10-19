@@ -237,17 +237,9 @@
                                         </div>
                                     </div>
                                     <div class="p-5">
-                                        <div class="bg-blue-100 hover:bg-blue-300" >
-                                            <a href="http://www.abenc.org.br/" class="no-underline" target="_blank">
-                                                <img src="http://www.abenc.org.br/imagens/logo.png" alt="Benefícios mutua" width="175px">
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div class="p-5">
                                         <div class="bg-blue-700 hover:bg-blue-400" >
-                                            <a href="https://sites.google.com/view/abemec-df/" class="no-underline w-full" target="_blank">
-                                                <img src="https://images.sympla.com.br/5926e6a65ad97.jpg" alt="Benefícios mutua" width="80%">
+                                            <a href="https://www.confea.org.br/" class="no-underline w-full" target="_blank">
+                                                <img src="{{url('/img/confea.png')}}" alt="Benefícios mutua" width="110%">
                                             </a>
                                         </div>
                                     </div>
