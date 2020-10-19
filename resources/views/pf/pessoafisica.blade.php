@@ -81,9 +81,20 @@
                             </div>
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='tipo_empresa'>
+                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='fk_cd_nacionalidade'>
                                     Nacionalidade
                                 </label>
+                                <select name="fk_cd_nacionalidade" id="fk_cd_nacionalidade" placeholder='Insira sua nacionalidade'
+                                    class='w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+
+                                    @foreach ($pessoafisica->listaNacionalidade as $nacionalidade)
+                                        <option value='{{ $nacionalidade["cd_nacionalidade"] }}'
+                                            @if( $nacionalidade["cd_nacionalidade"] == $pessoafisica["fk_cd_nacionalidade"] )
+                                                selected
+                                            @endif
+                                        >{{ $nacionalidade['nacionalidade'] }}</option>
+                                    @endforeach
+                                </select>
 
                             </div>
 
@@ -91,8 +102,26 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='fk_id_naturalidade'>
                                     Naturalidade
                                 </label>
-                                <input id='fk_id_naturalidade' name='fk_id_naturalidade' type='text' placeholder='Insira o fk_id_naturalidade'
-                                    class='appearance-none block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                <div class="flex">
+                                    <select name="fk_id_uf" id="fk_id_uf" placeholder='Selecione a UF'
+                                            class='flex-auto w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+
+                                        <option value="XX">Selecione</option>
+                                        @foreach ($pessoafisica->listaUf as $uf)
+                                            <option value="{{ $uf->pk_uf }}"
+                                            @if ($uf->pk_uf == $pessoafisica->pk_uf)
+                                                selected
+                                            @endif >{{ $uf->descricao_uf }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    <select name="fk_id_naturalidade" id="fk_id_naturalidade"
+                                    class='flex-auto w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+
+                                        <option value="000">Selecione</option>
+
+                                    </select>
+                                </div>
 
                             </div>
 
@@ -100,7 +129,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='foto'>
                                     Foto
                                 </label>
-                                <input id='foto' name='foto' type='text' placeholder='Insira o foto'
+                                <input id='foto' name='foto' type='text' placeholder='Insira o foto' value="{{ $pessoafisica->fk_cd_nacionalidde }}"
                                     class='appearance-none block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>

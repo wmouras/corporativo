@@ -19,4 +19,5 @@ class Endereco extends Model
     public function getEnderecoPessoa($idPessoa){
         return model::select('*')->where('fk_id_pessoa', $idPessoa)->get();
     }
+
 }

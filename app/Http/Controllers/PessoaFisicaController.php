@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Endereco;
 use App\Models\PessoaFisica;
 use App\Models\Nacionalidade;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Http;
 
 class PessoaFisicaController extends Controller
 {
@@ -16,8 +17,11 @@ class PessoaFisicaController extends Controller
     public function index(){
         if(Auth::user()->id == 2)
         {
+            $nacionalidade = new Nacionalidade();
+            $endereco = new Endereco();
             $pessoa = PessoaFisica::where('fk_id_pessoa', 12)->get()[0];
             $pessoa->fk_id_pessoa = Crypt::encryptString($pessoa->fk_id_pessoa);
+            // $pessoa->listaUf = $endereco->;
 
             return view('pf/index', ['pessoa' => $pessoa] );
         }
@@ -66,14 +70,18 @@ class PessoaFisicaController extends Controller
     }
 
     public function dados($id){
+        $client = new Client();
         $id = Crypt::decryptString($id);
+
         $nacionalidade = new Nacionalidade();
         $endereco = new Endereco();
 
-        $pf = PessoaFisica::where('fk_id_pessoa', $id)->get()[0];
-        $pf['enderecos'] = $endereco->getEnderecoPessoa( $id );
+        $pf = PessoaFisica::where('fk_id_pessoa', $id)->first();
+        $pf['enderecos'] = $endereco->getEnderecoPessoa($id);
+        $pf['listaUf'] = json_decode($client->request('GET', 'http://ws.creadf.org.br/api/endereco/uf')->getBody());
+        $pf->listaNacionalidade = $nacionalidade->listaNacionalidade();
 
-        // dd( $pf );
+        // dd( $pf->listaNacionalidade );
 
         session(['id_pessoa' => Crypt::encryptString($id)]);
 

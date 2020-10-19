@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-    Route::redirect("/","/pf/pessoafisica", 301)->name("home");
+    Route::redirect("/", "/pf/pessoafisica", 301)->name("home");
+    Route::get("/", [PessoaFisicaController::class, 'index'])->name("pf");
 
     Route::get('/pessoajuridica/listatipo', [PessoaJuridicaController::class, 'listaTipoEmpresa']);
     Route::get('/pessoajuridica/listatpestabelecimento', [PessoaJuridicaController::class, 'listaTipoEstabelecimento']);
