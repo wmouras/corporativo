@@ -48,4 +48,12 @@ class EnderecoController extends Controller
 
         return response()->json($endereco);
     }
+
+    public function cidade( Request $request ){
+
+        $cep = preg_replace( '/[^0-9-]/', '', $request->id );
+
+        $resposta = Http::get('http://ws.creadf.org.br/api/endereco/cidade/uf/'.$request->id)->json();
+        return response()->json($resposta);
+    }
 }

@@ -26,7 +26,7 @@
                 <div class='bg-white overflow-hidden shadow-xl sm:rounded-lg'>
 
                     <div class='row col-md-6'>
-                        <form action='/pessoafisica/salvar' id='frm-pessoa-fisica' name='frm-pessoa-fisica' method='GET'>
+                        <form action='/pessoafisica/salvar' id='frm-pessoa-fisica' name='frm-pessoa-fisica' method='GET' x-on:click.prevent>
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cpf'>
@@ -98,13 +98,16 @@
 
                             </div>
 
-                            <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
+                            <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'
+                                    x-data="alpineInstance()"
+                                    x-init=""
+                                >
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='fk_id_naturalidade'>
                                     Naturalidade
                                 </label>
                                 <div class="flex">
-                                    <select name="fk_id_uf" id="fk_id_uf" placeholder='Selecione a UF'
-                                            class='flex-auto w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                    <select name="fk_id_uf" id="fk_id_uf" placeholder='Selecione a UF' @change="listaCidade( this.fk_id_uf.value )"
+                                            class='flex-auto w-16 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 mr-3 leading-tight focus:outline-none focus:bg-white'>
 
                                         <option value="XX">Selecione</option>
                                         @foreach ($pessoafisica->listaUf as $uf)
@@ -115,14 +118,19 @@
                                         @endforeach
                                     </select>
 
-                                    <select name="fk_id_naturalidade" id="fk_id_naturalidade"
-                                    class='flex-auto w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                    {{-- <div class="flex-auto" x-data="{ selectedCidade: null, cidades: [{'pk_cidade': 1, 'cidade':'Cidade 1'}, {'pk_cidade': 2, 'cidade':'Cidade 2'}, {'pk_cidade': 3, 'cidade': 'Cidade 1'}] }" > --}}
 
-                                        <option value="000">Selecione</option>
+                                        <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
 
-                                    </select>
+                                        <select x-model="selectedCidade" class='flex-auto w-full block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
+                                            name="city" id="city"
+                                        >
+                                            <template x-for="cidade in cidades" :key="cidade.pk_cidade">
+                                                <option :value="cidade.pk_cidade" x-text="cidade.nome_cidade"></option>
+                                            </template>
+                                        </select>
+                                    </div>
                                 </div>
-
                             </div>
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
@@ -341,6 +349,19 @@
         </div>
     </x-app-layout>
 
-    @livewireScripts
+    <script type="text/javascript">
+
+    function alpineInstance() {
+        return {
+            selectedCidade: '',
+            cidades: [{'pk_cidade': 0, 'nome_cidade': 'Escolha uma UF'}],
+            listaCidade (uf) {
+                this.cidades = fetch('/endereco/cidade/uf/'+uf).then(response => response.json()).then(data => cidades = data);
+                this.selectedCidade = fetch('/endereco/cidade/uf/'+uf).then(response => response.json()).then(data => this.cidades = data);
+            },
+        };
+    }
+
+    </script>
 
 

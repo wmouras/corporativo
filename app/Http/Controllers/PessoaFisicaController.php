@@ -79,6 +79,7 @@ class PessoaFisicaController extends Controller
         $pf = PessoaFisica::where('fk_id_pessoa', $id)->first();
         $pf['enderecos'] = $endereco->getEnderecoPessoa($id);
         $pf['listaUf'] = json_decode($client->request('GET', 'http://ws.creadf.org.br/api/endereco/uf')->getBody());
+        // $pf['cidade'] = json_decode($client->request('GET', 'http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_cidade)->getBody());
         $pf->listaNacionalidade = $nacionalidade->listaNacionalidade();
 
         // dd( $pf->listaNacionalidade );
