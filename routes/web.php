@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-    Route::redirect("/", "/pf/pessoafisica", 301)->name("home");
-    Route::get("/", [PessoaFisicaController::class, 'index'])->name("pf");
+    Route::redirect("/", "/pf/pessoafisica", 301)->name("home")->middleware(['auth:sanctum', 'verified']);
+    Route::get("/", [PessoaFisicaController::class, 'index'])->name("pf")->middleware(['auth:sanctum', 'verified']);
 
     Route::get('/pessoajuridica/listatipo', [PessoaJuridicaController::class, 'listaTipoEmpresa']);
     Route::get('/pessoajuridica/listatpestabelecimento', [PessoaJuridicaController::class, 'listaTipoEstabelecimento']);
