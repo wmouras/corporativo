@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\Auth;
         return view('pj/listapessoajuridica');
     })->middleware(['verified']);
 
-    Route::get('pj/pessoajuridica/dados/{id}', [PessoaJuridicaController::class, 'dados'])->name('pj.pessoajuridica.edit')->middleware(['auth:sanctum', 'verified']);
-    Route::get('pf/pessoafisica/dados/{id}', [PessoaFisicaController::class, 'dados'])->name('pf.pessoafisica.edit')->middleware(['auth:sanctum', 'verified']);
-    Route::get('endereco/cep/{id}', [EnderecoController::class, 'cep'])->name('endereco.get')->middleware(['auth:sanctum', 'verified']);
-    Route::get('endereco/cidade/uf/{id}', [EnderecoController::class, 'cidade'])->name('listacidade')->middleware(['auth:sanctum', 'verified']);
+    Route::get('/pj/pessoajuridica/dados/{id}', [PessoaJuridicaController::class, 'dados'])->name('pj.pessoajuridica.edit')->middleware(['auth:sanctum', 'verified']);
+    Route::get('/pf/pessoafisica/dados/{id}', [PessoaFisicaController::class, 'dados'])->name('pf.pessoafisica.edit')->middleware(['auth:sanctum', 'verified']);
+    Route::get('/endereco/cep/{id}', [EnderecoController::class, 'cep'])->name('endereco.get')->middleware(['auth:sanctum', 'verified']);
+    Route::get('/endereco/cidade/uf/{id}', [EnderecoController::class, 'cidade'])->name('listacidade')->middleware(['auth:sanctum', 'verified']);

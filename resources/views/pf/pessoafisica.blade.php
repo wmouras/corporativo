@@ -26,7 +26,7 @@
                 <div class='bg-white overflow-hidden shadow-xl sm:rounded-lg'>
 
                     <div class='row col-md-6'>
-                        <form action='/pessoafisica/salvar' id='frm-pessoa-fisica' name='frm-pessoa-fisica' method='GET' x-on:click.prevent>
+                        <form action='/pessoafisica/salvar' id='frm-pessoa-fisica' name='frm-pessoa-fisica' method='GET' x-on:click.prevent="">
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cpf'>
@@ -57,9 +57,9 @@
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='data_emissao_identidade'>
-                                    Data de emissao da RG
+                                    Data de emissao do RG
                                 </label>
-                                <input id='data_emissao_identidade' name='data_emissao_identidade' type='text' placeholder='Insira o data_emissao_identidade'
+                                <input id='data_emissao_identidade' name='data_emissao_identidade' type='text' placeholder='Insira a data de emissao do'
                                     class='appearance-none block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -73,11 +73,17 @@
 
                             </div>
 
-                            <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
+                            <div class='w-44 md:w-1/2 px-3 mb-6 md:mb-0'>
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='tipo_empresa'>
-                                    Deficiente?
+                                    Possui alguma deficência?
                                 </label>
+                                <select class='w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
+                                    name="pk_id_deficiencia" id="pk_id_deficiencia" >
+                                        <option value="99'">Selecione...</option>
+                                        <option value="1'">SIM</option>
+                                        <option value="0">NÃO</option>
 
+                                </select>
                             </div>
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
@@ -108,7 +114,6 @@
                                 <div class="flex">
                                     <select name="fk_id_uf" id="fk_id_uf" placeholder='Selecione a UF' @change="listaCidade( this.fk_id_uf.value )"
                                             class='flex-auto w-16 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 mr-3 leading-tight focus:outline-none focus:bg-white'>
-
                                         <option value="XX">Selecione</option>
                                         @foreach ($pessoafisica->listaUf as $uf)
                                             <option value="{{ $uf->pk_uf }}"
@@ -118,13 +123,9 @@
                                         @endforeach
                                     </select>
 
-                                    {{-- <div class="flex-auto" x-data="{ selectedCidade: null, cidades: [{'pk_cidade': 1, 'cidade':'Cidade 1'}, {'pk_cidade': 2, 'cidade':'Cidade 2'}, {'pk_cidade': 3, 'cidade': 'Cidade 1'}] }" > --}}
-
-                                        <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-
+                                    <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                                         <select x-model="selectedCidade" class='flex-auto w-full block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
-                                            name="city" id="city"
-                                        >
+                                            name="city" id="city" >
                                             <template x-for="cidade in cidades" :key="cidade.pk_cidade">
                                                 <option :value="cidade.pk_cidade" x-text="cidade.nome_cidade"></option>
                                             </template>
@@ -218,7 +219,7 @@
                             </div>
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                <button type='submit' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8 center'>
+                                <button type='submit' x-on:click.prevent="salvarProfissional()" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8 center'>
                                     Salvar
                                 </button>
                             </div>
@@ -239,7 +240,7 @@
 
                     <div class='row col-md-6'>
 
-                        <form action='/pessoajuridica/endereco' id='frm-pessoa-endereco' name='frm-pessoa-endereco' method='GET'>
+                        <form action='/pessoajuridica/endereco' id='frm-pessoa-endereco' name='frm-pessoa-endereco' method='GET' x-on:click.prevent="">
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='endereco_valido'>
@@ -249,31 +250,27 @@
                                     class='appearance-none block w-14 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
-                            <div class='flex w-full md:w-1/3 px-3 mb-6 md:mb-0'>
-                            <div class='flex-auto md:w-1/3 px-3 mb-6 md:mb-0'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cep'>
-                                    CEP
-                                </label>
-                                <input id='cep' name='cep' type='text' placeholder='Insira o cep' v-mask="'##.###-###'"
-                                    class='appearance-none block w-44 bg-gray-50 text-center text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
-                             </div>
-                             <div class='flex-auto md:w-0 px-0 py-3 mb-1 md:mb-0 left'>
-                             <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold ' for='search'>
-                                    &nbsp;
-                                </label>
-                                <button id="search" @click="getEnderecoCep()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded-full h-9 w-9">
-                                    <i class="fa fa-redo"></i>
-                                </button>
+                            <div class='flex w-full md:w-1/2 px-3 mb-6 md:mb-0'>
+                                <div class='flex-auto'>
+                                    <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cep'>
+                                        CEP
+                                    </label>
+                                    <input id='cep' name='cep' type='text' placeholder='Insira o cep'
+                                        class='appearance-none inline w-44 bg-gray-50 text-center text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <button id="busca" x-on:click.prevent="getEnderecoCep(this.cep.value)" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded-full h-9 w-9">
+                                        <i class="fa fa-check"></i>
+                                    </button>
 
-                            </div>
+                                </div>
                             </div>
 
                             <div class='w-full flex md:w-1/2 md:mb-0'>
                             <div class='flex-auto md:w-full px-3 mb-6 md:mb-0'>
-                                <label class='w-full block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='endereco'>
+                                <label class='w-full block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='logradouro'>
                                     Logradouro
                                 </label>
-                                <input id='endereco' name='endereco' type='text' placeholder='Insira o logradouro'
+                                <input id='logradouro' name='logradouro' type='text' placeholder='Insira o logradouro'
                                     class='appearance-none block w-full bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -282,7 +279,7 @@
                                 <label class='w-20 block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='numero'>
                                     Número
                                 </label>
-                                <input id='numero' name='numero' type='text' placeholder='Insira o número' v-mask="'######'"
+                                <input id='numero' name='numero' type='text' placeholder='Insira o número'
                                     class='appearance-none block w-24 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -299,19 +296,19 @@
 
                             <div class='w-full flex md:w-1/3 md:mb-0'>
                             <div class='flex-auto md:w-1/6 px-3 mb-6 md:mb-0'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='id_uf'>
+                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='estado'>
                                     Estado
                                  </label>
-                                <input id='complemento' name='complemento' type='text' placeholder='Insira o complemento'
+                                <input id='estado' name='estado' type='text' placeholder='Insira o complemento'
                                     class='appearance-none w-full block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
 
                             <div class='flex-auto md:w-1/3 md:mb-0'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='fk_id_cidade'>
+                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cidade'>
                                     Cidade
                                 </label>
-                                <input id='fk_id_cidade' name='fk_id_cidade' type='text' placeholder='Escolha a cidade'
+                                <input id='cidade' name='cidade' type='text' placeholder='Escolha a cidade'
                                     class='appearance-none block w-44 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -335,6 +332,11 @@
                             <input id='usuario_atualizacao' name='usuario_atualizacao' type='hidden' />
                             <input id='id_endereco' name='id_endereco' type='hidden' />
 
+                            <input id='fk_id_bairro' name='fk_id_bairro' type='hidden' />
+                            <input id='fk_id_cidade' name='fk_id_cidade' type='hidden' />
+                            <input id='fk_id_logradouro' name='fk_id_logradouro' type='hidden' />
+                            <input id='fk_id_tipologradouro' name='fk_id_tipologradouro' type='hidden' />
+
                         </form>
 
                     </div>
@@ -351,17 +353,62 @@
 
     <script type="text/javascript">
 
-    function alpineInstance() {
-        return {
-            selectedCidade: '',
-            cidades: [{'pk_cidade': 0, 'nome_cidade': 'Escolha uma UF'}],
-            listaCidade (uf) {
-                this.cidades = fetch('/endereco/cidade/uf/'+uf).then(response => response.json()).then(data => cidades = data);
-                this.selectedCidade = fetch('/endereco/cidade/uf/'+uf).then(response => response.json()).then(data => this.cidades = data);
-            },
-        };
-    }
+        VMasker(document.getElementById("data_nascimento")).maskPattern('99/99/9999');
+        VMasker(document.getElementById("data_emissao_identidade")).maskPattern('99/99/9999');
+        VMasker(document.getElementById("cpf")).maskPattern('999.999.999-99');
+        VMasker(document.getElementById("titulo_eleitor")).maskPattern('9999 9999 9999');
+        VMasker(document.getElementById("secao_titulo_eleitor")).maskPattern('9999');
+        VMasker(document.getElementById("zona_titulo_eleitor")).maskPattern('9999');
+        VMasker(document.getElementById("cep")).maskPattern('99.999-999');
+
+        function alpineInstance() {
+            return {
+                selectedCidade: '',
+                cidades: [{'pk_cidade': 0, 'nome_cidade': 'Escolha uma UF'}],
+                listaCidade (uf) {
+                    this.cidades = fetch('/endereco/cidade/uf/'+uf).then(response => response.json()).then(data => cidades = data);
+                    this.selectedCidade = fetch('/endereco/cidade/uf/'+uf).then(response => response.json()).then(data => this.cidades = data);
+                },
+            };
+        }
+
+        function salvarProfissional(){
+            return {
+                // other default properties
+                isLoading: false,
+                pokemon: null,
+                fetchPokemon() {
+                    this.isLoading = true;
+                    fetch('/pf/pessoafisica/salva/')
+                    .then(res => res.json())
+                    .then(
+                        data => {
+                        this.isLoading = false;
+                        this.pokemon = data;
+                        }
+                    );
+                }
+            }
+        }
+
+        function getEnderecoCep(cep){
+            endereco = fetch( '/endereco/cep/'+cep ).then( res => res.json() )
+            .then( data => {
+                endereco = data;
+                this.logradouro.value = endereco.logradouro;
+                this.bairro.value = endereco.bairro;
+                this.cidade.value = endereco.cidade;
+                this.estado.value = endereco.estado;
+                this.fk_id_bairro.value = endereco.fk_id_bairro;
+                this.fk_id_cidade.value = endereco.fk_id_cidade;
+                this.fk_id_logradouro.value = endereco.fk_id_logradouro;
+                this.fk_id_tipologradouro.value = endereco.fk_id_tipologradouro;
+
+                console.log(endereco);
+
+            } );
+
+        }
 
     </script>
-
 

@@ -12,7 +12,7 @@ class EnderecoController extends Controller
 
         $cep = preg_replace( '/[^0-9-]/', '', $request->id );
 
-        $resposta = Http::get('http://ws.creadf.dev.br/api/endereco/'.$cep)->json();
+        $resposta = Http::get('http://ws.creadf.org.br/api/endereco/'.$cep)->json();
 
         // array:19 [
         //     "pk_cep" => "72140-110"
@@ -37,21 +37,19 @@ class EnderecoController extends Controller
         //   ]
 
         $endereco = [
-            'endereco' => $resposta[0]['descricao_tplog']." ".$resposta[0]['nome_logradouro'],
-            'cidade' => $resposta[0]['nome_cidade'],
-            'fk_id_bairro' => $resposta[0]['fk_bairro'],
-            'fk_id_cidade' => $resposta[0]['fk_cidade'],
-            'fk_id_tipologradouro' => $resposta[0]['fk_tipologradouro'],
-            'fk_id_logradouro' => $resposta[0]['fk_logradouro'],
-            'estado' => $resposta[0]['descricao_uf'],
-            'bairro' => $resposta[0]['nome_bairro']];
+            'logradouro' => $resposta['descricao_tplog']." ".$resposta['nome_logradouro'],
+            'cidade' => $resposta['nome_cidade'],
+            'fk_id_bairro' => $resposta['fk_bairro'],
+            'fk_id_cidade' => $resposta['fk_cidade'],
+            'fk_id_tipologradouro' => $resposta['fk_tipologradouro'],
+            'fk_id_logradouro' => $resposta['fk_logradouro'],
+            'estado' => $resposta['descricao_uf'],
+            'bairro' => $resposta['nome_bairro']];
 
         return response()->json($endereco);
     }
 
     public function cidade( Request $request ){
-
-        $cep = preg_replace( '/[^0-9-]/', '', $request->id );
 
         $resposta = Http::get('http://ws.creadf.org.br/api/endereco/cidade/uf/'.$request->id)->json();
         return response()->json($resposta);
