@@ -26,7 +26,7 @@
                 <div class='bg-white overflow-hidden shadow-xl sm:rounded-lg'>
 
                     <div class='row col-md-6'>
-                        <form action='/pessoafisica/salvar' id='frm-pessoa-fisica' name='frm-pessoa-fisica' method='GET' x-on:click.prevent="">
+                        <form action='' id='frmPessoaFisica' name='frmPessoaFisica' method='POST' x-on:click.prevent="" x-data="profissional()">
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cpf'>
@@ -78,7 +78,7 @@
                                     Possui alguma deficência?
                                 </label>
                                 <select class='w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
-                                    name="pk_id_deficiencia" id="pk_id_deficiencia" >
+                                    name="id_deficiencia" id="id_deficiencia" >
                                         <option value="99'">Selecione...</option>
                                         <option value="1'">SIM</option>
                                         <option value="0">NÃO</option>
@@ -125,7 +125,7 @@
 
                                     <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                                         <select x-model="selectedCidade" class='flex-auto w-full block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
-                                            name="city" id="city" >
+                                            name="fk_id_naturalidade" id="fk_id_naturalidade" >
                                             <template x-for="cidade in cidades" :key="cidade.pk_cidade">
                                                 <option :value="cidade.pk_cidade" x-text="cidade.nome_cidade"></option>
                                             </template>
@@ -218,8 +218,11 @@
                                 <textarea id='observacao' name='observacao'  placeholder='Insira as observações' value="{{ $pessoafisica->observacao }}" class='appearance-none block w-full h-32 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white resize border rounded focus:outline-none focus:shadow-outline'></textarea>
                             </div>
 
+                            <input id='field' name='field' type='hidden' value="eyJpdiI6Im5BTDRPVjBVcUl1Z2Y1S1ZMMkE5aGc9PSIsInZhbHVlIjoiOFJJMDIwN0NxbGZ4dmpnOUxUQzNnQT09IiwibWFjIjoiNWM0MmIyOTE4YjM2NWZlOThhY2Q2MjM4MWU0MGIzZmFhNzg5ZTllMGZiMzJmM2YxNTIyNWEwMmY3ZjllMGVlNSJ9"/>
+
+
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                <button type='submit' x-on:click.prevent="salvarProfissional()" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8 center'>
+                                <button type='button' x-on:click.prevent="salvarProfissional()" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8 center'>
                                     Salvar
                                 </button>
                             </div>
@@ -240,7 +243,7 @@
 
                     <div class='row col-md-6'>
 
-                        <form action='/pessoajuridica/endereco' id='frm-pessoa-endereco' name='frm-pessoa-endereco' method='GET' x-on:click.prevent="">
+                        <form action='' id='frm-pessoa-endereco' name='frm-pessoa-endereco' method='GET' x-on:click.prevent="">
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='endereco_valido'>
@@ -336,6 +339,7 @@
                             <input id='fk_id_cidade' name='fk_id_cidade' type='hidden' />
                             <input id='fk_id_logradouro' name='fk_id_logradouro' type='hidden' />
                             <input id='fk_id_tipologradouro' name='fk_id_tipologradouro' type='hidden' />
+                            <input id='field' name='field' type='hidden' value="{{ $pessoafisica->id_pessoa }}"/>
 
                         </form>
 
@@ -372,21 +376,43 @@
             };
         }
 
-        function salvarProfissional(){
+        function profissional(){
             return {
-                // other default properties
-                isLoading: false,
-                pokemon: null,
-                fetchPokemon() {
-                    this.isLoading = true;
-                    fetch('/pf/pessoafisica/salva/')
+                dataForm: {
+                    fk_id_pessoa: this.field.value,
+                    nome: this.nome.value,
+                    cpf: this.cpf.value,
+                    identidade: this.identidade.value,
+                    data_emissao_identidade: this.data_emissao_identidade.value,
+                    data_nascimento: this.data_nascimento.value,
+                    foto: this.foto.value,
+                    pai: this.pai.value,
+                    mae: this.mae.value,
+                    sexo: this.sexo.value,
+                    tipo_sangue: this.tipo_sangue.value,
+                    fk_cd_nacionalidade: this.fk_cd_nacionalidade.value,
+                    fk_id_naturalidade: this.fk_id_naturalidade.value,
+                    deficiente: this.id_deficiencia.value,
+                    titulo_eleitor: this.titulo_eleitor.value,
+                    zona_titulo_eleitor: this.zona_titulo_eleitor.value,
+                    secao_titulo_eleitor: this.secao_titulo_eleitor.value,
+                    // fk_cidade_titulo_eleitor: this.fk_cidade_titulo_eleitor.value,
+                    observacao: this.observacao.value,
+                },
+                salvarProfissional(){
+
+                    console.log( this.frmPessoaFisica );
+
+                    fetch('/pf/pessoafisica/salva/',{
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        data: this.dataForm
+                    })
                     .then(res => res.json())
-                    .then(
-                        data => {
-                        this.isLoading = false;
-                        this.pokemon = data;
-                        }
-                    );
+                    .catch(() => {
+                        this.message = 'Ooops! Algo deu errado!'
+                    })
+
                 }
             }
         }
