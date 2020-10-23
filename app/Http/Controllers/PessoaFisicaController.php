@@ -6,10 +6,13 @@ use App\Models\Endereco;
 use App\Models\PessoaFisica;
 use App\Models\Nacionalidade;
 use GuzzleHttp\Client;
-use Illuminate\Http\Request;
+use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request as HttpRequest;
+// use Symfony\Component\HttpFoundation\Request;
+// use Livewire\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Routing\Controller;
 
 class PessoaFisicaController extends Controller
 {
@@ -51,13 +54,13 @@ class PessoaFisicaController extends Controller
         return response()->json($nacionalidade->listaNacionalidade());
     }
 
-    public function salvar( Request $request ){
+    public function salvar( HttpRequest $request ){
 
         $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
-        $data_emissao_identidade = date('Y-m-d', strtotime($request->data_emissao_idenidade));
-        $data_nascimento = date('Y-m-d', strtotime($request->data_nascimento));
+        $data_emissao_identidade = alterarDataBrMysql($request->data_emissao_identidade);
+        $data_nascimento = alterarDataBrMysql($request->data_nascimento);
         $cpf = preg_replace( "/[^0-9]/", "", $request->cpf );
-        $titulo_eleitor = preg_replace("/[^0-9,]/", "", $request->titulo_eleitor);
+        $titulo_eleitor = preg_replace("/[^0-9]/", "", $request->titulo_eleitor);
         $request->merge(['usuario' => Auth::id()]);
         $request->merge(['fk_id_pessoa' => $idPessoa]);
         $request->merge(['titulo_eleitor' => $titulo_eleitor]);
@@ -65,13 +68,15 @@ class PessoaFisicaController extends Controller
         $request->merge(['data_emissao_identidade' => $data_emissao_identidade]);
         $request->merge(['data_nascimento' => $data_nascimento]);
 
-        dd( $request->all() );
+
+        dd($request->all());
 
         $result = PessoaFisica::updateOrCreate($request->all(), ['fk_id_pessoa' => $idPessoa]);
         dd($result);
     }
 
     public function dados($id){
+
         $client = new Client();
         $idPessoa = Crypt::decryptString($id);
 
@@ -79,12 +84,17 @@ class PessoaFisicaController extends Controller
         $endereco = new Endereco();
 
         $pf = PessoaFisica::where('fk_id_pessoa', $idPessoa)->first();
+        $pf->cpf = formatarCpf( $pf->cpf);
+        $pf->data_nascimento = alterarDataMysqlBr( $pf->data_nascimento );
+        $pf->data_emissao_identidade = alterarDataMysqlBr( $pf->data_emissao_identidade );
+
+        $pf->observacao = addslashes($pf->observacao);
         $pf['id_pessoa'] = $id;
         $pf['enderecos'] = $endereco->getEnderecoPessoa($idPessoa);
         $pf['listaUf'] = json_decode($client->request('GET', 'http://ws.creadf.org.br/api/endereco/uf')->getBody());
         // $pf['cidade'] = json_decode($client->request('GET', 'http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_cidade)->getBody());
         $pf->listaNacionalidade = $nacionalidade->listaNacionalidade();
-
+        // dd( $pf->observacao );
         // dd( $pf->listaNacionalidade );
 
         session(['id_pessoa' => $id]);

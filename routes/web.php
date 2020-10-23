@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\PessoaFisicaController;
 use App\Http\Controllers\PessoaJuridicaController;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +15,11 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
+    Route::post('/pf/pessoafisica/salva/', [PessoaFisicaController::class, 'salvar'])->middleware(['auth:sanctum', 'verified'])->name('pessoafisica.update');
+
+    // Route::get('/pf/pessoafisica/salva/', function (Request $request) {
+    //     dd($request);
+    // });
 
     Route::redirect("/", "/pf/pessoafisica", 301)->name("home")->middleware(['auth:sanctum', 'verified']);
     Route::get("/", [PessoaFisicaController::class, 'index'])->name("pf")->middleware(['auth:sanctum', 'verified']);
@@ -26,7 +30,6 @@ use Illuminate\Support\Facades\Auth;
     Route::get('/pj/pessoajuridica/lista', [PessoaJuridicaController::class, 'lista'])->middleware(['auth:sanctum', 'verified']);
     Route::get('/pf/pessoafisica/lista', [PessoaJuridicaController::class, 'lista'])->middleware(['auth:sanctum', 'verified']);
     Route::get('/pf/pessoafisica', [PessoaFisicaController::class, 'index'])->middleware(['auth:sanctum', 'verified'])->name('pessoafisica');
-    Route::get('/pf/pessoafisica/salva', [PessoaFisicaController::class, 'salvar'])->middleware(['auth:sanctum', 'verified']);
 
     Route::get('/pessoafisica/nacionalidade', [PessoaFisicaController::class, 'listaNacionalidade'])->middleware(['auth:sanctum', 'verified']);
 

@@ -26,13 +26,13 @@
                 <div class='bg-white overflow-hidden shadow-xl sm:rounded-lg'>
 
                     <div class='row col-md-6'>
-                        <form action='' id='frmPessoaFisica' name='frmPessoaFisica' method='POST' x-on:click.prevent="" x-data="profissional()">
-
+                    <form x-model='frmPessoa' id='frmPF' name='frmPF' method='POST' x-on:click.prevent="" x-data="profissional()">
+                        @csrf
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cpf'>
                                     CPF
                                 </label>
-                                <input id='cpf' name='cpf' type='text' placeholder='Insira o cpf' value="{{ $pessoafisica->cpf }}"
+                            <input x-model="frmData.cpf" id='cpf' name='cpf' type='text' placeholder='Insira o cpf' value=""
                                     class='appearance-none block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -41,7 +41,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='nome'>
                                     Nome
                                 </label>
-                                <input id='nome' name='nome' type='text' placeholder='Insira o nome' value="{{ $pessoafisica->nome }}"
+                                <input x-model="frmData.nome" id='nome' name='nome' type='text' placeholder='Insira o nome' value=""
                                     class='appearance-none block w-full bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -50,7 +50,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='identidade'>
                                     Identidade (RG)
                                 </label>
-                                <input id='identidade' name='identidade' type='text' placeholder='Insira o identidade'
+                                <input x-model="frmData.identidade" id='identidade' name='identidade' type='text' placeholder='Insira o identidade'
                                     class='appearance-none block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -59,7 +59,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='data_emissao_identidade'>
                                     Data de emissao do RG
                                 </label>
-                                <input id='data_emissao_identidade' name='data_emissao_identidade' type='text' placeholder='Insira a data de emissao do'
+                                <input x-model="frmData.data_emissao_identidade" id='data_emissao_identidade' name='data_emissao_identidade' type='text' placeholder='Insira a data de emissao do'
                                     class='appearance-none block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -68,7 +68,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='data_nascimento'>
                                     Data nascimento
                                 </label>
-                                <input id='data_nascimento' name='data_nascimento' type='text' placeholder='Insira o data_nascimento'
+                                <input x-model="frmData.data_nascimento" id='data_nascimento' name='data_nascimento' type='text' placeholder='Insira o data_nascimento'
                                     class='appearance-none block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -90,7 +90,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='fk_cd_nacionalidade'>
                                     Nacionalidade
                                 </label>
-                                <select name="fk_cd_nacionalidade" id="fk_cd_nacionalidade" placeholder='Insira sua nacionalidade'
+                                <select x-model="frmData.fk_cd_nacionalidade" name="fk_cd_nacionalidade" id="fk_cd_nacionalidade" placeholder='Insira sua nacionalidade'
                                     class='w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                     @foreach ($pessoafisica->listaNacionalidade as $nacionalidade)
@@ -104,10 +104,7 @@
 
                             </div>
 
-                            <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'
-                                    x-data="alpineInstance()"
-                                    x-init=""
-                                >
+                            <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='fk_id_naturalidade'>
                                     Naturalidade
                                 </label>
@@ -138,7 +135,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='foto'>
                                     Foto
                                 </label>
-                                <input id='foto' name='foto' type='text' placeholder='Insira o foto' value="{{ $pessoafisica->fk_cd_nacionalidde }}"
+                                <input x-model="frmData.foto" id='foto' name='foto' type='text' placeholder='Insira o foto' value="{{ $pessoafisica->fk_cd_nacionalidde }}"
                                     class='appearance-none block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -147,7 +144,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='mae'>
                                     Nome da mae
                                 </label>
-                                <input id='mae' name='mae' type='text' placeholder='Insira o nome da mãe'
+                                <input x-model="frmData.mae" id='mae' name='mae' type='text' placeholder='Insira o nome da mãe'
                                     class='appearance-none block w-full bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -156,7 +153,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='pai'>
                                     Nome do pai
                                 </label>
-                                <input id='pai' name='pai' type='text' placeholder='Insira o pai'
+                                <input x-model="frmData.pai" id='pai' name='pai' type='text' placeholder='Insira o pai'
                                     class='appearance-none block w-full bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -165,7 +162,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='tipo_empresa'>
                                     Sexo
                                 </label>
-                                <select name="sexo" id="sexo" class='w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                <select x-model="frmData.sexo" name="sexo" id="sexo" class='w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                     <option value="0">Selecione</option>
                                     <option value="1" @if($pessoafisica->sexo == '1') selected @endif>Masculino</option>
@@ -177,7 +174,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='tipo_sangue'>
                                     tipo sanguíneo
                                 </label>
-                                <input id='tipo_sangue' name='tipo_sangue' type='text' placeholder='Insira o tipo sanguíneo' value="{{ $pessoafisica->tipo_sangue }}"
+                                <input x-model="frmData.tipo_sangue" id='tipo_sangue' name='tipo_sangue' type='text' placeholder='Insira o tipo sanguíneo' value="{{ $pessoafisica->tipo_sangue }}"
                                     class='appearance-none block w-44 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -187,7 +184,7 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='titulo_eleitor'>
                                         título eleitor
                                     </label>
-                                    <input id='titulo_eleitor' name='titulo_eleitor' type='text' placeholder='Insira o titulo_eleitor'
+                                    <input x-model="frmData.titulo_eleitor" id='titulo_eleitor' name='titulo_eleitor' type='text' placeholder='Insira o titulo_eleitor'
                                         class='appearance-none block w-44 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -196,7 +193,7 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='zona_titulo_eleitor'>
                                         zona título eleitor
                                     </label>
-                                    <input id='zona_titulo_eleitor' name='zona_titulo_eleitor' type='text' placeholder='Insira o zona_titulo_eleitor'
+                                    <input x-model="frmData.zona_titulo_eleitor" id='zona_titulo_eleitor' name='zona_titulo_eleitor' type='text' placeholder='Insira o zona_titulo_eleitor'
                                         class='appearance-none block w-28 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -205,7 +202,7 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='secao_titulo_eleitor'>
                                         Seção título eleitor
                                     </label>
-                                    <input id='secao_titulo_eleitor' name='secao_titulo_eleitor' type='text' placeholder='Insira o secao_titulo_eleitor'
+                                    <input x-model="frmData.secao_titulo_eleitor" id='secao_titulo_eleitor' name='secao_titulo_eleitor' type='text' placeholder='Insira o secao_titulo_eleitor'
                                         class='appearance-none block w-28 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -215,7 +212,7 @@
                                     Observação
                                 </label>
 
-                                <textarea id='observacao' name='observacao'  placeholder='Insira as observações' value="{{ $pessoafisica->observacao }}" class='appearance-none block w-full h-32 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white resize border rounded focus:outline-none focus:shadow-outline'></textarea>
+                                <textarea x-model="frmData.observacao" id='observacao' name='observacao'  placeholder='Insira as observações' value="{{ $pessoafisica->observacao }}" class='appearance-none block w-full h-32 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white resize border rounded focus:outline-none focus:shadow-outline'></textarea>
                             </div>
 
                             <input id='field' name='field' type='hidden' value="eyJpdiI6Im5BTDRPVjBVcUl1Z2Y1S1ZMMkE5aGc9PSIsInZhbHVlIjoiOFJJMDIwN0NxbGZ4dmpnOUxUQzNnQT09IiwibWFjIjoiNWM0MmIyOTE4YjM2NWZlOThhY2Q2MjM4MWU0MGIzZmFhNzg5ZTllMGZiMzJmM2YxNTIyNWEwMmY3ZjllMGVlNSJ9"/>
@@ -243,7 +240,7 @@
 
                     <div class='row col-md-6'>
 
-                        <form action='' id='frm-pessoa-endereco' name='frm-pessoa-endereco' method='GET' x-on:click.prevent="">
+                        <form action='' id='frm-pessoa-endereco' name='frm-pessoa-endereco' method='POST' x-on:click.prevent="">
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='endereco_valido'>
@@ -327,7 +324,7 @@
                             </div>
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                <button type='submit' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-12 center'>
+                                <button type='button' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-12 center'>
                                     Salvar
                                 </button>
                             </div>
@@ -353,68 +350,51 @@
                 </div>
             </div>
         </div>
-    </x-app-layout>
+
 
     <script type="text/javascript">
 
-        VMasker(document.getElementById("data_nascimento")).maskPattern('99/99/9999');
-        VMasker(document.getElementById("data_emissao_identidade")).maskPattern('99/99/9999');
-        VMasker(document.getElementById("cpf")).maskPattern('999.999.999-99');
-        VMasker(document.getElementById("titulo_eleitor")).maskPattern('9999 9999 9999');
-        VMasker(document.getElementById("secao_titulo_eleitor")).maskPattern('9999');
-        VMasker(document.getElementById("zona_titulo_eleitor")).maskPattern('9999');
-        VMasker(document.getElementById("cep")).maskPattern('99.999-999');
+        function profissional(){
 
-        function alpineInstance() {
             return {
+                frmData: {
+                    fk_id_pessoa: '{{ $pessoafisica->id }}',
+                    nome: '{{ $pessoafisica->nome }}',
+                    cpf: "{{ $pessoafisica->cpf }}",
+                    identidade: '{{ $pessoafisica->identidade }}',
+                    data_emissao_identidade: '{{ $pessoafisica->data_emissao_identidade }}',
+                    data_nascimento: '{{ $pessoafisica->data_nascimento }}',
+                    foto: '{{ $pessoafisica->foto }}',
+                    pai: '{{ $pessoafisica->pai }}',
+                    mae: '{{ $pessoafisica->mae }}',
+                    sexo: '{{ $pessoafisica->sexo }}',
+                    tipo_sangue: '{{ $pessoafisica->tipo_sangue }}',
+                    fk_cd_nacionalidade: '{{ $pessoafisica->fk_cd_nacionalidade }}',
+                    fk_id_naturalidade: '{{ $pessoafisica->fk_id_naturalidade }}',
+                    deficiente: '{{ $pessoafisica->deficiente }}',
+                    titulo_eleitor: '{{ $pessoafisica->titulo_eleitor }}',
+                    zona_titulo_eleitor: '{{ $pessoafisica->zona_titulo_eleitor }}',
+                    secao_titulo_eleitor: '{{ $pessoafisica->secao_titulo_eleitor }}',
+                    observacao: `{{ $pessoafisica->observacao }}`,
+                },
+                frmPessoa: null,
+                salvarProfissional(){
+
+                    axios({
+                        method: 'post',
+                        url: '{{route('pessoafisica.update')}}',
+                        data: this.frmData
+                    });
+
+                },
                 selectedCidade: '',
                 cidades: [{'pk_cidade': 0, 'nome_cidade': 'Escolha uma UF'}],
                 listaCidade (uf) {
                     this.cidades = fetch('/endereco/cidade/uf/'+uf).then(response => response.json()).then(data => cidades = data);
                     this.selectedCidade = fetch('/endereco/cidade/uf/'+uf).then(response => response.json()).then(data => this.cidades = data);
                 },
-            };
-        }
-
-        function profissional(){
-            return {
-                dataForm: {
-                    fk_id_pessoa: this.field.value,
-                    nome: this.nome.value,
-                    cpf: this.cpf.value,
-                    identidade: this.identidade.value,
-                    data_emissao_identidade: this.data_emissao_identidade.value,
-                    data_nascimento: this.data_nascimento.value,
-                    foto: this.foto.value,
-                    pai: this.pai.value,
-                    mae: this.mae.value,
-                    sexo: this.sexo.value,
-                    tipo_sangue: this.tipo_sangue.value,
-                    fk_cd_nacionalidade: this.fk_cd_nacionalidade.value,
-                    fk_id_naturalidade: this.fk_id_naturalidade.value,
-                    deficiente: this.id_deficiencia.value,
-                    titulo_eleitor: this.titulo_eleitor.value,
-                    zona_titulo_eleitor: this.zona_titulo_eleitor.value,
-                    secao_titulo_eleitor: this.secao_titulo_eleitor.value,
-                    // fk_cidade_titulo_eleitor: this.fk_cidade_titulo_eleitor.value,
-                    observacao: this.observacao.value,
-                },
-                salvarProfissional(){
-
-                    console.log( this.frmPessoaFisica );
-
-                    fetch('/pf/pessoafisica/salva/',{
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        data: this.dataForm
-                    })
-                    .then(res => res.json())
-                    .catch(() => {
-                        this.message = 'Ooops! Algo deu errado!'
-                    })
-
-                }
             }
+
         }
 
         function getEnderecoCep(cep){
@@ -436,5 +416,14 @@
 
         }
 
+        VMasker(document.getElementById("data_nascimento")).maskPattern('99/99/9999');
+        VMasker(document.getElementById("data_emissao_identidade")).maskPattern('99/99/9999');
+        VMasker(document.getElementById("cpf")).maskPattern('999.999.999-99');
+        VMasker(document.getElementById("titulo_eleitor")).maskPattern('9999 9999 9999');
+        VMasker(document.getElementById("secao_titulo_eleitor")).maskPattern('9999');
+        VMasker(document.getElementById("zona_titulo_eleitor")).maskPattern('9999');
+        VMasker(document.getElementById("cep")).maskPattern('99.999-999');
+
     </script>
 
+</x-app-layout>
