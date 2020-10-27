@@ -68,7 +68,6 @@ class PessoaFisicaController extends Controller
         $request->merge(['data_emissao_identidade' => $data_emissao_identidade]);
         $request->merge(['data_nascimento' => $data_nascimento]);
 
-
         dd($request->all());
 
         $result = PessoaFisica::updateOrCreate($request->all(), ['fk_id_pessoa' => $idPessoa]);
