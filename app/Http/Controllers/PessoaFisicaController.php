@@ -83,19 +83,26 @@ class PessoaFisicaController extends Controller
         $nacionalidade = new Nacionalidade();
         $endereco = new Endereco();
 
+
         $pf = PessoaFisica::where('fk_id_pessoa', $idPessoa)->first();
         $pf->cpf = formatarCpf( $pf->cpf);
         $pf->data_nascimento = alterarDataMysqlBr( $pf->data_nascimento );
         $pf->data_emissao_identidade = alterarDataMysqlBr( $pf->data_emissao_identidade );
 
         $pf->observacao = addslashes($pf->observacao);
-        $pf['id_pessoa'] = $id;
-        $pf['enderecos'] = $endereco->getEnderecoPessoa($idPessoa);
-        $pf['listaUf'] = json_decode($client->request('GET', 'http://ws.creadf.org.br/api/endereco/uf')->getBody());
+        $pf->id_pessoa = $id;
+        $pf['endereco'] = $endereco->getEnderecoPessoa($idPessoa, 1);
+
+        // dd($pf['endereco']);
+
+        // $pf['endereco']['cep'] = formatarCep($pf['endereco']['cep']);
+        $pf['correspondencia'] = $endereco->getEnderecoPessoa($idPessoa, 1);
+        if(!is_object($pf['correspondencia'])){
+            $pf['correspondencia'] = false;
+        }
+        $pf->listaUf = json_decode($client->request('GET', 'http://ws.creadf.org.br/api/endereco/uf')->getBody());
         // $pf['cidade'] = json_decode($client->request('GET', 'http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_cidade)->getBody());
         $pf->listaNacionalidade = $nacionalidade->listaNacionalidade();
-        // dd( $pf->observacao );
-        // dd( $pf->listaNacionalidade );
 
         session(['id_pessoa' => $id]);
 

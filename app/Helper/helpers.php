@@ -28,6 +28,10 @@ function formatarCnpj($cnpj){
     return substr( $cnpj, 0, 2 ).'.'.substr( $cnpj, 2, 3 ).'.'.substr( $cnpj, 5, 3 ).'/'.substr( $cnpj, 9, 4 ).'-'.substr( $cnpj, 13, 2 );
 }
 
+function formatarCep($cep){
+    return substr( $cep, 0, 2 ).'.'.substr( $cep, 2, 3 ).'-'.substr( $cep, 5, 3 );
+}
+
 function apenasNumero( $campo )
 {
     return preg_replace('/[^0-9]/', '', $campo);
