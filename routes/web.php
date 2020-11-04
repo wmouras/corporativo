@@ -15,7 +15,7 @@ use App\Http\Controllers\PessoaJuridicaController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-    Route::post('/pf/pessoafisica/salva/', [PessoaFisicaController::class, 'salvar'])->middleware(['auth:sanctum', 'verified'])->name('pessoafisica.update');
+    Route::post('/pf/pessoafisica/salvar', [PessoaFisicaController::class, 'salvarPessoaFisica'])->middleware(['auth:sanctum', 'verified'])->name('pessoafisica.update');
 
     // Route::get('/pf/pessoafisica/salva/', function (Request $request) {
     //     dd($request);
@@ -26,7 +26,7 @@ use App\Http\Controllers\PessoaJuridicaController;
 
     Route::get('/pessoajuridica/listatipo', [PessoaJuridicaController::class, 'listaTipoEmpresa']);
     Route::get('/pessoajuridica/listatpestabelecimento', [PessoaJuridicaController::class, 'listaTipoEstabelecimento']);
-    Route::get('/pessoajuridica/salvar', [PessoaJuridicaController::class, 'salvar'])->middleware(['auth:sanctum', 'verified']);
+    Route::get('/pessoajuridica/salvar', [PessoaJuridicaController::class, 'salvarPessoaJuridica'])->middleware(['auth:sanctum', 'verified']);
     Route::get('/pj/pessoajuridica/lista', [PessoaJuridicaController::class, 'lista'])->middleware(['auth:sanctum', 'verified']);
     Route::get('/pf/pessoafisica/lista', [PessoaJuridicaController::class, 'lista'])->middleware(['auth:sanctum', 'verified']);
     Route::get('/pf/pessoafisica', [PessoaFisicaController::class, 'index'])->middleware(['auth:sanctum', 'verified'])->name('pessoafisica');

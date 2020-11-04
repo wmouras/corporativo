@@ -26,7 +26,8 @@
                 <div class='bg-white overflow-hidden shadow-xl sm:rounded-lg'>
 
                     <div class='row col-md-6'>
-                        <form x-model='frmPessoa' id='frmPF' name='frmPF' method='POST' x-on:click.prevent="" x-data="profissional()">
+                        <form x-model='frmPessoa' id='frmPF' name='frmPF' method='POST' x-on:click.prevent=""
+                            x-data="profissional({data: {{$pessoafisica->cidades}} })">
                             @csrf
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cpf'>
@@ -114,30 +115,21 @@
                                         <option value="XX">Selecione</option>
                                         @foreach ($pessoafisica->listaUf as $uf)
                                             <option value="{{ $uf->pk_uf }}"
-                                            @if ($uf->pk_uf == $pessoafisica->pk_uf)
+                                            @if ($uf->pk_uf == $pessoafisica->fk_id_uf)
                                                 selected
                                             @endif >{{ $uf->descricao_uf }}</option>
                                         @endforeach
                                     </select>
 
                                     <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                        <select x-model="selectedCidade" class='flex-auto w-full block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
+                                        <select x-model="frmData.fk_id_naturalidade" class='flex-auto w-full block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
                                             name="fk_id_naturalidade" id="fk_id_naturalidade" >
-                                            <template x-for="cidade in cidades" :key="cidade.pk_cidade">
-                                                <option :value="cidade.pk_cidade" x-text="cidade.nome_cidade"></option>
+                                            <template x-for="cidade in frmData.cidades" :key="cidade.pk_cidade">
+                                                <option :value="cidade.pk_cidade" x-text="cidade.nome_cidade" x-bind:selected="cidade.pk_cidade === {{$pessoafisica->fk_id_naturalidade}}"></option>
                                             </template>
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='foto'>
-                                    Foto
-                                </label>
-                                <input x-model="frmData.foto" id='foto' name='foto' type='text' placeholder='Insira o foto' value="{{ $pessoafisica->fk_cd_nacionalidde }}"
-                                    class='appearance-none block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
-
                             </div>
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
@@ -333,7 +325,7 @@
                         </div>
 
 
-                        <div class='row col-md-6 ml-3' style="display: none;" id="dvCorrespondencia" name="dvCorrespondencia">
+                        <div class='row col-md-6 ml-3 transition-all' style="display: none;" id="dvCorrespondencia" name="dvCorrespondencia">
 
                             <div class="flex flex-wrap mt-5 row">
                                 <div class="w-1/5 mb-4 h-12 mr-5">
@@ -595,7 +587,7 @@
 
     <script type="text/javascript">
 
-        function profissional(){
+        function profissional(pessoa){
 
             return {
                 frmData: {
@@ -617,6 +609,7 @@
                     zona_titulo_eleitor: '{{ $pessoafisica->zona_titulo_eleitor }}',
                     secao_titulo_eleitor: '{{ $pessoafisica->secao_titulo_eleitor }}',
                     observacao: `{{ $pessoafisica->observacao }}`,
+                    cidades: pessoa.data,
                 },
                 frmPessoa: null,
                 salvarProfissional(){
@@ -628,11 +621,8 @@
                     });
 
                 },
-                selectedCidade: '',
-                cidades: [{'pk_cidade': 0, 'nome_cidade': 'Escolha uma UF'}],
                 listaCidade (uf) {
-                    this.cidades = fetch('/endereco/cidade/uf/'+uf).then(response => response.json()).then(data => cidades = data);
-                    this.selectedCidade = fetch('/endereco/cidade/uf/'+uf).then(response => response.json()).then(data => this.cidades = data);
+                    this.frmData.cidades = fetch('/endereco/cidade/uf/'+uf).then(response => response.json()).then(data => this.frmData.cidades = data);
                 },
             }
 

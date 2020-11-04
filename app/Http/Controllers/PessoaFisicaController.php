@@ -6,13 +6,11 @@ use App\Models\Endereco;
 use App\Models\PessoaFisica;
 use App\Models\Nacionalidade;
 use GuzzleHttp\Client;
-use Illuminate\Http\Client\Request;
-use Illuminate\Http\Request as HttpRequest;
-// use Symfony\Component\HttpFoundation\Request;
-// use Livewire\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Routing\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class PessoaFisicaController extends Controller
 {
@@ -54,7 +52,7 @@ class PessoaFisicaController extends Controller
         return response()->json($nacionalidade->listaNacionalidade());
     }
 
-    public function salvar( HttpRequest $request ){
+    public function salvarPessoaFisica( Request $request ){
 
         $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
         $data_emissao_identidade = alterarDataBrMysql($request->data_emissao_identidade);
@@ -68,9 +66,9 @@ class PessoaFisicaController extends Controller
         $request->merge(['data_emissao_identidade' => $data_emissao_identidade]);
         $request->merge(['data_nascimento' => $data_nascimento]);
 
-        dd($request->all());
+        // dd($request->all());
 
-        $result = PessoaFisica::updateOrCreate($request->all(), ['fk_id_pessoa' => $idPessoa]);
+        $result = PessoaFisica::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());
         dd($result);
     }
 
@@ -82,12 +80,15 @@ class PessoaFisicaController extends Controller
         $nacionalidade = new Nacionalidade();
         $endereco = new Endereco();
 
-
         $pf = PessoaFisica::where('fk_id_pessoa', $idPessoa)->first();
         $pf->cpf = formatarCpf( $pf->cpf);
         $pf->data_nascimento = alterarDataMysqlBr( $pf->data_nascimento );
         $pf->data_emissao_identidade = alterarDataMysqlBr( $pf->data_emissao_identidade );
-
+        $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_naturalidade)->json()[0];
+        $pf->fk_id_uf = $cidade->fk_uf;
+        $pf['cidades'] = json_encode( Http::get('http://ws.creadf.org.br/api/endereco/cidade/uf/'.$cidade->fk_uf)->json() );
+        $pf->nome_cidade = $cidade->nome_cidade;
+        $pf->fk_id_naturalidade = $cidade->pk_cidade;
         $pf->observacao = addslashes($pf->observacao);
         $pf->id_pessoa = $id;
         $pf['endereco'] = $endereco->getEnderecoPessoa($idPessoa, 1);
@@ -100,7 +101,6 @@ class PessoaFisicaController extends Controller
             $pf['correspondencia'] = false;
         }
         $pf->listaUf = json_decode($client->request('GET', 'http://ws.creadf.org.br/api/endereco/uf')->getBody());
-        // $pf['cidade'] = json_decode($client->request('GET', 'http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_cidade)->getBody());
         $pf->listaNacionalidade = $nacionalidade->listaNacionalidade();
 
         session(['id_pessoa' => $id]);
