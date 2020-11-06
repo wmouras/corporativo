@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Endereco;
 use App\Models\PessoaFisica;
 use App\Models\Nacionalidade;
+use App\Models\Parentesco;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -21,7 +22,9 @@ class PessoaFisicaController extends Controller
             $nacionalidade = new Nacionalidade();
             $endereco = new Endereco();
             $pessoa = PessoaFisica::where('fk_id_pessoa', 12)->get()[0];
-            $pessoa->fk_id_pessoa = Crypt::encryptString($pessoa->fk_id_pessoa);
+            $pessoa['idPessoa'] = Crypt::encryptString($pessoa->fk_id_pessoa);
+
+            // dd( $pessoa );
             // $pessoa->listaUf = $endereco->;
 
             return view('pf/index', ['pessoa' => $pessoa] );
@@ -66,7 +69,9 @@ class PessoaFisicaController extends Controller
         $request->merge(['data_emissao_identidade' => $data_emissao_identidade]);
         $request->merge(['data_nascimento' => $data_nascimento]);
 
-        // dd($request->all());
+        $parentesco = array( $request->parentesco1, $request->parentesco2);
+        $modelParentesco = new Parentesco();
+        $modelParentesco->salvarParentesco($parentesco, $idPessoa);
 
         $result = PessoaFisica::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());
         dd($result);
@@ -74,34 +79,62 @@ class PessoaFisicaController extends Controller
 
     public function dados($id){
 
-        $client = new Client();
         $idPessoa = Crypt::decryptString($id);
 
         $nacionalidade = new Nacionalidade();
         $endereco = new Endereco();
+        $parentesco = new Parentesco();
 
         $pf = PessoaFisica::where('fk_id_pessoa', $idPessoa)->first();
+        $pf->id_pessoa = $id;
         $pf->cpf = formatarCpf( $pf->cpf);
         $pf->data_nascimento = alterarDataMysqlBr( $pf->data_nascimento );
         $pf->data_emissao_identidade = alterarDataMysqlBr( $pf->data_emissao_identidade );
-        $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_naturalidade)->json()[0];
-        $pf->fk_id_uf = $cidade->fk_uf;
-        $pf['cidades'] = json_encode( Http::get('http://ws.creadf.org.br/api/endereco/cidade/uf/'.$cidade->fk_uf)->json() );
-        $pf->nome_cidade = $cidade->nome_cidade;
-        $pf->fk_id_naturalidade = $cidade->pk_cidade;
+        $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_naturalidade)->json();
         $pf->observacao = addslashes($pf->observacao);
-        $pf->id_pessoa = $id;
+
+        if( is_array($cidade) ){
+            $cidade = $cidade[0];
+            $pf->fk_id_uf = $cidade->fk_uf;
+            $pf['cidades'] = json_encode( Http::get('http://ws.creadf.org.br/api/endereco/cidade/uf/'.$cidade->fk_uf)->json() );
+            $pf->nome_cidade = $cidade->nome_cidade;
+            $pf->fk_id_naturalidade = $cidade->pk_cidade;
+        }else{
+
+            $cidade = array();
+            $pf['cidades'] = '[]';
+            $pf->nome_cidade = '';
+            $pf->fk_id_uf = '';
+
+        }
+
+        $parentesco = $parentesco->getParentescoPessoa($idPessoa);
+
+        if( isset($parentesco[0]) )
+            $pf->parentesco1 = (object) $parentesco[0];
+        else
+            $pf->parentesco1 = (object) array('id_parentesco' => '', 'nome' => '', 'fk_id_tipo_parentesco' => '');
+
+        if(isset($parentesco[1]) ) {
+            $pf->parentesco2 = (object) $parentesco[1];
+        } else {
+            $pf->parentesco2 = (object) array('id_parentesco' => '', 'nome' => '', 'fk_id_tipo_parentesco' => '');
+        }
+
         $pf['endereco'] = $endereco->getEnderecoPessoa($idPessoa, 1);
 
-        // dd($pf['endereco']);
-
-        // $pf['endereco']['cep'] = formatarCep($pf['endereco']['cep']);
-        $pf['correspondencia'] = $endereco->getEnderecoPessoa($idPessoa, 1);
-        if(!is_object($pf['correspondencia'])){
-            $pf['correspondencia'] = false;
+        if( !is_object($pf['endereco']) ){
+            $pf['endereco'] = new Endereco();
         }
-        $pf->listaUf = json_decode($client->request('GET', 'http://ws.creadf.org.br/api/endereco/uf')->getBody());
+
+        $pf['correspondencia'] = $endereco->getEnderecoPessoa($idPessoa, 2);
+        if(!is_object($pf['correspondencia'])){
+            $pf['correspondencia'] = new Endereco();
+        }
+        $pf->listaUf = json_decode(Http::get('http://ws.creadf.org.br/api/endereco/uf'));
         $pf->listaNacionalidade = $nacionalidade->listaNacionalidade();
+
+        //  dd($pf);
 
         session(['id_pessoa' => $id]);
 

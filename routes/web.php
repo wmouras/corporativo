@@ -45,3 +45,5 @@ use App\Http\Controllers\PessoaJuridicaController;
     Route::get('/pf/pessoafisica/dados/{id}', [PessoaFisicaController::class, 'dados'])->name('pf.pessoafisica.edit')->middleware(['auth:sanctum', 'verified']);
     Route::get('/endereco/cep/{id}', [EnderecoController::class, 'cep'])->name('endereco.get')->middleware(['auth:sanctum', 'verified']);
     Route::get('/endereco/cidade/uf/{id}', [EnderecoController::class, 'cidade'])->name('listacidade')->middleware(['auth:sanctum', 'verified']);
+    Route::get('/endereco/salvar', [EnderecoController::class, 'SalvarEndereco'])->name('endereco.update')->middleware(['auth:sanctum', 'verified']);
+
