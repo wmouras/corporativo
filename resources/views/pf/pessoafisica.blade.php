@@ -225,7 +225,7 @@
 
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                <button type='button' x-on:click.prevent="salvarendereco()" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8 center'>
+                                <button type='button' x-on:click.prevent="salvarProfissional()" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8 center'>
                                     Salvar
                                 </button>
                             </div>

@@ -93,19 +93,16 @@ class PessoaFisicaController extends Controller
         $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_naturalidade)->json();
         $pf->observacao = addslashes($pf->observacao);
 
-        if( is_array($cidade) ){
-            $cidade = $cidade[0];
+        if( is_object($cidade) ){
             $pf->fk_id_uf = $cidade->fk_uf;
             $pf['cidades'] = json_encode( Http::get('http://ws.creadf.org.br/api/endereco/cidade/uf/'.$cidade->fk_uf)->json() );
             $pf->nome_cidade = $cidade->nome_cidade;
             $pf->fk_id_naturalidade = $cidade->pk_cidade;
         }else{
-
             $cidade = array();
             $pf['cidades'] = '[]';
             $pf->nome_cidade = '';
             $pf->fk_id_uf = '';
-
         }
 
         $parentesco = $parentesco->getParentescoPessoa($idPessoa);
