@@ -54,4 +54,8 @@ class EnderecoController extends Controller
         $resposta = Http::get('http://ws.creadf.org.br/api/endereco/cidade/uf/'.$request->id)->json();
         return response()->json($resposta);
     }
+
+    public function salvarEndereco( Request $request ){
+        dd( $request->all() );
+    }
 }

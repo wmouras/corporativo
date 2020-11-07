@@ -7,7 +7,7 @@
 
     <div class='py-1'>
 
-        <div x-data="{ tab: 'divDescricao' }" >
+        <div x-data="{ tab: 'divContato' }" >
 
                 <div class='max-w-7xl mx-auto sm:px-6 lg:px-8'>
                     <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divDescricao' }" class="inline w-65 border border-grey-100 rounded py-3 px-36 mb-1 leading-tight" @click="tab = 'divDescricao'">
@@ -21,20 +21,21 @@
                     </button>
                 </div>
 
-
             <div class='max-w-7xl mx-auto sm:px-6 lg:px-8' id="divDescricao" ref="divDescricao" x-show="tab === 'divDescricao'">
+
                 <div class='bg-white overflow-hidden shadow-xl sm:rounded-lg'>
 
                     <div class='row col-md-6'>
-                        <form x-model='frmPessoa' id='frmPF' name='frmPF' method='POST' x-on:click.prevent="" x-data="profissional()">
+                        <form x-model='frmPessoa' id='frmPF' name='frmPF' method='POST' x-on:click.prevent=""
+                            x-data="profissional({data: {{$pessoafisica->cidades}} })">
                             @csrf
+
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cpf'>
                                     CPF
                                 </label>
                             <input x-model="frmData.cpf" id='cpf' name='cpf' type='text' placeholder='Insira o cpf' value=""
                                     class='appearance-none block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
-
                             </div>
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
@@ -114,52 +115,57 @@
                                         <option value="XX">Selecione</option>
                                         @foreach ($pessoafisica->listaUf as $uf)
                                             <option value="{{ $uf->pk_uf }}"
-                                            @if ($uf->pk_uf == $pessoafisica->pk_uf)
+                                            @if ($uf->pk_uf == $pessoafisica->fk_id_uf)
                                                 selected
                                             @endif >{{ $uf->descricao_uf }}</option>
                                         @endforeach
                                     </select>
 
                                     <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                        <select x-model="selectedCidade" class='flex-auto w-full block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
+                                        <select x-model="frmData.fk_id_naturalidade" class='flex-auto w-full block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
                                             name="fk_id_naturalidade" id="fk_id_naturalidade" >
-                                            <template x-for="cidade in cidades" :key="cidade.pk_cidade">
-                                                <option :value="cidade.pk_cidade" x-text="cidade.nome_cidade"></option>
+                                            <template x-for="cidade in frmData.cidades" :key="cidade.pk_cidade">
+                                                <option :value="cidade.pk_cidade" x-text="cidade.nome_cidade" x-bind:selected="cidade.pk_cidade === {{$pessoafisica->fk_id_naturalidade}}"></option>
                                             </template>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='foto'>
-                                    Foto
+                            <fieldset class="" value="Parentesco">
+                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='nome_parentesco1'>
+                                    Parentesco
                                 </label>
-                                <input x-model="frmData.foto" id='foto' name='foto' type='text' placeholder='Insira o foto' value="{{ $pessoafisica->fk_cd_nacionalidde }}"
-                                    class='appearance-none block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                <div class='w-full flex md:w-1/2 px-3 mb-6 md:mb-0'>
 
-                            </div>
+                                    <input x-model="frmData.parentesco1.nome" id='nome_parentesco1' name='nome_parentesco1' type='text' placeholder='Insira o nome'
+                                        class='appearance-none block w-80 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+
+                                    <select x-model="frmData.parentesco1.fk_id_tipo_parentesco" name="grau_parentesco1" id="grau_parentesco1" class='ml-5 w-32 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+
+                                        <option value="0">Grau...</option>
+                                        <option value="1" @if($pessoafisica->parentesco1->fk_id_tipo_parentesco == '1') { selected @endif }>Mãe</option>
+                                        <option value="2" @if($pessoafisica->parentesco1->fk_id_tipo_parentesco == '2') { selected @endif }>Pai</option>
+                                    </select>
+
+
+                                </div>
+
+                                <div class='w-full flex md:w-1/2 px-3 mb-6 md:mb-0'>
+                                    <input x-model="frmData.parentesco2.nome" id='nome_parentesco2' name='nome_parentesco2' type='text' placeholder='Insira o nome'
+                                        class='appearance-none block w-80 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+
+                                    <select x-model="frmData.parentesco2.fk_id_tipo_parentesco" name="grau_parentesco2" id="grau_parentesco2" class='ml-5 w-32 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+
+                                        <option value="0">Grau...</option>
+                                        <option value="1" @if($pessoafisica->parentesco2->fk_id_tipo_parentesco == '1') { selected @endif }>Mãe</option>
+                                        <option value="2" @if($pessoafisica->parentesco2->fk_id_tipo_parentesco == '2') { selected @endif }>Pai</option>
+                                    </select>
+
+                                </div>
+                            </fieldset>
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='mae'>
-                                    Nome da mae
-                                </label>
-                                <input x-model="frmData.mae" id='mae' name='mae' type='text' placeholder='Insira o nome da mãe'
-                                    class='appearance-none block w-full bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
-
-                            </div>
-
-                            <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='pai'>
-                                    Nome do pai
-                                </label>
-                                <input x-model="frmData.pai" id='pai' name='pai' type='text' placeholder='Insira o pai'
-                                    class='appearance-none block w-full bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
-
-                            </div>
-
-                            <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='tipo_empresa'>
+                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='sexo'>
                                     Sexo
                                 </label>
                                 <select x-model="frmData.sexo" name="sexo" id="sexo" class='w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
@@ -240,14 +246,12 @@
                     <form x-model='formEndereco' id='formEndereco' name='formEndereco' method='POST' x-on:click.prevent="" x-data="endereco()">
                         <div class='row col-md-6 py-3'>
 
-
-
                             <div class="flex flex-wrap mt-5 row">
                                 <div class="w-1/5 mb-4 h-12 mr-5">
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cep'>
                                         CEP
                                     </label>
-                                    <input value={{ $pessoafisica->endereco->cep }} id='cep' name='cep' type='text' placeholder='Insira o cep'
+                                    <input x-model="frmEndereco.empresa.cep" id='cep' name='cep' type='text' placeholder='Insira o cep'
                                         class='appearance-none inline w-44 bg-gray-50 text-center text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                     <button id="busca" x-on:click.prevent="getEnderecoCep()" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded-full h-9 w-9">
@@ -259,7 +263,7 @@
                                         <label class='w-full block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='logradouro'>
                                         Logradouro
                                     </label>
-                                    <input value="{{ $pessoafisica->endereco->endereco }}" id='logradouro' name='logradouro' type='text' placeholder='Insira o logradouro'
+                                    <input x-model="frmEndereco.empresa.logradouro" id='logradouro' name='logradouro' type='text' placeholder='Insira o logradouro'
                                         class='appearance-none block w-full bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -267,7 +271,7 @@
                                     <label class='w-20 block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='numero'>
                                         Nº
                                     </label>
-                                    <input value="{{ $pessoafisica->endereco->numero }}" id='numero' name='numero' type='text' placeholder='Insira o número'
+                                    <input x-model="frmEndereco.empresa.numero" id='numero' name='numero' type='text' placeholder='Insira o número'
                                         class='appearance-none block w-16 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -278,7 +282,7 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='estado'>
                                     Estado
                                 </label>
-                                <input value="{{ $pessoafisica->endereco->estado }}" id='estado' name='estado' type='text' placeholder='Insira a UF'
+                                <input x-model="frmEndereco.empresa.estado" id='estado' name='estado' type='text' placeholder='Insira a UF'
                                     class='appearance-none w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -286,7 +290,7 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cidade'>
                                         Cidade
                                     </label>
-                                    <input value="{{ $pessoafisica->endereco->cidade }}" id='cidade' name='cidade' type='text' placeholder='Escolha a cidade'
+                                    <input x-model="frmEndereco.empresa.cidade" id='cidade' name='cidade' type='text' placeholder='Escolha a cidade'
                                         class='appearance-none block w-44 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -294,7 +298,7 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='bairro'>
                                         Bairro
                                     </label>
-                                    <input value="{{ $pessoafisica->endereco->bairro }}" id='bairro' name='bairro' type='text' placeholder='Insira o bairro'
+                                    <input x-model="frmEndereco.empresa.bairro" id='bairro' name='bairro' type='text' placeholder='Insira o bairro'
                                         class='appearance-none w-full block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -306,7 +310,7 @@
                                    <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='complemento'>
                                     Complemento
                                 </label>
-                                <input value="{{ $pessoafisica->endereco->complemento }}" id='complemento' name='complemento' type='text' placeholder='Insira o complemento'
+                                <input  x-model="frmEndereco.empresa.complemento" id='complemento' name='complemento' type='text' placeholder='Insira o complemento'
                                     class='appearance-none w-full block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
                                 </div>
 
@@ -333,7 +337,7 @@
                         </div>
 
 
-                        <div class='row col-md-6 ml-3' style="display: none;" id="dvCorrespondencia" name="dvCorrespondencia">
+                        <div class='row col-md-6 ml-3 transition-all' style="display: none;" id="dvCorrespondencia" name="dvCorrespondencia">
 
                             <div class="flex flex-wrap mt-5 row">
                                 <div class="w-1/5 mb-4 h-12 mr-5">
@@ -595,7 +599,7 @@
 
     <script type="text/javascript">
 
-        function profissional(){
+        function profissional(pessoa){
 
             return {
                 frmData: {
@@ -617,22 +621,33 @@
                     zona_titulo_eleitor: '{{ $pessoafisica->zona_titulo_eleitor }}',
                     secao_titulo_eleitor: '{{ $pessoafisica->secao_titulo_eleitor }}',
                     observacao: `{{ $pessoafisica->observacao }}`,
+                    parentesco1: {
+                                    id_parentesco: '{{ $pessoafisica->parentesco1->id_parentesco }}',
+                                    nome: '{{ $pessoafisica->parentesco1->nome }}',
+                                    fk_id_tipo_parentesco: '{{ $pessoafisica->parentesco1->fk_id_tipo_parentesco }}',
+                                },
+                    parentesco2: {
+                                    id_parentesco: '{{ $pessoafisica->parentesco2->id_parentesco }}',
+                                    nome: '{{ $pessoafisica->parentesco2->nome }}',
+                                    fk_id_tipo_parentesco: '{{ $pessoafisica->parentesco2->fk_id_tipo_parentesco }}',
+                                },
+                    cidades: pessoa.data,
+
                 },
                 frmPessoa: null,
                 salvarProfissional(){
 
+                    this.frmData.cidades = [];
                     axios({
                         method: 'post',
                         url: '{{route('pessoafisica.update')}}',
                         data: this.frmData
                     });
+                    this.frmData.cidades = pessoa.data;
 
                 },
-                selectedCidade: '',
-                cidades: [{'pk_cidade': 0, 'nome_cidade': 'Escolha uma UF'}],
                 listaCidade (uf) {
-                    this.cidades = fetch('/endereco/cidade/uf/'+uf).then(response => response.json()).then(data => cidades = data);
-                    this.selectedCidade = fetch('/endereco/cidade/uf/'+uf).then(response => response.json()).then(data => this.cidades = data);
+                    this.frmData.cidades = fetch('/endereco/cidade/uf/'+uf).then(response => response.json()).then(data => this.frmData.cidades = data);
                 },
             }
 
@@ -643,33 +658,33 @@
             return {
                 frmEndereco: {
                     empresa: {
-                        cep: '',
-                        fk_id_pessoa: '',
-                        logradouro: '',
-                        numero: '',
-                        estado: '',
-                        cidade: '',
-                        bairro: '',
-                        complemento: '',
-                        fk_id_bairro: '',
-                        fk_id_cidade: '',
-                        fk_id_logradouro: '',
-                        fk_id_tipologradouro: '',
+                        cep: '{{$pessoafisica->endereco->cep ?? ""}}',
+                        fk_id_pessoa: '{{$pessoafisica->endereco->fk_id_pessoa}}',
+                        logradouro: '{{$pessoafisica->endereco->endereco}}',
+                        numero: '{{$pessoafisica->endereco->numero}}',
+                        estado: '{{$pessoafisica->endereco->estado}}',
+                        cidade: '{{$pessoafisica->endereco->cidade}}',
+                        bairro: '{{$pessoafisica->endereco->bairro}}',
+                        complemento: '{{$pessoafisica->endereco->complemento}}',
+                        fk_id_bairro: '{{$pessoafisica->endereco->fk_id_bairro}}',
+                        fk_id_cidade: '{{$pessoafisica->endereco->fk_id_cidade}}',
+                        fk_id_logradouro: '{{$pessoafisica->endereco->fk_id_logradouro}}',
+                        fk_id_tipologradouro: '{{$pessoafisica->endereco->fk_id_tipologradouro}}',
                         st_correspondencia: true,
                     },
                     correspondencia: {
-                        cep: '{{ $pessoafisica->endereco->cep }}',
-                        fk_id_pessoa: '{{ $pessoafisica->endereco->fk_id_pessoa }}',
-                        logradouro: '{{ $pessoafisica->endereco->endereco }}',
-                        numero: "{{ $pessoafisica->endereco->numero }}",
-                        estado: '{{ $pessoafisica->endereco->estado }}',
-                        cidade: '{{ $pessoafisica->endereco->cidade }}',
-                        bairro: '{{ $pessoafisica->endereco->bairro }}',
-                        complemento: '{{ $pessoafisica->endereco->complemento }}',
-                        fk_id_bairro: '{{ $pessoafisica->endereco->fk_id_bairro }}',
-                        fk_id_cidade: '{{ $pessoafisica->endereco->fk_id_cidade }}',
-                        fk_id_logradouro: '{{ $pessoafisica->endereco->fk_id_logradouro }}',
-                        fk_id_tipologradouro: '{{ $pessoafisica->endereco->fk_id_tipologradouro }}',
+                        cep: '{{ $pessoafisica->correspondencia->cep }}',
+                        fk_id_pessoa: '{{ $pessoafisica->correspondencia->fk_id_pessoa }}',
+                        logradouro: '{{ $pessoafisica->correspondencia->endereco }}',
+                        numero: "{{ $pessoafisica->correspondencia->numero }}",
+                        estado: '{{ $pessoafisica->correspondencia->estado }}',
+                        cidade: '{{ $pessoafisica->correspondencia->cidade }}',
+                        bairro: '{{ $pessoafisica->correspondencia->bairro }}',
+                        complemento: '{{ $pessoafisica->correspondencia->complemento }}',
+                        fk_id_bairro: '{{ $pessoafisica->correspondencia->fk_id_bairro }}',
+                        fk_id_cidade: '{{ $pessoafisica->correspondencia->fk_id_cidade }}',
+                        fk_id_logradouro: '{{ $pessoafisica->correspondencia->fk_id_logradouro }}',
+                        fk_id_tipologradouro: '{{ $pessoafisica->correspondencia->fk_id_tipologradouro }}',
                     }
 
 
@@ -688,11 +703,11 @@
                 },
                 salvarEndereco(){
 
-                    // axios({
-                    //     method: 'post',
-                    //     url: '{{route('pessoafisica.update')}}',
-                    //     data: this.frmData
-                    // });
+                    axios({
+                        method: 'post',
+                        url: '{{route('endereco.update')}}',
+                        data: this.frmEndereco
+                    });
 
                 },
                 getEnderecoCep(){
