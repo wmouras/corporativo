@@ -10,14 +10,14 @@
         <div x-data="{ tab: 'divDescricao' }" >
 
                 <div class='max-w-7xl mx-auto sm:px-6 lg:px-8'>
-                    <button :class="{ 'focus:outline-none focus:bg-blue-100': tab === 'divDescricao' }" class="inline w-65 border border-grey-100 rounded py-3 px-36 mb-1 leading-tight" @click="tab = 'divDescricao'">
-                        Descrição
+                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divDescricao' }" class="inline w-65 border border-grey-100 rounded py-3 px-36 mb-1 leading-tight" @click="tab = 'divDescricao'">
+                        <b>Descrição</b>
                     </button>
-                    <button :class="{ 'focus:outline-none focus:bg-blue-100': tab === 'divContato' }" class="inline w-65 border border-grey-100 rounded py-3 px-36 mb-1 leading-tight" @click="tab = 'divContato'">
-                        Contato
+                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divContato' }" class="inline w-65 border border-grey-100 rounded py-3 px-36 mb-1 leading-tight" @click="tab = 'divContato'">
+                        <b>Contato</b>
                     </button>
-                    <button :class="{ 'focus:outline-none focus:bg-blue-100': tab === 'divRegistro' }" class="inline w-65 border border-grey-100 rounded py-3 px-36 mb-1 leading-tight" @click="tab = 'divRegistro'">
-                        Registro
+                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divRegistro' }" class="inline w-65 border border-grey-100 rounded py-3 px-36 mb-1 leading-tight" @click="tab = 'divRegistro'">
+                        <b>Registro</b>
                     </button>
                 </div>
 
