@@ -6,6 +6,7 @@ use App\Models\Endereco;
 use App\Models\PessoaFisica;
 use App\Models\Nacionalidade;
 use App\Models\Parentesco;
+use App\Models\QuadroTecnico;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -122,6 +123,11 @@ class PessoaFisicaController extends Controller
         if( !is_object($pf->endereco) ){
             $pf->endereco = new Endereco();
         }else{
+
+            $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->endereco->fk_id_cidade)->json();
+
+            $pf->endereco->cidade = $cidade->nome_cidade;
+            $pf->endereco->estado = $cidade->descricao_uf;
             $pf->endereco->cep = formatarCep($pf->endereco->cep);
         }
 
@@ -130,11 +136,19 @@ class PessoaFisicaController extends Controller
             $pf->correspondencia = new Endereco();
         }
         else{
+            $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->correspondencia->fk_id_cidade)->json();
+
+            $pf->correspondencia->cidade = $cidade->nome_cidade;
+            $pf->correspondencia->estado = $cidade->descricao_uf;
             $pf->correspondencia->cep = formatarCep($pf->correspondencia->cep);
         }
 
         $pf->listaUf = json_decode(Http::get('http://ws.creadf.org.br/api/endereco/uf'));
         $pf->listaNacionalidade = $nacionalidade->listaNacionalidade();
+
+        $quadro = new QuadroTecnico();
+        $listaQuadro = $quadro->getListaEmpresaQuadro($idPessoa);
+
         session(['id_pessoa' => $id]);
         return view('pf/pessoafisica', ['pessoafisica' => $pf]);
 

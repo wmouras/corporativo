@@ -47,7 +47,6 @@ class EnderecoController extends Controller
         if( !$request->all()['st_correspondencia'] ){
             $correspondencia = $request->all()['correspondencia'];
             $correspondencia['fk_id_pessoa'] = $idPessoa;
-            $correspondencia['endereco'] = $request->all()['correspondencia']['logradouro'];
             $correspondencia['cep'] = apenasNumero($request->all()['correspondencia']['cep']);
             $correspondencia['envia_correspondencia'] = 1;
             $correspondencia['endereco_valido'] = 1;
@@ -61,7 +60,6 @@ class EnderecoController extends Controller
         $empresa['fk_id_pessoa'] = $idPessoa;
         $empresa['endereco_valido'] = 1;
         $empresa['cep'] = apenasNumero($request->all()['empresa']['cep']);
-        $empresa['endereco'] = $request->all()['empresa']['logradouro'];
         $empresa['situacao_envio_confea'] = 0;
         $empresa['fk_id_tipo_endereco'] = 1;
         $result = Endereco::updateOrCreate(['id_endereco' => $empresa['id_endereco']], $empresa);
