@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Endereco;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 
 class EnderecoController extends Controller
@@ -13,28 +15,6 @@ class EnderecoController extends Controller
         $cep = preg_replace( '/[^0-9-]/', '', $request->id );
 
         $resposta = Http::get('http://ws.creadf.org.br/api/endereco/'.$cep)->json();
-
-        // array:19 [
-        //     "pk_cep" => "72140-110"
-        //     "fk_tipologradouro" => 195
-        //     "fk_uf" => "DF"
-        //     "fk_cidade" => 1
-        //     "fk_bairro" => 16
-        //     "fk_logradouro" => 10458
-        //     "cep_antigo" => null
-        //     "pk_uf" => "DF"
-        //     "descricao_uf" => "Distrito Federal"
-        //     "cep1_uf" => "70000"
-        //     "cep2_uf" => "72799"
-        //     "pk_logradouro" => 10458
-        //     "nome_logradouro" => "11"
-        //     "pk_tipologradouro" => 195
-        //     "descricao_tplog" => "QNJ"
-        //     "pk_cidade" => 1
-        //     "nome_cidade" => "Brasília"
-        //     "pk_bairro" => 16
-        //     "nome_bairro" => "Taguatinga Norte (Taguatinga)"
-        //   ]
 
         $endereco = [
             'logradouro' => $resposta['descricao_tplog']." ".$resposta['nome_logradouro'],
@@ -56,6 +36,23 @@ class EnderecoController extends Controller
     }
 
     public function salvarEndereco( Request $request ){
-        dd( $request->all() );
+
+        $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
+        $empresa = $request->all()['empresa'];
+
+        if( !$request->all()['st_correspondencia'] ){
+            $correspondencia = $request->all()['correspondencia'];
+            $correspondencia['fk_id_pessoa'] = $idPessoa;
+            $correspondencia['cep'] = apenasNumero($request->all()['correspondencia']['cep']);
+            $correspondencia['st_correspondencia'] = 1;
+            $result = Endereco::updateOrCreate(['id_endereco' => $correspondencia['id_endereco']], $correspondencia);
+        }else{
+            $empresa['st_correspondencia'] = 0;
+        }
+        $empresa['fk_id_pessoa'] = $idPessoa;
+        $empresa['cep'] = apenasNumero($request->all()['empresa']['cep']);
+        $result = Endereco::updateOrCreate(['id_endereco' => $empresa['id_endereco']], $empresa);
+
+        dd($result);
     }
 }

@@ -36,3 +36,14 @@ function apenasNumero( $campo )
 {
     return preg_replace('/[^0-9]/', '', $campo);
 }
+
+function formatarTituloEleitor( $campo )
+{
+    return substr($campo, 0, 4).' '.substr($campo, 4, 4).' '.substr($campo, 8, 2).' '.substr($campo, 10, 2);
+}
+
+function validarTituloEleitor( $titulo ){
+    $titulo = substr( preg_replace('/[^0-9]/', '', $titulo), 0, 12);
+    return $titulo;
+
+}
