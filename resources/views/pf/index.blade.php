@@ -94,7 +94,7 @@
                                         </ul>
                                         <div class="flex-shrink">
                                             <div class="rounded-full w-56 p-1 bg-green-300">
-                                                <a href="/pf/pessoafisica/dados/{{ $pessoa->idPessoa }}" class="relative inline-flex items-center ml-3 px-4 py-2 text-sm font-medium text-green-800">
+                                                <a href="/pf/pessoafisica/edicao/{{ $pessoa->idPessoa }}" class="relative inline-flex items-center ml-3 px-4 py-2 text-sm font-medium text-green-800">
                                                     <i class="fa fa-edit"></i>&nbsp;&nbsp;Editar meus dados
                                                 </a>
                                             </div>

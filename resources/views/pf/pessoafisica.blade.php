@@ -221,7 +221,7 @@
                                 <textarea x-model="frmData.observacao" id='observacao' name='observacao'  placeholder='Insira as observações' value="{{ $pessoafisica->observacao }}" class='appearance-none block w-full h-32 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white resize border rounded focus:outline-none focus:shadow-outline'></textarea>
                             </div>
 
-                            <input id='field' name='field' type='hidden' value="eyJpdiI6Im5BTDRPVjBVcUl1Z2Y1S1ZMMkE5aGc9PSIsInZhbHVlIjoiOFJJMDIwN0NxbGZ4dmpnOUxUQzNnQT09IiwibWFjIjoiNWM0MmIyOTE4YjM2NWZlOThhY2Q2MjM4MWU0MGIzZmFhNzg5ZTllMGZiMzJmM2YxNTIyNWEwMmY3ZjllMGVlNSJ9"/>
+                            <input id='field' name='field' type='hidden' />
 
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
@@ -243,7 +243,8 @@
 
                 <div class='bg-white py-3 overflow-hidden shadow-xl sm:rounded-lg'>
 
-                    <form x-model='formEndereco' id='formEndereco' name='formEndereco' method='POST' x-on:click.prevent="" x-data="endereco()">
+                    <form x-model='frmEnder' id='frmEnd' name='frmEnd' method='POST' x-on:click.prevent="" x-data="endereco()">
+                         @csrf
                         <div class='row col-md-6 py-3'>
 
                             <div class="flex flex-wrap mt-5 row">
@@ -251,10 +252,10 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cep'>
                                         CEP
                                     </label>
-                                    <input x-model="frmEndereco.empresa.cep" id='cep' name='cep' type='text' placeholder='Insira o cep'
+                                    <input x-on:click.prevent="" x-model="frmEndereco.empresa.cep" id='cep' name='cep' type='text' placeholder='Insira o cep'
                                         class='appearance-none inline w-44 bg-gray-50 text-center text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
-                                    <button id="busca" x-on:click.prevent="getEnderecoCep()" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded-full h-9 w-9">
+                                    <button id="busca" x-on:click="getEnderecoCep()" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded-full h-9 w-9">
                                         <i class="fa fa-search"></i>
                                     </button>
 
@@ -318,7 +319,7 @@
 
                             <div class=" flex w-65 mt-7 mb-10" @click="marcarBox()">
                                 <label class="switch w-65">
-                                    <input type="checkbox" x-model="frmEndereco.empresa.st_correspondencia" :value="st_correspondencia" id="st_correspondencia" name="st_correspondencia" checked />
+                                    <input type="checkbox" x-model="frmEndereco.st_correspondencia" :value="st_correspondencia" id="st_correspondencia" name="st_correspondencia" checked />
                                     <span class="slider round w-65"></span>
 
                                 </label>
@@ -341,22 +342,22 @@
 
                             <div class="flex flex-wrap mt-5 row">
                                 <div class="w-1/5 mb-4 h-12 mr-5">
-                                    <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cep'>
+                                    <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cepCorrespondencia'>
                                         CEP
                                     </label>
-                                    <input x-model="frmEndereco.correspondencia.cep" id='cep' name='cep' type='text' placeholder='Insira o cep'
+                                    <input x-on:key.prevent="" x-model="frmEndereco.correspondencia.cep" id='cepCorrespondencia' name='cepCorrespondencia' type='text' placeholder='Insira o cep'
                                         class='appearance-none inline w-44 bg-gray-50 text-center text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
-                                    <button id="busca" x-on:click.prevent="getEnderecoCep(this.cep.value)" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded-full h-9 w-9">
+                                    <button id="get-endereco" x-on:click.prevent="getEnderecoCepCorrespondecia()" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded-full h-9 w-9">
                                         <i class="fa fa-search"></i>
                                     </button>
 
                                 </div>
                                     <div class="w-1/3 mb-4 h-12">
-                                        <label class='w-full block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='logradouro'>
+                                        <label class='w-full block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='logradouroCorrespondencia'>
                                         Logradouro
                                     </label>
-                                    <input x-model="frmEndereco.correspondencia.logradouro" id='logradouro' name='logradouro' type='text' placeholder='Insira o logradouro'
+                                    <input x-model="frmEndereco.correspondencia.logradouro" id='logradouroCorrespondencia' name='logradouroCorrespondencia' type='text' placeholder='Insira o logradouro'
                                         class='appearance-none block w-full bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -364,7 +365,7 @@
                                     <label class='w-20 block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='numero'>
                                         Nº
                                     </label>
-                                    <input x-model="frmEndereco.correspondencia.numero" id='numero' name='numero' type='text' placeholder='Insira o número'
+                                    <input x-model="frmEndereco.correspondencia.numero" id='numeroCorrespondencia' name='numeroCorrespondencia' type='text' placeholder='Insira o número'
                                         class='appearance-none block w-16 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -375,7 +376,7 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='estado'>
                                     Estado
                                 </label>
-                                <input x-model="frmEndereco.correspondencia.estado" id='estado' name='estado' type='text' placeholder='Insira a UF'
+                                <input x-model="frmEndereco.correspondencia.estado" id='estadoCorrespondencia' name='estadoCorrespondencia' type='text' placeholder='Insira a UF'
                                     class='appearance-none w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -383,17 +384,15 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cidade'>
                                         Cidade
                                     </label>
-                                    <input x-model="frmEndereco.correspondencia.cidade" id='cidade' name='cidade' type='text' placeholder='Escolha a cidade'
+                                    <input x-model="frmEndereco.correspondencia.cidade" id='cidadeCorrespondencia' name='cidadeCorrespondencia' type='text' placeholder='Escolha a cidade'
                                         class='appearance-none block w-44 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
-
                                 </div>
                                 <div class="w-1/4 mb-4 h-12">
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='bairro'>
                                         Bairro
                                     </label>
-                                    <input x-model="frmEndereco.correspondencia.bairro" id='bairro' name='bairro' type='text' placeholder='Insira o bairro'
+                                    <input x-model="frmEndereco.correspondencia.bairro" id='bairroCorrespondencia' name='bairroCorrespondencia' type='text' placeholder='Insira o bairro'
                                         class='appearance-none w-full block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
-
                                 </div>
 
                             </div>
@@ -403,7 +402,7 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='complemento'>
                                     Complemento
                                 </label>
-                                <input x-model="frmEndereco.correspondencia.complemento" id='complemento' name='complemento' type='text' placeholder='Insira o complemento'
+                                <input x-model="frmEndereco.correspondencia.complemento" id='complementoCorrespondencia' name='complementoCorrespondencia' type='text' placeholder='Insira o complemento'
                                     class='appearance-none w-full block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
                                 </div>
 
@@ -411,15 +410,15 @@
 
                             <input x-model="frmEndereco.correspondencia.id_endereco2" id='id_endereco2' name='id_endereco2' type='hidden' />
 
-                            <input x-model="frmEndereco.correspondencia.fk_id_bairro" id='fk_id_bairro' name='fk_id_bairro' type='hidden' />
-                            <input x-model="frmEndereco.correspondencia.fk_id_cidade" id='fk_id_cidade' name='fk_id_cidade' type='hidden' />
-                            <input x-model="frmEndereco.correspondencia.fk_id_logradouro" id='fk_id_logradouro' name='fk_id_logradouro' type='hidden' />
-                            <input x-model="frmEndereco.correspondencia.fk_id_tipologradouro" id='fk_id_tipologradouro' name='fk_id_tipologradouro' type='hidden' />
-                            <input x-model="frmEndereco.correspondencia.cidade" id='field' name='field' type='hidden' value="{{ $pessoafisica->id_pessoa }}"/>
+                            <input x-model="frmEndereco.correspondencia.fk_id_bairro" id='fk_id_bairro2' name='fk_id_bairro2' type='hidden' />
+                            <input x-model="frmEndereco.correspondencia.fk_id_cidade" id='fk_id_cidade2' name='fk_id_cidade2' type='hidden' />
+                            <input x-model="frmEndereco.correspondencia.fk_id_logradouro" id='fk_id_logradouro2' name='fk_id_logradouro2' type='hidden' />
+                            <input x-model="frmEndereco.correspondencia.fk_id_tipologradouro" id='fk_id_tipologradouro2' name='fk_id_tipologradouro2' type='hidden' />
+                            <input x-model="frmEndereco.correspondencia.cidade" id='field2' name='field2' type='hidden' value="{{ $pessoafisica->id_pessoa }}"/>
 
                         </div>
                         <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                            <button type='button' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-12 center'>
+                            <button type='button' x-on:click.prevent="salvarEndereco()" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-12 center'>
                                 Salvar
                             </button>
                         </div>
@@ -656,9 +655,11 @@
         function endereco(){
 
             return {
+                frmEnder: null,
                 frmEndereco: {
                     empresa: {
-                        cep: '{{$pessoafisica->endereco->cep ?? ""}}',
+                        id_endereco: '{{$pessoafisica->endereco->id_endereco}}',
+                        cep: '{{$pessoafisica->endereco->cep}}',
                         fk_id_pessoa: '{{$pessoafisica->endereco->fk_id_pessoa}}',
                         logradouro: '{{$pessoafisica->endereco->endereco}}',
                         numero: '{{$pessoafisica->endereco->numero}}',
@@ -670,9 +671,10 @@
                         fk_id_cidade: '{{$pessoafisica->endereco->fk_id_cidade}}',
                         fk_id_logradouro: '{{$pessoafisica->endereco->fk_id_logradouro}}',
                         fk_id_tipologradouro: '{{$pessoafisica->endereco->fk_id_tipologradouro}}',
-                        st_correspondencia: true,
                     },
+                    st_correspondencia: true,
                     correspondencia: {
+                        id_endereco: '{{$pessoafisica->endereco->id_endereco}}',
                         cep: '{{ $pessoafisica->correspondencia->cep }}',
                         fk_id_pessoa: '{{ $pessoafisica->correspondencia->fk_id_pessoa }}',
                         logradouro: '{{ $pessoafisica->correspondencia->endereco }}',
@@ -689,16 +691,16 @@
 
 
                 },
-                empresa: null,
-                correspondencia: null,
                 marcarBox(){
-                    this.frmEndereco.empresa.st_correspondencia = !this.frmEndereco.empresa.st_correspondencia;
+                    this.frmEndereco.st_correspondencia = !this.frmEndereco.st_correspondencia;
 
-                    if(this.frmEndereco.empresa.st_correspondencia){
+                    if(this.frmEndereco.st_correspondencia){
                         document.getElementById('dvCorrespondencia').style.display = 'none';
                     }else{
                         document.getElementById('dvCorrespondencia').style.display = 'block';
                     }
+                    this.getEnderecoCep();
+                    // this.getEnderecoCepCorrespondecia();
 
                 },
                 salvarEndereco(){
@@ -724,9 +726,47 @@
                         document.getElementById("fk_id_logradouro").value = endereco.fk_id_logradouro
                         document.getElementById("fk_id_tipologradouro").value = endereco.fk_id_tipologradouro;
 
+                        this.frmEndereco.empresa.logradouro = endereco.logradouro;
+                        this.frmEndereco.empresa.bairro = endereco.bairro;
+                        this.frmEndereco.empresa.cidade = endereco.cidade;
+                        this.frmEndereco.empresa.estado = endereco.estado;
+                        this.frmEndereco.empresa.fk_id_bairro = endereco.fk_id_bairro;
+                        this.frmEndereco.empresa.fk_id_cidade = endereco.fk_id_cidade;
+                        this.frmEndereco.empresa.fk_id_logradouro = endereco.fk_id_logradouro
+                        this.frmEndereco.empresa.fk_id_tipologradouro = endereco.fk_id_tipologradouro;
+
                     } );
 
+                },
+                getEnderecoCepCorrespondecia(){
+                    resp = fetch('/endereco/cep/'+document.getElementById("cepCorrespondencia").value).then(resp => resp.json())
+                    .then(
+                        data => {
+                        correspondencia = data;
+                        document.getElementById("logradouroCorrespondencia").value = correspondencia.logradouro;
+                        document.getElementById("bairroCorrespondencia").value = correspondencia.bairro;
+                        document.getElementById("cidadeCorrespondencia").value = correspondencia.cidade;
+                        document.getElementById("estadoCorrespondencia").value = correspondencia.estado;
+                        document.getElementById("fk_id_bairro2").value = correspondencia.fk_id_bairro;
+                        document.getElementById("fk_id_cidade2").value = correspondencia.fk_id_cidade;
+                        document.getElementById("fk_id_logradouro2").value = correspondencia.fk_id_logradouro
+                        document.getElementById("fk_id_tipologradouro2").value = correspondencia.fk_id_tipologradouro;
+
+                        this.frmEndereco.correspondencia.logradouro = correspondencia.logradouro;
+                        this.frmEndereco.correspondencia.bairro = correspondencia.bairro;
+                        this.frmEndereco.correspondencia.cidade = correspondencia.cidade;
+                        this.frmEndereco.correspondencia.estado = correspondencia.estado;
+                        this.frmEndereco.correspondencia.fk_id_bairro = correspondencia.fk_id_bairro;
+                        this.frmEndereco.correspondencia.fk_id_cidade = correspondencia.fk_id_cidade;
+                        this.frmEndereco.correspondencia.fk_id_logradouro = correspondencia.fk_id_logradouro
+                        this.frmEndereco.correspondencia.fk_id_tipologradouro = correspondencia.fk_id_tipologradouro;
+
+                    });
+
+
+
                 }
+
             }
 
         }
@@ -734,11 +774,11 @@
         VMasker(document.getElementById("data_nascimento")).maskPattern('99/99/9999');
         VMasker(document.getElementById("data_emissao_identidade")).maskPattern('99/99/9999');
         VMasker(document.getElementById("cpf")).maskPattern('999.999.999-99');
-        VMasker(document.getElementById("titulo_eleitor")).maskPattern('9999 9999 9999');
+        VMasker(document.getElementById("titulo_eleitor")).maskPattern('9999 9999 99 99');
         VMasker(document.getElementById("secao_titulo_eleitor")).maskPattern('9999');
         VMasker(document.getElementById("zona_titulo_eleitor")).maskPattern('9999');
         VMasker(document.getElementById("cep")).maskPattern('99.999-999');
-
+        VMasker(document.getElementById("cepCorrespondencia")).maskPattern('99.999-999');
     </script>
 
 </x-app-layout>
