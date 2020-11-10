@@ -40,17 +40,30 @@ class EnderecoController extends Controller
         $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
         $empresa = $request->all()['empresa'];
 
+        $empresa['envia_correspondencia'] = 0;
+
+        // dd( $request->all()['correspondencia'] );
+
         if( !$request->all()['st_correspondencia'] ){
             $correspondencia = $request->all()['correspondencia'];
             $correspondencia['fk_id_pessoa'] = $idPessoa;
+            $correspondencia['endereco'] = $request->all()['correspondencia']['logradouro'];
             $correspondencia['cep'] = apenasNumero($request->all()['correspondencia']['cep']);
-            $correspondencia['st_correspondencia'] = 1;
+            $correspondencia['envia_correspondencia'] = 1;
+            $correspondencia['endereco_valido'] = 1;
+            $correspondencia['fk_id_tipo_endereco'] = 2;
+            $correspondencia['situacao_envio_confea'] = 0;
+
             $result = Endereco::updateOrCreate(['id_endereco' => $correspondencia['id_endereco']], $correspondencia);
         }else{
-            $empresa['st_correspondencia'] = 0;
+            $empresa['envia_correspondencia'] = 1;
         }
         $empresa['fk_id_pessoa'] = $idPessoa;
+        $empresa['endereco_valido'] = 1;
         $empresa['cep'] = apenasNumero($request->all()['empresa']['cep']);
+        $empresa['endereco'] = $request->all()['empresa']['logradouro'];
+        $empresa['situacao_envio_confea'] = 0;
+        $empresa['fk_id_tipo_endereco'] = 1;
         $result = Endereco::updateOrCreate(['id_endereco' => $empresa['id_endereco']], $empresa);
 
         dd($result);

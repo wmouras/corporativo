@@ -16,6 +16,7 @@ class Endereco extends Model
      */
     protected $table = 'tb_endereco';
     protected $primaryKey = 'id_endereco';
+    public $timestamps = false;
 
     protected $fillable = ['id_endereco','fk_id_pessoa', 'fk_id_tipo_endereco', 'endereco', 'complemento', 'numero', 'bairro', 'fk_id_cidade', 'cep', 'endereco_valido', 'envia_correspondencia', 'endereco_recital', 'data_atualizacao', 'usuario_atualizacao', 'situacao_envio_confea'];
 

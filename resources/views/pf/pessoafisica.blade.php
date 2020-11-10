@@ -334,7 +334,7 @@
                             <input x-model='frmEndereco.empresa.fk_id_cidade' id='fk_id_cidade' name='fk_id_cidade' type='hidden' />
                             <input x-model='frmEndereco.empresa.fk_id_logradouro' id='fk_id_logradouro' name='fk_id_logradouro' type='hidden' />
                             <input x-model='frmEndereco.empresa.fk_id_tipologradouro' id='fk_id_tipologradouro' name='fk_id_tipologradouro' type='hidden' />
-                            <input id='field' name='field' type='hidden' value="{{ $pessoafisica->id_pessoa }}"/>
+                            <input x-model="frmEndereco.empresa.id_endereco" id='id_endereco' name='id_endereco' type='hidden'/>
                         </div>
 
 
@@ -414,7 +414,7 @@
                             <input x-model="frmEndereco.correspondencia.fk_id_cidade" id='fk_id_cidade2' name='fk_id_cidade2' type='hidden' />
                             <input x-model="frmEndereco.correspondencia.fk_id_logradouro" id='fk_id_logradouro2' name='fk_id_logradouro2' type='hidden' />
                             <input x-model="frmEndereco.correspondencia.fk_id_tipologradouro" id='fk_id_tipologradouro2' name='fk_id_tipologradouro2' type='hidden' />
-                            <input x-model="frmEndereco.correspondencia.cidade" id='field2' name='field2' type='hidden' value="{{ $pessoafisica->id_pessoa }}"/>
+                            <input x-model="frmEndereco.correspondencia.id_endereco" id='id_endereco' name='id_endereco' type='hidden' />
 
                         </div>
                         <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
@@ -674,9 +674,9 @@
                     },
                     st_correspondencia: true,
                     correspondencia: {
-                        id_endereco: '{{$pessoafisica->endereco->id_endereco}}',
+                        id_endereco: '{{$pessoafisica->correspondencia->id_endereco}}',
                         cep: '{{ $pessoafisica->correspondencia->cep }}',
-                        fk_id_pessoa: '{{ $pessoafisica->correspondencia->fk_id_pessoa }}',
+                        fk_id_pessoa: '{{ $pessoafisica->endereco->fk_id_pessoa }}',
                         logradouro: '{{ $pessoafisica->correspondencia->endereco }}',
                         numero: "{{ $pessoafisica->correspondencia->numero }}",
                         estado: '{{ $pessoafisica->correspondencia->estado }}',
