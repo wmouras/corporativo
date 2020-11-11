@@ -7,6 +7,7 @@ use App\Models\PessoaFisica;
 use App\Models\Nacionalidade;
 use App\Models\Parentesco;
 use App\Models\QuadroTecnico;
+use App\Models\Titulo;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -147,7 +148,20 @@ class PessoaFisicaController extends Controller
         $pf->listaNacionalidade = $nacionalidade->listaNacionalidade();
 
         $quadro = new QuadroTecnico();
-        $listaQuadro = $quadro->getListaEmpresaQuadro($idPessoa);
+        $quadros = $quadro->getListaEmpresaQuadro($idPessoa);
+
+        foreach( $quadros as $qt ){
+            $quadro = $qt;
+            $quadro['data_baixa'] = alterarDataMysqlBr($qt['data_baixa']);
+            $quadro['data_inicio'] = alterarDataMysqlBr($qt['data_inicio']);
+            $quadro['data_validade'] = alterarDataMysqlBr($qt['data_validade']);
+
+            $qts[] = $quadro;
+        }
+        $pf->quadros = $qts;
+
+        $titulo = new Titulo();
+        $pf->titulos = $titulo->getListaTitulo($idPessoa);
 
         session(['id_pessoa' => $id]);
         return view('pf/pessoafisica', ['pessoafisica' => $pf]);

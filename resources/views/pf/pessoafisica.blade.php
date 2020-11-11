@@ -465,56 +465,31 @@
                                 </div>
 
                                 <div class="flex mb-2">
-                                    <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Empresa</span></div>
+                                    <div class="w-1/4 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Empresa</span></div>
                                     <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Início</span></div>
                                     <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Validade</span></div>
                                     <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Baixa</span></div>
                                     <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Ação</span></div>
                                 </div>
 
-                                <div class="flex mb-1">
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">teste LTDA</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">20/10/2018</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">20/05/2019</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">15/07/2019</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">
-                                        <button class="bg-transparent hover:bg-blue-500 text-red-700 font-bold hover:text-white border border-red-500 hover:border-transparent rounded">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <button class="ml-4 bg-transparent hover:bg-blue-500 text-yellow-500 font-bold hover:text-white border border-yellow-300 hover:border-transparent rounded">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="flex mb-1">
-                                    <div class="w-1/6 bg-gray-100 h-12 text-center py-3">Empresa de obras LTDA</div>
-                                    <div class="w-1/6 bg-gray-100 h-12 text-center py-3">20/10/2020</div>
-                                    <div class="w-1/6 bg-gray-100 h-12 text-center py-3">20/05/2021</div>
-                                    <div class="w-1/6 bg-gray-100 h-12 text-center py-3">-</div>
-                                    <div class="w-1/6 bg-gray-100 h-12 text-center py-3">
-                                        <button title="excluir item" class="bg-transparent hover:bg-blue-500 text-red-700 font-bold hover:text-white border border-red-500 hover:border-transparent rounded">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <button class="ml-4 bg-transparent hover:bg-blue-500 text-yellow-500 font-bold hover:text-white border border-yellow-300 hover:border-transparent rounded">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="flex mb-1">
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">Eletrotécnica S/A</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">20/08/2017</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">20/05/2023</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">-</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">
-                                        <button class="bg-transparent hover:bg-blue-500 text-red-700 font-bold hover:text-white border border-red-500 hover:border-transparent rounded">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <button class="ml-4 bg-transparent hover:bg-blue-500 text-yellow-500 font-bold hover:text-white border border-yellow-300 hover:border-transparent rounded">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                                @foreach($pessoafisica->quadros as $quadro)
 
+                                    <div class="flex mb-1">
+                                        <div class="w-1/4 bg-gray-50 h-12 text-center py-3">{{$quadro->razao_social}}</div>
+                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$quadro->data_inicio}}</div>
+                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$quadro->data_validade}}</div>
+                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$quadro->data_baixa}}</div>
+                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">
+                                            <button class="bg-transparent hover:bg-blue-500 text-red-700 font-bold hover:text-white border border-red-500 hover:border-transparent rounded">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                            <button class="ml-4 bg-transparent hover:bg-blue-500 text-yellow-500 font-bold hover:text-white border border-yellow-300 hover:border-transparent rounded">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                @endforeach
 
                             </div>
 
@@ -529,59 +504,27 @@
 
                                 <div class="flex mb-2">
                                     <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Título</span></div>
-                                    <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Conslusão</span></div>
-                                    <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Diploma</span></div>
                                     <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Instituição</span></div>
-                                    <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Processo</span></div>
+                                    <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Data conclusão</span></div>
                                     <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Ação</span></div>
                                 </div>
 
-                                <div class="flex mb-1">
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">Engenheiro agrônomo</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">20/10/2018</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">20/05/2019</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">15/07/2019</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">45646/2016</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">
-                                        <button class="bg-transparent hover:bg-blue-500 text-red-700 font-bold hover:text-white border border-red-500 hover:border-transparent rounded">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <button class="ml-4 bg-transparent hover:bg-blue-500 text-yellow-500 font-bold hover:text-white border border-yellow-300 hover:border-transparent rounded">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="flex mb-1">
-                                    <div class="w-1/6 bg-gray-100 h-12 text-center py-3">Empresa de obras LTDA</div>
-                                    <div class="w-1/6 bg-gray-100 h-12 text-center py-3">20/10/2020</div>
-                                    <div class="w-1/6 bg-gray-100 h-12 text-center py-3">20/05/2021</div>
-                                    <div class="w-1/6 bg-gray-100 h-12 text-center py-3">15/08/2021</div>
-                                    <div class="w-1/6 bg-gray-100 h-12 text-center py-3">56151/2019</div>
-                                    <div class="w-1/6 bg-gray-100 h-12 text-center py-3">
-                                        <button class="bg-transparent hover:bg-blue-500 text-red-700 font-bold hover:text-white border border-red-500 hover:border-transparent rounded">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <button class="ml-4 bg-transparent hover:bg-blue-500 text-yellow-500 font-bold hover:text-white border border-yellow-300 hover:border-transparent rounded">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="flex mb-1">
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">Eletrotécnica S/A</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">20/08/2017</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">20/05/2023</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">14/11/2015</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">884454/2019</div>
-                                    <div class="w-1/6 bg-gray-50 h-12 text-center py-3">
-                                        <button class="bg-transparent hover:bg-blue-500 text-red-700 font-bold hover:text-white border border-red-500 hover:border-transparent rounded">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <button class="ml-4 bg-transparent hover:bg-blue-500 text-yellow-500 font-bold hover:text-white border border-yellow-300 hover:border-transparent rounded">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                                @foreach($pessoafisica->titulos as $titulo)
 
+                                    <div class="flex mb-1">
+                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$titulo->descricao_masculina}}</div>
+                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$titulo->instituicao_ensino}}</div>
+                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$titulo->data_conclusao_curso}}</div>
+                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">
+                                            <button class="bg-transparent hover:bg-blue-500 text-red-700 font-bold hover:text-white border border-red-500 hover:border-transparent rounded">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                            <button class="ml-4 bg-transparent hover:bg-blue-500 text-yellow-500 font-bold hover:text-white border border-yellow-300 hover:border-transparent rounded">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                @endforeach
 
                             </div>
 
@@ -769,6 +712,17 @@
 
             }
 
+        }
+
+        function registro(){
+            return {
+                quadro:{
+
+                },
+                atribuicao:{
+
+                }
+            }
         }
 
         VMasker(document.getElementById("data_nascimento")).maskPattern('99/99/9999');
