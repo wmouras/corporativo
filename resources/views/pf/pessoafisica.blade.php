@@ -475,10 +475,10 @@
                                 @foreach($pessoafisica->quadros as $quadro)
 
                                     <div class="flex mb-1">
-                                        <div class="w-1/4 bg-gray-50 h-12 text-center py-3">{{$quadro->razao_social}}</div>
-                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$quadro->data_inicio}}</div>
-                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$quadro->data_validade}}</div>
-                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$quadro->data_baixa}}</div>
+                                        <div class="w-1/4 bg-gray-50 h-12 text-center py-3">{{$quadro->razao_social ??  ''}}</div>
+                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$quadro->data_inicio ??  ''}}</div>
+                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$quadro->data_validade ??  ''}}</div>
+                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$quadro->data_baixa ??  ''}}</div>
                                         <div class="w-1/6 bg-gray-50 h-12 text-center py-3">
                                             <button class="bg-transparent hover:bg-blue-500 text-red-700 font-bold hover:text-white border border-red-500 hover:border-transparent rounded">
                                                 <i class="fas fa-trash-alt"></i>
@@ -511,10 +511,12 @@
 
                                 @foreach($pessoafisica->titulos as $titulo)
 
+                                {{$pessoafisica->admin}}
+
                                     <div class="flex mb-1">
-                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$titulo->descricao_masculina}}</div>
-                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$titulo->instituicao_ensino}}</div>
-                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$titulo->data_conclusao_curso}}</div>
+                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$titulo->descricao_masculina ??  ''}}</div>
+                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$titulo->instituicao_ensino ??  ''}}</div>
+                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$titulo->data_conclusao_curso ??  ''}}</div>
                                         <div class="w-1/6 bg-gray-50 h-12 text-center py-3">
                                             <button class="bg-transparent hover:bg-blue-500 text-red-700 font-bold hover:text-white border border-red-500 hover:border-transparent rounded">
                                                 <i class="fas fa-trash-alt"></i>

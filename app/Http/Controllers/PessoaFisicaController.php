@@ -28,11 +28,14 @@ class PessoaFisicaController extends Controller
 
             // dd( $pessoa );
             // $pessoa->listaUf = $endereco->;
+            session(['admin' => true]);
 
             return view('pf/index', ['pessoa' => $pessoa] );
+
         }
         else
         {
+            session(['admin' => false]);
             return $this->lista();
         }
     }
@@ -77,13 +80,15 @@ class PessoaFisicaController extends Controller
         dd($result);
     }
 
-    public function edicao($id){
+    public function edicao($id = false){
 
         $idPessoa = Crypt::decryptString($id);
 
         $nacionalidade = new Nacionalidade();
         $endereco = new Endereco();
         $parentesco = new Parentesco();
+        $quadro = new QuadroTecnico();
+        $titulo = new Titulo();
 
         $pf = PessoaFisica::where('fk_id_pessoa', $idPessoa)->first();
         $pf->id_pessoa = $id;
@@ -160,10 +165,33 @@ class PessoaFisicaController extends Controller
         }
         $pf->quadros = $qts;
 
-        $titulo = new Titulo();
         $pf->titulos = $titulo->getListaTitulo($idPessoa);
+        // $pf->admin = $request->session()->get('admin');
 
         session(['id_pessoa' => $id]);
+        return view('pf/pessoafisica', ['pessoafisica' => $pf]);
+
+    }
+
+    public function novo(){
+
+        $pf = new PessoaFisica();
+        $nacionalidade = new Nacionalidade();
+        $pf->endereco = new Endereco();
+        $pf->correspondencia = new Endereco();
+        $pf->parentesco1 = new Parentesco();
+        $pf->parentesco2 = new Parentesco();
+        $pf->quadros = new QuadroTecnico();
+        $pf->titulos = new Titulo();
+
+        $cidade = array();
+        $pf['cidades'] = '[]';
+        $pf->nome_cidade = '';
+        $pf->fk_id_uf = '';
+
+        $pf->listaUf = json_decode(Http::get('http://ws.creadf.org.br/api/endereco/uf'));
+        $pf->listaNacionalidade = $nacionalidade->listaNacionalidade();
+
         return view('pf/pessoafisica', ['pessoafisica' => $pf]);
 
     }
