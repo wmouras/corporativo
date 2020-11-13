@@ -8,6 +8,7 @@ use App\Models\Nacionalidade;
 use App\Models\Parentesco;
 use App\Models\QuadroTecnico;
 use App\Models\Titulo;
+use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -62,15 +63,28 @@ class PessoaFisicaController extends Controller
 
     public function salvarPessoaFisica( Request $request ){
 
-        $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
         $data_emissao_identidade = alterarDataBrMysql($request->data_emissao_identidade);
         $data_nascimento = alterarDataBrMysql($request->data_nascimento);
         $request['titulo_eleitor'] = validarTituloEleitor($request->titulo_eleitor);
         $request['cpf'] = preg_replace("/[^0-9]/", "", $request->cpf);
         $request->merge(['usuario' => Auth::id()]);
-        $request->merge(['fk_id_pessoa' => $idPessoa]);
         $request->merge(['data_emissao_identidade' => $data_emissao_identidade]);
         $request->merge(['data_nascimento' => $data_nascimento]);
+
+        if(!$request->session()->get('id_pessoa')) {
+            $idPessoa = null;
+            $usuario['cpf'] = $request['cpf'];
+            $usuario['name'] = $request['nome'];
+            $usuario['email'] = $request['email'];
+            $usuario['password'] = '0';
+            $user = new User();
+            $user->salvarUsuario( $usuario );
+
+        } else {
+            $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
+        }
+
+        $request->merge(['fk_id_pessoa' => $idPessoa]);
 
         $parentesco = array( $request->parentesco1, $request->parentesco2);
         $modelParentesco = new Parentesco();

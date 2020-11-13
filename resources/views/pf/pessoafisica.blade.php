@@ -30,12 +30,21 @@
                             x-data="profissional({data: {{$pessoafisica->cidades}} })">
                             @csrf
 
-                            <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cpf'>
-                                    CPF
-                                </label>
-                            <input x-model="frmData.cpf" id='cpf' name='cpf' type='text' placeholder='Insira o cpf' value=""
-                                    class='appearance-none block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                            <div class="w-full px-3 flex">
+                                <div class="w-1/6 text-left py-3">
+                                    <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cpf'>
+                                        CPF
+                                    </label>
+                                    <input x-model="frmData.cpf" id='cpf' name='cpf' type='text' placeholder='Insira o cpf' value=""
+                                    class='appearance-none block w-48 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                </div>
+                                <div class="w-1/4 text-left py-3 ml-3">
+                                    <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cpf'>
+                                        E-mail
+                                    </label>
+                                    <input x-model="frmData.email" id='email' name='email' type='email' placeholder='Insira o e-mail' value=""
+                                    class='appearance-none block w-80 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                </div>
                             </div>
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
@@ -43,26 +52,25 @@
                                     Nome
                                 </label>
                                 <input x-model="frmData.nome" id='nome' name='nome' type='text' placeholder='Insira o nome' value=""
-                                    class='appearance-none block w-full bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                    class='appearance-none block w-1/2 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
 
-                            <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='identidade'>
-                                    Identidade (RG)
-                                </label>
-                                <input x-model="frmData.identidade" id='identidade' name='identidade' type='text' placeholder='Insira o identidade'
-                                    class='appearance-none block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
-
-                            </div>
-
-                            <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='data_emissao_identidade'>
-                                    Data de emissao do RG
-                                </label>
-                                <input x-model="frmData.data_emissao_identidade" id='data_emissao_identidade' name='data_emissao_identidade' type='text' placeholder='Insira a data de emissao do'
-                                    class='appearance-none block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
-
+                             <div class="w-full px-3 flex">
+                                <div class="w-1/6 text-left py-3">
+                                    <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cpf'>
+                                         Identidade(RG)
+                                    </label>
+                                    <input x-model="frmData.identidade" id='identidade' name='identidade' type='text' placeholder='Insira o RG' value=""
+                                    class='appearance-none block w-48 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                </div>
+                                <div class="w-1/4 text-left py-3 ml-3">
+                                    <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cpf'>
+                                        Data de emissao
+                                    </label>
+                                    <input x-model="frmData.data_emissao_identidade" id='data_emissao_identidade' name='data_emissao_identidade' type='text' placeholder='Insira a data de emissão' value=""
+                                    class='appearance-none block w-80 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                </div>
                             </div>
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
@@ -125,7 +133,7 @@
                                         <select x-model="frmData.fk_id_naturalidade" class='flex-auto w-full block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
                                             name="fk_id_naturalidade" id="fk_id_naturalidade" >
                                             <template x-for="cidade in frmData.cidades" :key="cidade.pk_cidade">
-                                                <option :value="cidade.pk_cidade" x-text="cidade.nome_cidade" x-bind:selected="cidade.pk_cidade === {{$pessoafisica->fk_id_naturalidade}}"></option>
+                                                <option :value="cidade.pk_cidade" x-text="cidade.nome_cidade" x-bind:selected="cidade.pk_cidade === {{$pessoafisica->fk_id_naturalidade ?? 0}}"></option>
                                             </template>
                                         </select>
                                     </div>
@@ -565,6 +573,7 @@
                     zona_titulo_eleitor: '{{ $pessoafisica->zona_titulo_eleitor }}',
                     secao_titulo_eleitor: '{{ $pessoafisica->secao_titulo_eleitor }}',
                     observacao: `{{ $pessoafisica->observacao }}`,
+                    email: '{{ $pessoafisica->email }}',
                     parentesco1: {
                                     id_parentesco: '{{ $pessoafisica->parentesco1->id_parentesco }}',
                                     nome: '{{ $pessoafisica->parentesco1->nome }}',
@@ -591,7 +600,9 @@
 
                 },
                 listaCidade (uf) {
+                    console.log( uf );
                     this.frmData.cidades = fetch('/endereco/cidade/uf/'+uf).then(response => response.json()).then(data => this.frmData.cidades = data);
+                    console.log( this.frmData.cidades );
                 },
             }
 
