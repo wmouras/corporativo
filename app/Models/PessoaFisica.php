@@ -24,7 +24,6 @@ class PessoaFisica extends Model
             ->leftJoin('users', 'users.id', '=', 'tb_pessoa.fk_id_user')
             ->where('fk_id_pessoa', $idPessoa);
 
-
         return $select->first();
     }
 
