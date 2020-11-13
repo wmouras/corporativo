@@ -46,7 +46,7 @@ class PessoaFisicaController extends Controller
         $pfs = PessoaFisica::select('fk_id_pessoa', 'identidade', 'nome', 'cpf')->take(20)->get();
         foreach($pfs as $pf)
         {
-            $pf->fk_id_pessoa = Crypt::encryptString($pf->fk_id_pessoa);
+            $pf['idPessoa'] = Crypt::encryptString($pf->fk_id_pessoa);
             $p[] = $pf;
         }
 
@@ -95,11 +95,12 @@ class PessoaFisicaController extends Controller
         $pf->cpf = formatarCpf( $pf->cpf);
         $pf->data_nascimento = alterarDataMysqlBr( $pf->data_nascimento );
         $pf->data_emissao_identidade = alterarDataMysqlBr( $pf->data_emissao_identidade );
-        $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_naturalidade)->json();
+        $municipio = Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_naturalidade)->json();
         $pf->titulo_eleitor = formatarTituloEleitor($pf->titulo_eleitor);
         $pf->observacao = addslashes($pf->observacao);
 
-        if( is_object($cidade) ){
+        if( $municipio ){
+            $cidade = (object) $municipio;
             $pf->fk_id_uf = $cidade->fk_uf;
             $pf['cidades'] = json_encode( Http::get('http://ws.creadf.org.br/api/endereco/cidade/uf/'.$cidade->fk_uf)->json() );
             $pf->nome_cidade = $cidade->nome_cidade;
@@ -154,6 +155,7 @@ class PessoaFisicaController extends Controller
 
         $quadro = new QuadroTecnico();
         $quadros = $quadro->getListaEmpresaQuadro($idPessoa);
+        $qts = [];
 
         foreach( $quadros as $qt ){
             $quadro = $qt;
