@@ -466,7 +466,11 @@
                             <div class="max-w-full rounded overflow-hidden shadow-lg mt-5">
 
                                 <div class="px-10 py-4">
-                                    <div class="font-bold text-xl mb-2">Quadro Técnico</div>
+                                    <div class="font-bold text-xl mb-2">Quadro Técnico&nbsp;
+                                        <button id="get-endereco" x-on:click.prevent="novoQuadro()" title="Adicionar ao quadro técnico" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded-full h-9 w-9">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                    </div>
                                     <p class="text-gray-700 text-base">
 
                                     </p>
