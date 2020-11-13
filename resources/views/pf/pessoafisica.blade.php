@@ -566,7 +566,7 @@
                     mae: '{{ $pessoafisica->mae }}',
                     sexo: '{{ $pessoafisica->sexo }}',
                     tipo_sangue: '{{ $pessoafisica->tipo_sangue }}',
-                    fk_cd_nacionalidade: '{{ $pessoafisica->fk_cd_nacionalidade }}',
+                    fk_cd_nacionalidade: '{{ $pessoafisica->fk_cd_nacionalidade ?? "BRA" }}',
                     fk_id_naturalidade: '{{ $pessoafisica->fk_id_naturalidade }}',
                     deficiente: '{{ $pessoafisica->deficiente }}',
                     titulo_eleitor: '{{ $pessoafisica->titulo_eleitor }}',
