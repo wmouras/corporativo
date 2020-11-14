@@ -6,6 +6,7 @@ use App\Models\Endereco;
 use App\Models\PessoaFisica;
 use App\Models\Nacionalidade;
 use App\Models\Parentesco;
+use App\Models\Pessoa;
 use App\Models\QuadroTecnico;
 use App\Models\Titulo;
 use App\Models\User;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
 class PessoaFisicaController extends Controller
@@ -44,10 +46,14 @@ class PessoaFisicaController extends Controller
     public function lista(){
 
         // dd( PessoaFisica::all() );
-        $pfs = PessoaFisica::select('fk_id_pessoa', 'identidade', 'nome', 'cpf')->take(20)->get();
+        $pfs = PessoaFisica::select('fk_id_pessoa', 'identidade', 'nome', 'cpf')->take(20)->orderByDesc('fk_id_pessoa')->get();
         foreach($pfs as $pf)
         {
+<<<<<<< HEAD
             $pf['idPessoa'] = Crypt::encryptString($pf->fk_id_pessoa);
+=======
+            $pf->idPessoa = Crypt::encryptString($pf->fk_id_pessoa);
+>>>>>>> 9ed1ea09793f6fc3832570ee99126336477f8c26
             $p[] = $pf;
         }
 
@@ -72,17 +78,26 @@ class PessoaFisicaController extends Controller
         $request->merge(['data_nascimento' => $data_nascimento]);
 
         if(!$request->session()->get('id_pessoa')) {
+            $user = new User();
+            $pessoa = new Pessoa();
             $idPessoa = null;
-            $usuario['cpf'] = $request['cpf'];
+            $cpf = $request['cpf'];
             $usuario['name'] = $request['nome'];
             $usuario['email'] = $request['email'];
-            $usuario['password'] = '0';
-            $user = new User();
-            $user->salvarUsuario( $usuario );
+            $usuario['password'] = Hash::make($user->gerarSenhaAleatoria($cpf));
+            $idUsuario = $user->salvarUsuario($usuario);
+
+            $pf['fk_id_user'] = $idUsuario;
+            $pf['id_pessoa'] = null;
+            $pf['tipo_pessoa'] = 1;
+            $idPessoa = $pessoa->salvarPessoa($pf);
+            $request->merge(['fk_id_pessoa' => $idPessoa]);
 
         } else {
             $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
         }
+
+        $result = PessoaFisica::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());;
 
         $request->merge(['fk_id_pessoa' => $idPessoa]);
 
@@ -90,8 +105,8 @@ class PessoaFisicaController extends Controller
         $modelParentesco = new Parentesco();
         $modelParentesco->salvarParentesco($parentesco, $idPessoa);
 
-        $result = PessoaFisica::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());
         dd($result);
+
     }
 
     public function edicao($id = false){
@@ -103,9 +118,12 @@ class PessoaFisicaController extends Controller
         $parentesco = new Parentesco();
         $quadro = new QuadroTecnico();
         $titulo = new Titulo();
+        $pessoa = new PessoaFisica();
 
-        $pf = PessoaFisica::where('fk_id_pessoa', $idPessoa)->first();
+        $pf = $pessoa->getPessoaFisica($idPessoa);
+
         $pf->id_pessoa = $id;
+<<<<<<< HEAD
         $pf->cpf = formatarCpf( $pf->cpf);
         $pf->data_nascimento = alterarDataMysqlBr( $pf->data_nascimento );
         $pf->data_emissao_identidade = alterarDataMysqlBr( $pf->data_emissao_identidade );
@@ -115,11 +133,21 @@ class PessoaFisicaController extends Controller
 
         if( $municipio ){
             $cidade = (object) $municipio;
+=======
+        $pf->cpf = formatarCpf($pf->cpf);
+        $pf->data_nascimento = alterarDataMysqlBr($pf->data_nascimento);
+        $pf->data_emissao_identidade = alterarDataMysqlBr($pf->data_emissao_identidade);
+        $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_naturalidade)->json();
+        $pf->titulo_eleitor = formatarTituloEleitor($pf->titulo_eleitor);
+        $pf->observacao = addslashes($pf->observacao);
+
+        if (is_object($cidade)) {
+>>>>>>> 9ed1ea09793f6fc3832570ee99126336477f8c26
             $pf->fk_id_uf = $cidade->fk_uf;
-            $pf['cidades'] = json_encode( Http::get('http://ws.creadf.org.br/api/endereco/cidade/uf/'.$cidade->fk_uf)->json() );
+            $pf['cidades'] = json_encode(Http::get('http://ws.creadf.org.br/api/endereco/cidade/uf/'.$cidade->fk_uf)->json());
             $pf->nome_cidade = $cidade->nome_cidade;
             $pf->fk_id_naturalidade = $cidade->pk_cidade;
-        }else{
+        } else {
             $cidade = array();
             $pf['cidades'] = '[]';
             $pf->nome_cidade = '';
@@ -128,12 +156,13 @@ class PessoaFisicaController extends Controller
 
         $parentesco = $parentesco->getParentescoPessoa($idPessoa);
 
-        if( isset($parentesco[0]) )
+        if (isset($parentesco[0])) {
             $pf->parentesco1 = (object) $parentesco[0];
-        else
+        } else {
             $pf->parentesco1 = (object) array('id_parentesco' => '', 'nome' => '', 'fk_id_tipo_parentesco' => '');
+        }
 
-        if(isset($parentesco[1]) ) {
+        if (isset($parentesco[1])) {
             $pf->parentesco2 = (object) $parentesco[1];
         } else {
             $pf->parentesco2 = (object) array('id_parentesco' => '', 'nome' => '', 'fk_id_tipo_parentesco' => '');
@@ -171,7 +200,8 @@ class PessoaFisicaController extends Controller
         $quadros = $quadro->getListaEmpresaQuadro($idPessoa);
         $qts = [];
 
-        foreach( $quadros as $qt ){
+        $qts = [];
+        foreach ($quadros as $qt) {
             $quadro = $qt;
             $quadro['data_baixa'] = alterarDataMysqlBr($qt['data_baixa']);
             $quadro['data_inicio'] = alterarDataMysqlBr($qt['data_inicio']);
@@ -189,8 +219,10 @@ class PessoaFisicaController extends Controller
 
     }
 
-    public function novo(){
+    public function novo(Request $rquest){
 
+        session(['id_pessoa' => false]);
+        // dd(session('id_pessoa'));
         $pf = new PessoaFisica();
         $nacionalidade = new Nacionalidade();
         $pf->endereco = new Endereco();
