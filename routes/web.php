@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EnderecoController;
 use App\Http\Controllers\PessoaFisicaController;
 use App\Http\Controllers\PessoaJuridicaController;
+use App\Http\Controllers\TituloController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,4 +48,6 @@ use App\Http\Controllers\PessoaJuridicaController;
     Route::get('/endereco/cep/{id}', [EnderecoController::class, 'cep'])->name('endereco.get')->middleware(['auth:sanctum', 'verified']);
     Route::get('/endereco/cidade/uf/{id}', [EnderecoController::class, 'cidade'])->name('listacidade')->middleware(['auth:sanctum', 'verified']);
     Route::post('/endereco/salvar', [EnderecoController::class, 'SalvarEndereco'])->name('endereco.update')->middleware(['auth:sanctum', 'verified']);
+    Route::get('/titulo/listatitulo', [TituloController::class, 'getListaTitulo'])->name('listatitulo')->middleware(['auth:sanctum', 'verified']);
+    Route::post('/titulo/salvar', [TituloController::class, 'salvarTituloProfissional'])->name('titulo.salvar')->middleware(['auth:sanctum', 'verified']);
 
