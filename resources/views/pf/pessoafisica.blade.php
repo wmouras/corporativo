@@ -466,15 +466,12 @@
                             <div class="max-w-full rounded overflow-hidden shadow-lg mt-5">
 
                                 <div class="px-10 py-4">
-                                    <div class="font-bold text-xl mb-2">Quadro Técnico&nbsp;
-                                        <button id="get-endereco" x-on:click.prevent="novoQuadro()" title="Adicionar ao quadro técnico" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded-full h-9 w-9">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
-                                    </div>
-                                    <p class="text-gray-700 text-base">
 
-                                    </p>
+                                        <div class="font-bold text-xl mb-2"> Quadro Técnico&nbsp;</div>
+
                                 </div>
+
+                                @if( !is_array($pessoafisica->quadros) )
 
                                 <div class="flex mb-2">
                                     <div class="w-1/4 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Empresa</span></div>
@@ -503,16 +500,30 @@
 
                                 @endforeach
 
+                                @else
+                                    <div class="px-1 py-4">
+
+                                        <div class="font-bold text-md mb-2 bg-gray-50">Não há registro.</div>
+
+                                    </div>
+                                @endif
+
                             </div>
 
                             <div class="max-w-full rounded overflow-hidden shadow-lg mt-5">
 
                                 <div class="px-10 py-4">
-                                    <div class="font-bold text-xl mb-2">Títulos</div>
-                                    <p class="text-gray-700 text-base">
+                                    <div class="font-bold text-xl mb-2"  x-data="registro()">Títulos&nbsp;
+                                        <button id="get-endereco" x-on:click.prevent="showModal = true" title="Adicionar ao quadro técnico" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded-full h-9 w-9">
+                                                <i class="fa fa-plus"></i>
 
-                                    </p>
+                                        </button>
+                                            @include('modal.titulo', [])
+                                        </div>
+
                                 </div>
+
+                                @if(count($pessoafisica->titulos) > 0)
 
                                 <div class="flex mb-2">
                                     <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Título</span></div>
@@ -522,8 +533,6 @@
                                 </div>
 
                                 @foreach($pessoafisica->titulos as $titulo)
-
-                                {{$pessoafisica->admin}}
 
                                     <div class="flex mb-1">
                                         <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$titulo->descricao_masculina ??  ''}}</div>
@@ -539,6 +548,14 @@
                                         </div>
                                     </div>
                                 @endforeach
+
+                                @else
+                                    <div class="px-1 py-4">
+
+                                        <div class="font-bold text-md mb-2 bg-gray-50">Não há registro.</div>
+
+                                    </div>
+                                @endif
 
                             </div>
 
@@ -659,9 +676,6 @@
                     }else{
                         document.getElementById('dvCorrespondencia').style.display = 'block';
                     }
-                    this.getEnderecoCep();
-                    // this.getEnderecoCepCorrespondecia();
-
                 },
                 salvarEndereco(){
 
@@ -738,7 +752,8 @@
                 },
                 atribuicao:{
 
-                }
+                },
+                showModal: false,
             }
         }
 
