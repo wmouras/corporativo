@@ -21,32 +21,36 @@ use Illuminate\Support\Facades\Http;
 class PessoaFisicaController extends Controller
 {
 
-    public function index(){
-        if(Auth::user()->id == 2)
+    public function index()
+    {
+
+        if (Auth::user()->id == 1)
+        {
+            session(['admin' => false]);
+            return $this->lista();
+        }
+        else
         {
             $nacionalidade = new Nacionalidade();
             $endereco = new Endereco();
-            $pessoa = PessoaFisica::where('fk_id_pessoa', 12)->get()[0];
+            $pessoa = PessoaFisica::where('fk_id_pessoa', Auth::user()->id)->get()[0];
             $pessoa['idPessoa'] = Crypt::encryptString($pessoa->fk_id_pessoa);
 
             // dd( $pessoa );
             // $pessoa->listaUf = $endereco->;
             session(['admin' => true]);
-
-            return view('pf/index', ['pessoa' => $pessoa] );
-
-        }
-        else
-        {
-            session(['admin' => false]);
-            return $this->lista();
+            return view('pf/index', ['pessoa' => $pessoa]);
         }
     }
 
-    public function lista(){
+    public function lista(Request $request = null){
 
         // dd( PessoaFisica::all() );
-        $pfs = PessoaFisica::select('fk_id_pessoa', 'identidade', 'nome', 'cpf')->take(20)->orderByDesc('fk_id_pessoa')->get();
+        $pfs = PessoaFisica::select('tb_pessoa_fisica.fk_id_pessoa', 'identidade', 'nome', 'cpf', 'numero_carteira', 'users.email as email')
+            ->join('corporativo.tb_registro_profissional', 'tb_registro_profissional.fk_id_pessoa', '=', 'tb_pessoa_fisica.fk_id_pessoa')
+            ->join('corporativo.users', 'users.id', '=', 'tb_pessoa_fisica.fk_id_pessoa')
+            ->take(25)->orderByDesc('tb_pessoa_fisica.fk_id_pessoa')->get();
+
         foreach($pfs as $pf)
         {
             $pf->idPessoa = Crypt::encryptString($pf->fk_id_pessoa);
@@ -88,14 +92,14 @@ class PessoaFisicaController extends Controller
             $pf['tipo_pessoa'] = 1;
             $idPessoa = $pessoa->salvarPessoa($pf);
             $request->merge(['fk_id_pessoa' => $idPessoa]);
+            session(['id_pessoa' => Crypt::encryptString($idPessoa)]);
 
         } else {
             $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
         }
 
-        $result = PessoaFisica::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());;
-
         $request->merge(['fk_id_pessoa' => $idPessoa]);
+        $result = PessoaFisica::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());
 
         $parentesco = array( $request->parentesco1, $request->parentesco2);
         $modelParentesco = new Parentesco();
@@ -122,9 +126,11 @@ class PessoaFisicaController extends Controller
         $pf->cpf = formatarCpf($pf->cpf);
         $pf->data_nascimento = alterarDataMysqlBr($pf->data_nascimento);
         $pf->data_emissao_identidade = alterarDataMysqlBr($pf->data_emissao_identidade);
-        $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_naturalidade)->json();
+        $cidade = Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_naturalidade)->json();
         $pf->titulo_eleitor = formatarTituloEleitor($pf->titulo_eleitor);
         $pf->observacao = addslashes($pf->observacao);
+
+        // dd( $cidade );
 
         if (is_object($cidade)) {
             $pf->fk_id_uf = $cidade->fk_uf;

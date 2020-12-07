@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Titulo;
 use App\Models\TituloConfea;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class TituloController extends Controller
 {
@@ -25,6 +26,10 @@ class TituloController extends Controller
     }
 
     public function salvarTituloProfissional(Request $request){
-        dd($request);
+
+        $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
+        $result = Titulo::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());
+        dd($result);
+
     }
 }

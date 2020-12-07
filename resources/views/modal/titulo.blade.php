@@ -9,25 +9,25 @@
               <strong>Incluir Título Acadêmico</strong>
             </h2>
 
-            <form name="frmTituloProfissional" id="frmTituloProfissional" x-on-click.prevent = "">
+            <form x-model="frmTituloProfissional" x-data="registro()" name="frmTituloProfissional" id="frmTituloProfissional" x-on-click.prevent = "">
 
                 <div class="max-w-lg rounded overflow-hidden shadow-lg mt-5">
 
                     <div class="flex mb-2 ">
 
                         <div class="w-full text-left py-2 ml-2">
-                            <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='noTitulo'>
+                            <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='selectTitulo'>
                                 Título
                             </label>
-                            <select class="js-data-example-ajax form-control" style="width: 100%" name="noTitulo" id="noTitulo"></select>
+                            <select x-model="titulo.fk_codigo_titulo_confea" class="js-data-example-ajax form-control" style="width: 100%" name="selectTitulo" id="selectTitulo"></select>
                         </div>
                     </div>
                     <div class="flex mb-2 ">
                         <div class="w-80 text-left py-2 ml-3">
-                            <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='instituicao'>
+                            <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='instituicao_ensino'>
                                 Instituição
                             </label>
-                            <input id='instituicao' name='instituicao' type='text' placeholder='Insira o nome da instituição'
+                            <input  x-model="titulo.instituicao_ensino" id='instituicao_ensino' name='instituicao_ensino' type='text' placeholder='Insira o nome da instituição'
                                 class='appearance-none block w-80 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 h-8 leading-tight focus:outline-none focus:bg-white'>
                         </div>
 
@@ -36,7 +36,7 @@
                             <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='data_conclusao'>
                                 Conclusão
                             </label>
-                            <input id='data_conclusao' name='data_conclusao' type='text' placeholder='Insira o data de conclusão'
+                            <input  x-model="titulo.data_conclusao" id='data_conclusao' name='data_conclusao' type='text' placeholder='Insira o data de conclusão'
                                 class='appearance-none block w-36 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 h-8 leading-tight focus:outline-none focus:bg-white'>
                         </div>
 
@@ -47,7 +47,7 @@
                             <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='data_diploma'>
                                 Data diploma
                             </label>
-                            <input id='data_diploma' name='data_diploma' type='text' placeholder='Insira a data de registro do diploma'
+                            <input  x-model="titulo.data_diploma" id='data_diploma' name='data_diploma' type='text' placeholder='Insira a data de registro do diploma'
                                 class='appearance-none block w-36 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 h-8 leading-tight focus:outline-none focus:bg-white'>
                         </div>
 
@@ -55,7 +55,7 @@
                             <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='fk_numero_processo'>
                                 Nº Processo
                             </label>
-                            <input id='fk_numero_processo' name='fk_numero_processo' type='text' placeholder='Insira o nº do processo'
+                            <input  x-model="titulo.fk_numero_processo" id='fk_numero_processo' name='fk_numero_processo' type='text' placeholder='Insira o nº do processo'
                                 class='appearance-none block w-36 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 h-8 leading-tight focus:outline-none focus:bg-white'>
                         </div>
 
@@ -64,13 +64,13 @@
                             <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='principal'>
                                 Principal
                             </label>
-                            <input id='principal' name='principal' type='text' placeholder='Curso principal ?'
+                            <input  x-model="titulo.principal" id='principal' name='principal' type='text' placeholder='Curso principal ?'
                                 class='appearance-none block w-36 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 h-8 leading-tight focus:outline-none focus:bg-white'>
                         </div>
 
                     </div>
 
-                    <button @click="salvarTituloProfissional()" class="inline-flex justify-center mt-8 ml-5 w-24 px-3 py-1 text-white bg-blue-500 rounded-2xl hover:bg-blue-700">
+                    <button x-on:click.prevent="salvarTituloProfissional()" class="inline-flex justify-center mt-8 ml-5 w-24 px-3 py-1 text-white bg-blue-500 rounded-2xl hover:bg-blue-700">
                         <i class="fas fa-check">&nbsp;Incluir</i>
                     </button>
 
@@ -102,17 +102,9 @@
 
         });
 
-        function salvarTituloProfissional(){
-            showModal = false
-            axios({
-                    method: 'post',
-                    url: '{{route('titulo.salvar')}}',
-                    data: document.getElementById('#frmTituloProfissional'),
-                });
-        }
-
         VMasker(document.getElementById("data_diploma")).maskPattern('99/99/9999');
         VMasker(document.getElementById("data_conclusao")).maskPattern('99/99/9999');
 
     </script>
+
 

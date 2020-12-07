@@ -445,12 +445,13 @@
                         <form action='' id='frm-pessoa-endereco' name='frm-pessoa-endereco' method='POST' x-on:click.prevent="">
 
                             <div class='w-full flex md:w-1/2 md:mb-0'>
-                                <div class='flex-auto md:w-full px-3 mb-6 md:mb-0'>
+                                <div class='flex-auto md:w-1/2 px-3 mb-6 md:mb-0'>
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='rnp'>
                                         RNP
                                     </label>
-                                    <input id='rnp' name='rnp' type='text' placeholder='Insira o RNP'
-                                        class='w-half-width appearance-none block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                    <div id='rnp' class='w-half-width appearance-none block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                        {{$pessoafisica->rnp}}
+                                    </div>
 
                                 </div>
 
@@ -458,8 +459,9 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='registro'>
                                         Registro
                                     </label>
-                                    <input id='registro' name='registro' type='text' placeholder='Insira o registro'
-                                        class='appearance-none inline w-half-width bg-gray-50 text-center text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                    <div id='registro' class='w-half-width appearance-none block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                        {{$pessoafisica->numero_carteira}}
+                                    </div>
                                 </div>
                             </div>
 
@@ -519,7 +521,7 @@
 
                                         </button>
                                             @include('modal.titulo', [])
-                                        </div>
+                                    </div>
 
                                 </div>
 
@@ -746,15 +748,28 @@
         }
 
         function registro(){
+
             return {
-                quadro:{
-
+                titulo: {
+                    fk_codigo_titulo_confea: '',
+                    instituicao_ensino: '',
+                    data_conclusao: '',
+                    data_diploma: '',
+                    fk_numero_processo: '',
+                    principal: '',
                 },
-                atribuicao:{
-
+                frmTituloProfissional: null,
+                salvarTituloProfissional(){
+                    this.titulo.selectTitulo = $('#selectTitulo').select2().val();
+                    axios({
+                        method: 'post',
+                        url: '{{route('titulo.salvar')}}',
+                        data: this.titulo,
+                        });
                 },
                 showModal: false,
             }
+
         }
 
         VMasker(document.getElementById("data_nascimento")).maskPattern('99/99/9999');
