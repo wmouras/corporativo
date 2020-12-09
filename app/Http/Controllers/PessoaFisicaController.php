@@ -108,8 +108,9 @@ class PessoaFisicaController extends Controller
 
     }
 
-    public function edicao($id = false, Request $request){
+    public function edicao($id = null, Request $request){
 
+        session(['id_pessoa' => $id]);
         $idPessoa = Crypt::decryptString($id);
 
         $nacionalidade = new Nacionalidade();
@@ -162,15 +163,6 @@ class PessoaFisicaController extends Controller
         if( !is_object($pf->endereco) ){
             $pf->endereco = new Endereco();
         }else{
-
-            $req = $request;
-            $req->id = $pf->endereco->cep;
-
-            if( !strpos($req->id, '-') )
-            {
-
-            }
-
             $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->endereco->fk_id_cidade)->json();
 
             $pf->endereco->cidade = $cidade->nome_cidade;
@@ -229,7 +221,7 @@ class PessoaFisicaController extends Controller
 
     public function novo(Request $rquest){
 
-        session(['id_pessoa' => false]);
+        session(['id_pessoa' => null]);
         // dd(session('id_pessoa'));
         $pf = new PessoaFisica();
         $nacionalidade = new Nacionalidade();
