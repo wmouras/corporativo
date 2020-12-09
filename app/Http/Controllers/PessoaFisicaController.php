@@ -166,6 +166,11 @@ class PessoaFisicaController extends Controller
             $req = $request;
             $req->id = $pf->endereco->cep;
 
+            if( !strpos($req->id, '-') )
+            {
+
+            }
+
             $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->endereco->fk_id_cidade)->json();
 
             $pf->endereco->cidade = $cidade->nome_cidade;

@@ -145,7 +145,7 @@
                                 </label>
                                 <div class='w-full flex md:w-1/2 px-3 mb-6 md:mb-0'>
 
-                                    <input x-model="frmData.parentesco1.nome" id='nome_parentesco1' name='nome_parentesco1' type='text' placeholder='Insira o nome'
+                                    <input {{$editar}} x-model="frmData.parentesco1.nome" id='nome_parentesco1' name='nome_parentesco1' type='text' placeholder='Insira o nome'
                                         class='appearance-none block w-80 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                     <select {{$editar}} x-model="frmData.parentesco1.fk_id_tipo_parentesco" name="grau_parentesco1" id="grau_parentesco1" class='ml-5 w-32 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
@@ -159,7 +159,7 @@
                                 </div>
 
                                 <div class='w-full flex md:w-1/2 px-3 mb-6 md:mb-0'>
-                                    <input x-model="frmData.parentesco2.nome" id='nome_parentesco2' name='nome_parentesco2' type='text' placeholder='Insira o nome'
+                                    <input {{$editar}} x-model="frmData.parentesco2.nome" id='nome_parentesco2' name='nome_parentesco2' type='text' placeholder='Insira o nome'
                                         class='appearance-none block w-80 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                     <select {{$editar}} x-model="frmData.parentesco2.fk_id_tipo_parentesco" name="grau_parentesco2" id="grau_parentesco2" class='ml-5 w-32 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
