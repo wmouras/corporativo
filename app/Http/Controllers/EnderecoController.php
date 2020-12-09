@@ -38,6 +38,8 @@ class EnderecoController extends Controller
         $endereco = $request->all();
         $empresa = $endereco['empresa'];
 
+
+
         $empresa['envia_correspondencia'] = 0;
 
         if( !$endereco['st_correspondencia'] ){
@@ -58,6 +60,7 @@ class EnderecoController extends Controller
         $empresa['cep'] = apenasNumero($endereco['empresa']['cep']);
         $empresa['situacao_envio_confea'] = 0;
         $empresa['fk_id_tipo_endereco'] = 1;
+        // dd( $empresa );
         $result = Endereco::updateOrCreate(['id_endereco' => $empresa['id_endereco']], $empresa);
 
         dd($result);

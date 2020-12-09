@@ -160,7 +160,7 @@ class PessoaFisicaController extends Controller
 
         $pf->endereco = $endereco->getEnderecoPessoa($idPessoa, 1);
 
-        if( !is_object($pf->endereco) ){
+        if(!$pf->endereco){
             $pf->endereco = new Endereco();
         }else{
             $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->endereco->fk_id_cidade)->json();
@@ -171,12 +171,12 @@ class PessoaFisicaController extends Controller
         }
 
         $pf->correspondencia = $endereco->getEnderecoPessoa($idPessoa, 2);
-        if(!is_object($pf->correspondencia)){
+        if(!$pf->correspondencia){
             $pf->correspondencia = new Endereco();
         }
-        else{
+        else
+        {
             $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->correspondencia->fk_id_cidade)->json();
-
             $pf->correspondencia->cidade = $cidade->nome_cidade;
             $pf->correspondencia->estado = $cidade->descricao_uf;
             $pf->correspondencia->cep = formatarCep($pf->correspondencia->cep);
