@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Atribuicao;
 use App\Models\Endereco;
 use App\Models\PessoaFisica;
 use App\Models\Nacionalidade;
@@ -10,7 +11,6 @@ use App\Models\Pessoa;
 use App\Models\QuadroTecnico;
 use App\Models\Titulo;
 use App\Models\User;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Routing\Controller;
@@ -26,20 +26,19 @@ class PessoaFisicaController extends Controller
 
         if (Auth::user()->id == 1)
         {
-            session(['admin' => false]);
+            session(['admin' => true]);
             return $this->lista();
         }
         else
         {
-            $nacionalidade = new Nacionalidade();
-            $endereco = new Endereco();
+            // dd( Auth::user()->id );
             $pessoa = PessoaFisica::where('fk_id_pessoa', Auth::user()->id)->get()[0];
             $pessoa['idPessoa'] = Crypt::encryptString($pessoa->fk_id_pessoa);
 
             // dd( $pessoa );
             // $pessoa->listaUf = $endereco->;
-            session(['admin' => true]);
-            return view('pf/index', ['pessoa' => $pessoa]);
+            session(['admin' => false]);
+            return view('pf/index', ['pessoa' => $pessoa, 'admin' => false, 'editar' => 'disabled']);
         }
     }
 
@@ -57,7 +56,7 @@ class PessoaFisicaController extends Controller
             $p[] = $pf;
         }
 
-        return view('pf/listapessoafisica', ['pfs' => $p]);
+        return view('pf/listapessoafisica', ['pfs' => $p, 'admin' => true, 'editar' => '']);
 
     }
 
@@ -109,7 +108,7 @@ class PessoaFisicaController extends Controller
 
     }
 
-    public function edicao($id = false){
+    public function edicao($id = false, Request $request){
 
         $idPessoa = Crypt::decryptString($id);
 
@@ -201,7 +200,19 @@ class PessoaFisicaController extends Controller
         $pf->quadros = $qts;
 
         $pf->titulos = $titulo->getListaTitulo($idPessoa);
-        // $pf->admin = $request->session()->get('admin');
+
+        $atribuicao = new Atribuicao();
+        $pf->atribuicoes = $atribuicao->getAtribuicaoProfissional($idPessoa);
+
+        if( $request->session()->get('admin', 0) )
+        {
+            return view('pf/pessoafisica', ['pessoafisica' => $pf, 'admin' => true, 'editar' => '']);
+        }else
+        {
+            return view('pf/pessoafisica', ['pessoafisica' => $pf, 'admin' => false, 'editar' => 'disabled']);
+        }
+
+        // ['pessoa' => $pessoa, ]
 
         session(['id_pessoa' => $id]);
         return view('pf/pessoafisica', ['pessoafisica' => $pf]);
@@ -220,6 +231,7 @@ class PessoaFisicaController extends Controller
         $pf->parentesco2 = new Parentesco();
         $pf->quadros = new QuadroTecnico();
         $pf->titulos = new Titulo();
+        $pf->atribuicoes = new Atribuicao();
 
         $cidade = array();
         $pf['cidades'] = '[]';
