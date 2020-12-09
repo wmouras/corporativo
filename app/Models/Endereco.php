@@ -22,7 +22,7 @@ class Endereco extends Model
 
     public function getEnderecoPessoa($idPessoa, $idTipoEndereco){
         return model::select()
-                    ->where('fk_id_pessoa', $idPessoa)->where('fk_id_tipo_endereco', $idTipoEndereco)->first();
+            ->where('fk_id_pessoa', $idPessoa)->where('fk_id_tipo_endereco', $idTipoEndereco)->first();
     }
 
 }
