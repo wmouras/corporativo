@@ -50,4 +50,5 @@ use App\Http\Controllers\TituloController;
     Route::post('/endereco/salvar', [EnderecoController::class, 'SalvarEndereco'])->name('endereco.update')->middleware(['auth:sanctum', 'verified']);
     Route::get('/titulo/listatitulo', [TituloController::class, 'getListaTitulo'])->name('listatitulo')->middleware(['auth:sanctum', 'verified']);
     Route::post('/titulo/salvar', [TituloController::class, 'salvarTituloProfissional'])->name('titulo.salvar')->middleware(['auth:sanctum', 'verified']);
+    Route::post('/titulo/delete', [TituloController::class, 'excluirTituloProfissional'])->name('titulo.delete')->middleware(['auth:sanctum', 'verified']);
 

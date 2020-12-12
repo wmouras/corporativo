@@ -67,7 +67,7 @@
 
                     <td class="border-t">
                         <span class="px-6 py-4 flex items-center focus:text-indigo-500">
-                        {{ $pf->codigo_registro }}
+                        {{ $pf->numero_carteira }}
                         </span>
                     </td>
                     <td class="border-t">
@@ -80,7 +80,7 @@
                     </td>
                     <td class="border-t">
                         <span class="px-6 py-4 flex items-center" tabindex="-3">
-                        Teste@teste.com
+                        {{$pf->email}}
                         </span>
                     </td>
 

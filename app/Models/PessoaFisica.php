@@ -20,9 +20,10 @@ class PessoaFisica extends Model
 
     public function getPessoaFisica($idPessoa){
         $select = model::select()
-            ->leftJoin('tb_pessoa', 'fk_id_pessoa', '=', 'tb_pessoa.id_pessoa')
+            ->leftJoin('tb_pessoa', 'tb_pessoa_fisica.fk_id_pessoa', '=', 'tb_pessoa.id_pessoa')
             ->leftJoin('users', 'users.id', '=', 'tb_pessoa.fk_id_user')
-            ->where('fk_id_pessoa', $idPessoa);
+            ->leftJoin('tb_registro_profissional', 'tb_registro_profissional.fk_id_pessoa', '=', 'tb_pessoa_fisica.fk_id_pessoa')
+            ->where('tb_pessoa_fisica.fk_id_pessoa', $idPessoa);
 
         return $select->first();
     }

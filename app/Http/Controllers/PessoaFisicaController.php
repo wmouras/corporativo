@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Atribuicao;
 use App\Models\Endereco;
 use App\Models\PessoaFisica;
 use App\Models\Nacionalidade;
@@ -10,7 +11,6 @@ use App\Models\Pessoa;
 use App\Models\QuadroTecnico;
 use App\Models\Titulo;
 use App\Models\User;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Routing\Controller;
@@ -21,39 +21,42 @@ use Illuminate\Support\Facades\Http;
 class PessoaFisicaController extends Controller
 {
 
-    public function index(){
-        if(Auth::user()->id == 2)
+    public function index()
+    {
+
+        if (Auth::user()->id == 1)
         {
-            $nacionalidade = new Nacionalidade();
-            $endereco = new Endereco();
-            $pessoa = PessoaFisica::where('fk_id_pessoa', 12)->get()[0];
+            session(['admin' => true]);
+            return $this->lista();
+        }
+        else
+        {
+            // dd( Auth::user()->id );
+            $pessoa = PessoaFisica::where('fk_id_pessoa', Auth::user()->id)->get()[0];
             $pessoa['idPessoa'] = Crypt::encryptString($pessoa->fk_id_pessoa);
 
             // dd( $pessoa );
             // $pessoa->listaUf = $endereco->;
-            session(['admin' => true]);
-
-            return view('pf/index', ['pessoa' => $pessoa] );
-
-        }
-        else
-        {
             session(['admin' => false]);
-            return $this->lista();
+            return view('pf/index', ['pessoa' => $pessoa, 'admin' => false, 'editar' => 'disabled']);
         }
     }
 
-    public function lista(){
+    public function lista(Request $request = null){
 
         // dd( PessoaFisica::all() );
-        $pfs = PessoaFisica::select('fk_id_pessoa', 'identidade', 'nome', 'cpf')->take(20)->orderByDesc('fk_id_pessoa')->get();
+        $pfs = PessoaFisica::select('tb_pessoa_fisica.fk_id_pessoa', 'identidade', 'nome', 'cpf', 'numero_carteira', 'users.email as email')
+            ->join('corporativo.tb_registro_profissional', 'tb_registro_profissional.fk_id_pessoa', '=', 'tb_pessoa_fisica.fk_id_pessoa')
+            ->join('corporativo.users', 'users.id', '=', 'tb_pessoa_fisica.fk_id_pessoa')
+            ->take(25)->orderByDesc('tb_pessoa_fisica.fk_id_pessoa')->get();
+
         foreach($pfs as $pf)
         {
             $pf['idPessoa'] = Crypt::encryptString($pf->fk_id_pessoa);
             $p[] = $pf;
         }
 
-        return view('pf/listapessoafisica', ['pfs' => $p]);
+        return view('pf/listapessoafisica', ['pfs' => $p, 'admin' => true, 'editar' => '']);
 
     }
 
@@ -88,14 +91,14 @@ class PessoaFisicaController extends Controller
             $pf['tipo_pessoa'] = 1;
             $idPessoa = $pessoa->salvarPessoa($pf);
             $request->merge(['fk_id_pessoa' => $idPessoa]);
+            session(['id_pessoa' => Crypt::encryptString($idPessoa)]);
 
         } else {
             $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
         }
 
-        $result = PessoaFisica::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());;
-
         $request->merge(['fk_id_pessoa' => $idPessoa]);
+        $result = PessoaFisica::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());
 
         $parentesco = array( $request->parentesco1, $request->parentesco2);
         $modelParentesco = new Parentesco();
@@ -105,8 +108,9 @@ class PessoaFisicaController extends Controller
 
     }
 
-    public function edicao($id = false){
+    public function edicao($id = null, Request $request){
 
+        session(['id_pessoa' => $id]);
         $idPessoa = Crypt::decryptString($id);
 
         $nacionalidade = new Nacionalidade();
@@ -119,6 +123,7 @@ class PessoaFisicaController extends Controller
         $pf = $pessoa->getPessoaFisica($idPessoa);
 
         $pf->id_pessoa = $id;
+<<<<<<< HEAD
         $pf->cpf = formatarCpf( $pf->cpf);
         $pf->data_nascimento = alterarDataMysqlBr( $pf->data_nascimento );
         $pf->data_emissao_identidade = alterarDataMysqlBr( $pf->data_emissao_identidade );
@@ -128,6 +133,18 @@ class PessoaFisicaController extends Controller
 
         if( $municipio ){
             $cidade = (object) $municipio;
+=======
+        $pf->cpf = formatarCpf($pf->cpf);
+        $pf->data_nascimento = alterarDataMysqlBr($pf->data_nascimento);
+        $pf->data_emissao_identidade = alterarDataMysqlBr($pf->data_emissao_identidade);
+        $cidade = Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_naturalidade)->json();
+        $pf->titulo_eleitor = formatarTituloEleitor($pf->titulo_eleitor);
+        $pf->observacao = addslashes($pf->observacao);
+
+        // dd( $cidade );
+
+        if (is_object($cidade)) {
+>>>>>>> 7ad99860cea234665c4c0c84937a2a7418c59412
             $pf->fk_id_uf = $cidade->fk_uf;
             $pf['cidades'] = json_encode(Http::get('http://ws.creadf.org.br/api/endereco/cidade/uf/'.$cidade->fk_uf)->json());
             $pf->nome_cidade = $cidade->nome_cidade;
@@ -155,10 +172,9 @@ class PessoaFisicaController extends Controller
 
         $pf->endereco = $endereco->getEnderecoPessoa($idPessoa, 1);
 
-        if( !is_object($pf->endereco) ){
+        if(!$pf->endereco){
             $pf->endereco = new Endereco();
         }else{
-
             $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->endereco->fk_id_cidade)->json();
 
             $pf->endereco->cidade = $cidade->nome_cidade;
@@ -167,12 +183,12 @@ class PessoaFisicaController extends Controller
         }
 
         $pf->correspondencia = $endereco->getEnderecoPessoa($idPessoa, 2);
-        if(!is_object($pf->correspondencia)){
+        if(!$pf->correspondencia){
             $pf->correspondencia = new Endereco();
         }
-        else{
+        else
+        {
             $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->correspondencia->fk_id_cidade)->json();
-
             $pf->correspondencia->cidade = $cidade->nome_cidade;
             $pf->correspondencia->estado = $cidade->descricao_uf;
             $pf->correspondencia->cep = formatarCep($pf->correspondencia->cep);
@@ -197,7 +213,19 @@ class PessoaFisicaController extends Controller
         $pf->quadros = $qts;
 
         $pf->titulos = $titulo->getListaTitulo($idPessoa);
-        // $pf->admin = $request->session()->get('admin');
+
+        $atribuicao = new Atribuicao();
+        $pf->atribuicoes = $atribuicao->getAtribuicaoProfissional($idPessoa);
+
+        if( $request->session()->get('admin', 0) )
+        {
+            return view('pf/pessoafisica', ['pessoafisica' => $pf, 'admin' => true, 'editar' => '']);
+        }else
+        {
+            return view('pf/pessoafisica', ['pessoafisica' => $pf, 'admin' => false, 'editar' => 'disabled']);
+        }
+
+        // ['pessoa' => $pessoa, ]
 
         session(['id_pessoa' => $id]);
         return view('pf/pessoafisica', ['pessoafisica' => $pf]);
@@ -206,7 +234,7 @@ class PessoaFisicaController extends Controller
 
     public function novo(Request $rquest){
 
-        session(['id_pessoa' => false]);
+        session(['id_pessoa' => null]);
         // dd(session('id_pessoa'));
         $pf = new PessoaFisica();
         $nacionalidade = new Nacionalidade();
@@ -216,6 +244,7 @@ class PessoaFisicaController extends Controller
         $pf->parentesco2 = new Parentesco();
         $pf->quadros = new QuadroTecnico();
         $pf->titulos = new Titulo();
+        $pf->atribuicoes = new Atribuicao();
 
         $cidade = array();
         $pf['cidades'] = '[]';
@@ -228,4 +257,68 @@ class PessoaFisicaController extends Controller
         return view('pf/pessoafisica', ['pessoafisica' => $pf]);
 
     }
+
+    public function enviaRegistroConfea(Request $request)
+    {
+
+        $idPessoa = $request->session()->get('id_pessoa');
+
+        $pessoafisica = new PessoaFisica();
+        $profissional = $pessoafisica->getPessoaFisica($idPessoa);
+
+        dd($profissional);
+
+        $dadoProfissional = array(
+            'SISUSU_LGN' => '',
+            'DTAALT' => '',
+            'DTAVALPROV' => '',
+            'dtaativa' => '',
+            'DTARECAD' => '',
+            'DTAFAL' => '',
+            'TPORNP' => '',
+            'CRECAD_COD' => '',
+            'CRECAD_CODREG' => '',
+            'NROPROT' => '',
+            'TPOPRF' => '',
+            'SISIDTPRF_NROCPF' => '',
+            'NME' => '',
+            'TPOSEX' => '',
+            'ESTCIV' => '',
+            'NMEMAE' => '',
+            'NMEPAI' => '',
+            'DSCNAC' => '',
+            'DSCNAT' => '',
+            'UFNAT' => '',
+            'PISNAC' => '',
+            'DTANSC' => '',
+            'TPONECESP' => '',
+            'NROIDT' => '',
+            'DTAEXPIDT' => '',
+            'ORGEXPIDT' => '',
+            'TPOSNG' => '',
+            'TPOFRH' => '',
+            'NROTITELE' => '',
+            'ZONTITELE' => '',
+            'SECTITELE' => '',
+            'DSCMUNTITELE' => '',
+            'UFTITELE' => '',
+            'TPOREG' => '',
+            'EML' => '',
+            'HPG' => '',
+            'TPOENDCOR' => '',
+            'DTAREGCRE' => '',
+            'NROREGCRE' => '',
+            'NROCRTCRE' => '',
+            'TPONROIMPCRT' => '',
+            'DTAINIREG' => '',
+            'DTAFIMREG' => '',
+            'PRFCAD_CODRNPAST' => '',
+            'CPFAST' => '',
+            'NMEAST' => '',
+            'DTAINIVCLAST' => '',
+            'DTAFIMVCLAST' => '');
+
+    }
+
+
 }
