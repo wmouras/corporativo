@@ -244,4 +244,68 @@ class PessoaFisicaController extends Controller
         return view('pf/pessoafisica', ['pessoafisica' => $pf]);
 
     }
+
+    public function enviaRegistroConfea(Request $request)
+    {
+
+        $idPessoa = $request->session()->get('id_pessoa');
+
+        $pessoafisica = new PessoaFisica();
+        $profissional = $pessoafisica->getPessoaFisica($idPessoa);
+
+        dd($profissional);
+
+        $dadoProfissional = array(
+            'SISUSU_LGN' => '',
+            'DTAALT' => '',
+            'DTAVALPROV' => '',
+            'dtaativa' => '',
+            'DTARECAD' => '',
+            'DTAFAL' => '',
+            'TPORNP' => '',
+            'CRECAD_COD' => '',
+            'CRECAD_CODREG' => '',
+            'NROPROT' => '',
+            'TPOPRF' => '',
+            'SISIDTPRF_NROCPF' => '',
+            'NME' => '',
+            'TPOSEX' => '',
+            'ESTCIV' => '',
+            'NMEMAE' => '',
+            'NMEPAI' => '',
+            'DSCNAC' => '',
+            'DSCNAT' => '',
+            'UFNAT' => '',
+            'PISNAC' => '',
+            'DTANSC' => '',
+            'TPONECESP' => '',
+            'NROIDT' => '',
+            'DTAEXPIDT' => '',
+            'ORGEXPIDT' => '',
+            'TPOSNG' => '',
+            'TPOFRH' => '',
+            'NROTITELE' => '',
+            'ZONTITELE' => '',
+            'SECTITELE' => '',
+            'DSCMUNTITELE' => '',
+            'UFTITELE' => '',
+            'TPOREG' => '',
+            'EML' => '',
+            'HPG' => '',
+            'TPOENDCOR' => '',
+            'DTAREGCRE' => '',
+            'NROREGCRE' => '',
+            'NROCRTCRE' => '',
+            'TPONROIMPCRT' => '',
+            'DTAINIREG' => '',
+            'DTAFIMREG' => '',
+            'PRFCAD_CODRNPAST' => '',
+            'CPFAST' => '',
+            'NMEAST' => '',
+            'DTAINIVCLAST' => '',
+            'DTAFIMVCLAST' => '');
+
+    }
+
+
 }

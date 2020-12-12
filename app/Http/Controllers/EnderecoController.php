@@ -18,7 +18,6 @@ class EnderecoController extends Controller
     }
 
     public function cidade( Request $request ){
-
         $resposta = Http::get('http://ws.creadf.org.br/api/endereco/cidade/uf/'.$request->id)->json();
         return response()->json($resposta);
     }
@@ -37,9 +36,6 @@ class EnderecoController extends Controller
         }
         $endereco = $request->all();
         $empresa = $endereco['empresa'];
-
-
-
         $empresa['envia_correspondencia'] = 0;
 
         if( !$endereco['st_correspondencia'] ){

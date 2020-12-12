@@ -7,7 +7,7 @@
 
     <div class='py-1'>
 
-        <div x-data="{ tab: 'divContato' }" >
+        <div x-data="{ tab: 'divRegistro' }" >
 
                 <div class='max-w-7xl mx-auto sm:px-6 lg:px-8'>
                     <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divDescricao' }" class="inline w-65 border border-grey-100 rounded py-3 px-36 mb-1 leading-tight" @click="tab = 'divDescricao'">
@@ -443,9 +443,6 @@
                 <div class='bg-white overflow-hidden shadow-xl sm:rounded-lg'>
 
                     <div class='row col-md-6'>
-
-                        <form action='' id='frm-pessoa-endereco' name='frm-pessoa-endereco' method='POST' x-on:click.prevent="">
-
                             <div class='w-full flex md:w-1/2 md:mb-0'>
                                 <div class='flex-auto md:w-1/2 px-3 mb-6 md:mb-0'>
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='rnp'>
@@ -467,12 +464,10 @@
                                 </div>
                             </div>
 
-                            <div class="max-w-full rounded overflow-hidden shadow-lg mt-5">
+                            <div class="max-w-full rounded overflow-hidden mt-5">
 
                                 <div class="px-10 py-4">
-
                                         <div class="font-bold text-xl mb-2"> Quadro Técnico&nbsp;</div>
-
                                 </div>
 
                                 @if( !is_array($pessoafisica->quadros) )
@@ -511,10 +506,10 @@
                                 @endforeach
 
                                 @else
-                                    <div class="px-1 py-4">
-
-                                        <div class="font-bold text-md mb-2 bg-gray-50">Não há registro.</div>
-
+                                    <div class="max-w-full rounded overflow-hidden shadow-lg mt-5">
+                                        <div class="px-10 py-4 bg-gray-50">
+                                            <div class="font-bold text-xl mb-2 text-alert-info"><i class="fa fa-info" aria-hidden="true"></i>&nbsp;Não há registro</div>
+                                        </div>
                                     </div>
                                 @endif
 
@@ -525,51 +520,53 @@
                                 <div class="px-10 py-4">
                                     <div class="font-bold text-xl mb-2"  x-data="registro()">Títulos&nbsp;
                                         @if($admin)
-                                        <button id="get-endereco" x-on:click.prevent="showModal = true" title="Adicionar ao quadro técnico" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded-full h-9 w-9">
-                                                <i class="fa fa-plus"></i>
+                                            <button id="get-endereco" x-on:click.prevent="showModal = true" title="Adicionar ao quadro técnico" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded-full h-9 w-9">
+                                                    <i class="fa fa-plus"></i>
 
-                                        </button>
-                                        @endif
+                                            </button>
                                             @include('modal.titulo', [])
+                                        @endif
+
                                     </div>
 
                                 </div>
 
                                 @if(count($pessoafisica->titulos) > 0)
 
-                                <div class="flex mb-2">
-                                    <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Título</span></div>
-                                    <div class="w-1/2 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Instituição</span></div>
+                                <div class="flex mb-1">
+                                    <div class="w-1/4 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Título</span></div>
+                                    <div class="w-full bg-gray-200 h-12 text-center py-2"><span class="font-bold">Instituição</span></div>
                                     <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Data conclusão</span></div>
                                     @if($admin)
-                                    <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Ação</span></div>
+                                    <div class="w-1/8 bg-gray-200 h-12 text-center py-2 pr-2"><span class="font-bold">Ação</span></div>
                                     @endif
                                 </div>
 
                                 @foreach($pessoafisica->titulos as $titulo)
 
                                     <div class="flex mb-1">
-                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$titulo->descricao_masculina ??  ''}}</div>
-                                        <div class="w-1/2 bg-gray-50 h-12 text-center py-3">{{$titulo->instituicao_ensino ??  ''}}</div>
-                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">{{$titulo->data_conclusao_curso ??  ''}}</div>
+                                        <div class="w-1/4 bg-gray-50 h-12 text-center py-2">{{$titulo->descricao_masculina ??  ''}}</div>
+                                        <div class="w-full bg-gray-50 h-12 text-center py-2">{{$titulo->instituicao_ensino ??  ''}}</div>
+                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-2">{{alterarDataMysqlBr($titulo->data_conclusao_curso) ??  ''}}</div>
+
                                         @if($admin)
-                                        <div class="w-1/6 bg-gray-50 h-12 text-center py-3">
-                                            <button class="bg-transparent hover:bg-blue-500 text-red-700 font-bold hover:text-white border border-red-500 hover:border-transparent rounded">
+
+                                        <div class="w-1/8 bg-gray-50 h-12 center py-2 pr-2 pl-5">
+                                            <button x-data="registro()" x-on:click.prevent="deletarTitulo({{$titulo->id_titulo_profissional}})" class="bg-transparent hover:bg-blue-500 text-red-700 font-bold hover:text-white border border-red-500 hover:border-transparent rounded">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
-                                            <button class="ml-4 bg-transparent hover:bg-blue-500 text-yellow-500 font-bold hover:text-white border border-yellow-300 hover:border-transparent rounded">
-                                                <i class="fas fa-pencil-alt"></i>
-                                            </button>
                                         </div>
+                                            <input type='hidden' x-data="registro()"  x-model="titulo.id_titulo_profissional" id="id_titulo_profissional" name="id_registro_profissional" value="{{$titulo->id_titulo_profissional}}" />
+
                                         @endif
                                     </div>
                                 @endforeach
 
                                 @else
-                                    <div class="px-1 py-4">
-
-                                        <div class="font-bold text-md mb-2 bg-gray-50">Não há registro.</div>
-
+                                    <div class="max-w-full rounded overflow-hidden shadow-lg mt-5">
+                                        <div class="px-10 py-4 bg-gray-50">
+                                            <div class="font-bold text-xl mb-2 text-alert-info"><i class="fa fa-info" aria-hidden="true"></i>&nbsp;Não há registro</div>
+                                        </div>
                                     </div>
                                 @endif
 
@@ -577,59 +574,58 @@
 
                         <div class="max-w-full rounded overflow-hidden shadow-lg mt-5">
 
-                                <div class="px-10 py-4">
-                                    <div class="font-bold text-xl mb-2"  x-data="registro()">Atribuições&nbsp;
-                                        @if($admin)
-                                        <button id="get-endereco" x-on:click.prevent="showModal = true" title="Adicionar ao quadro técnico" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded-full h-9 w-9">
-                                                <i class="fa fa-plus"></i>
+                            <div class="px-10 py-4">
+                                <div class="font-bold text-xl mb-2"> Atribuições&nbsp;
 
-                                        </button>
-                                        @endif
-                                            @include( 'modal.atribuicao', [] )
-                                    </div>
-
+                                 @if($admin)
+                                    <button id="get-atribuicao" x-on:click.prevent="showModal = true" title="Adicionar ao quadro técnico" class="bg-blue-400 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded-full h-9 w-9">
+                                            <i class="fa fa-plus"></i>
+                                    </button>
+                                @endif
                                 </div>
+                            </div>
 
                             @if(count($pessoafisica->atribuicoes) > 0)
 
-                                <div class="flex mb-2">
-                                    <div class="w-1/2 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Decrição</span></div>
-
+                                <div class="flex mb-1 ml-8 mr-8">
+                                    <div class="w-24 bg-gray-200 h-12 text-center py-2"><span class="font-bold"></span></div>
+                                    <div class="w-full bg-gray-200 h-12 text-center"><span class="font-bold">Descrição</span></div>
+                                    <div class="w-24 bg-gray-200 h-12 text-center py-2"><span class="font-bold"></span></div>
                                     @if($admin)
-                                    <div class="w-1/6 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Ação</span></div>
+                                    <div class="w-16 bg-gray-200 h-12 text-center py-2 mr-3"><span class="font-bold">Ação</span></div>
                                     @endif
+                                </div>
 
-                                    </div>
+                                @foreach($pessoafisica->atribuicoes as $atribuicao)
 
-                                    @foreach($pessoafisica->atribuicoes as $atribuicao)
+                                    <div class="flex mb-1 ml-8 mr-8">
+                                        <div class="w-24 bg-gray-50 h-12 text-center py-2"><span class="font-bold"></span></div>
+                                        <div class="w-full bg-gray-50 h-12 text-center py-2">{{$atribuicao->descricao_atribuicao ??  ''}}</div>
+                                        <div class="w-24 bg-gray-50 h-12 text-center py-2"><span class="font-bold"></span></div>
 
-                                        <div class="flex mb-1">
-                                        <div class="w-1/2 bg-gray-50 h-12 text-center py-3">
-                                            {{$atribuicao->descricao_atribuicao ??  ''}}
-                                        </div>
                                         @if($admin)
-                                            <div class="w-1/6 bg-gray-50 h-12 text-center py-3">
-                                            <button class="bg-transparent hover:bg-blue-500 text-red-700 font-bold hover:text-white border border-red-500 hover:border-transparent rounded">
+
+                                            <div class="w-16 bg-gray-50 h-12 center py-2">
+                                            <button x-data="registro()" x-on:click.prevent="deletarAtribuicao({{$titulo->id_atribuicao}})" class="bg-transparent hover:bg-blue-500 text-red-700 font-bold hover:text-white border border-red-500 hover:border-transparent rounded">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
-                                            <button class="ml-4 bg-transparent hover:bg-blue-500 text-yellow-500 font-bold hover:text-white border border-yellow-300 hover:border-transparent rounded">
-                                                <i class="fas fa-pencil-alt"></i>
-                                            </button>
                                             </div>
+                                            <input type='hidden' x-data="registro()"  x-model="titulo.id_atribuicao" id="id_atribuicao" name="id_atribuicao" value="{{$atribuicao->id_atribuicao}}" />
+
                                         @endif
                                             </div>
-                                    @endforeach
+
+                                @endforeach
 
                             @else
-                                <div class="px-1 py-4">
-                                    <div class="font-bold text-md mb-2 bg-gray-50">Não há registro.</div>
+                                <div class="max-w-full rounded overflow-hidden shadow-lg mt-5">
+                                    <div class="px-10 py-4 bg-gray-50">
+                                        <div class="font-bold text-xl mb-2 text-alert-info"><i class="fa fa-info" aria-hidden="true"></i>&nbsp;Não há registro</div>
+                                    </div>
                                 </div>
                             @endif
 
-                            </div>;
-
-
-                        </form>
+                        </div>
 
                     </div>
 
@@ -815,27 +811,54 @@
 
         }
 
-        function registro(){
-
+        function registro()
+        {
             return {
                 titulo: {
                     fk_codigo_titulo_confea: '',
+                    fk_id_registro_profissional: '',
                     instituicao_ensino: '',
-                    data_conclusao: '',
+                    data_conclusao_curso: '',
                     data_diploma: '',
                     fk_numero_processo: '',
                     principal: '',
+                    titulos: [],
                 },
                 frmTituloProfissional: null,
+                frmTitulo: null,
                 salvarTituloProfissional(){
-                    this.titulo.selectTitulo = $('#selectTitulo').select2().val();
-                    axios({
+                    this.titulo.fk_codigo_titulo_confea = $('#selectTitulo').select2('data')[0].id;
+                    axios(
+                        {
                         method: 'post',
                         url: '{{route('titulo.salvar')}}',
                         data: this.titulo,
-                        });
+                        }
+                    );
                 },
                 showModal: false,
+                listaTitulo() {
+                    console.log(uf);
+                    this.titulo.titulos = fetch('/titulo/listatitulo').then(response => response.json()).then(data => this.titulo.titulos = data);
+                    console.log(this.titulo.titulos);
+                },
+                deletarTitulo(idTitulo){
+
+                    axios({
+                        method: 'post',
+                        url: '{{route('titulo.delete')}}',
+                        data: {'idTitulo': idTitulo},
+                    }).then(
+                        response =>{
+                            if(response.data.status == 'sucesso'){
+                                window.location.reload();
+                            }
+                        }
+                    ).catch(err =>{
+                        console.log(err);
+                    });
+                }
+
             }
 
         }

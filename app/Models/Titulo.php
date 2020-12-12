@@ -18,7 +18,7 @@ class Titulo extends Model
     public function getListaTitulo( $idPessoa )
     {
 
-        return model::select('tb_titulo_confea.descricao_masculina', 'tb_titulo_profissional.data_conclusao_curso','tb_titulo_profissional.instituicao_ensino' )
+        return model::select('id_titulo_profissional', 'fk_id_registro_profissional', 'tb_titulo_confea.descricao_masculina', 'tb_titulo_profissional.data_conclusao_curso','tb_titulo_profissional.instituicao_ensino' )
             ->join('tb_titulo_confea', 'tb_titulo_confea.codigo_titulo_confea', '=', 'tb_titulo_profissional.fk_codigo_titulo_confea')
             ->join('tb_registro_profissional', 'tb_registro_profissional.id_registro_profissional', '=', 'tb_titulo_profissional.fk_id_registro_profissional')
             ->where('tb_registro_profissional.fk_id_pessoa', $idPessoa)->get();

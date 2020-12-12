@@ -9,7 +9,7 @@
               <strong>Incluir Título Acadêmico</strong>
             </h2>
 
-            <form x-model="frmTituloProfissional" x-data="registro()" name="frmTituloProfissional" id="frmTituloProfissional" x-on-click.prevent = "">
+            <form x-model="frmTitulo" x-data="{registro(), this.listaTitulo()}" name="frmTituloProfissional" id="frmTituloProfissional" x-on-click.prevent = "">
 
                 <div class="max-w-lg rounded overflow-hidden shadow-lg mt-5">
 
@@ -19,7 +19,14 @@
                             <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='selectTitulo'>
                                 Título
                             </label>
-                            <select x-model="titulo.fk_codigo_titulo_confea" class="js-data-example-ajax form-control" style="width: 100%" name="selectTitulo" id="selectTitulo"></select>
+                            <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
+                                <select x-model="titulo.fk_id_titulo" class='flex-auto w-full block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
+                                    name="fk_id_titulo" id="fk_id_titulo" >
+                                    <template x-for="titulo in titulo.titulos" :key="titulo.pk_titulo">
+                                        <option :value="titulo.pk_titulo" x-text="titulo.nome_titulo" x-bind:selected="titulo.pk_titulo === {{$pessoafisica->fk_id_titulo ?? 0}}"></option>
+                                    </template>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="flex mb-2 ">
@@ -80,31 +87,5 @@
 
         </div>
       </div>
-
-    <script type="text/javascript">
-
-        jQuery(document).ready(function ($){
-
-            $('.js-data-example-ajax').select2(
-                {
-                ajax: {
-                    url: '/titulo/listatitulo',
-                    dataType: 'json',
-                    delay: 250,
-                    processResults: function (response) {
-                        return {
-                            results:response
-                        };
-                    },
-                    cache: true
-                }
-                });
-
-        });
-
-        VMasker(document.getElementById("data_diploma")).maskPattern('99/99/9999');
-        VMasker(document.getElementById("data_conclusao")).maskPattern('99/99/9999');
-
-    </script>
 
 

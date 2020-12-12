@@ -19,7 +19,7 @@
                             <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='selectTitulo'>
                                 Título
                             </label>
-                            <select x-model="titulo.fk_codigo_titulo_confea" class="js-data-example-ajax form-control" style="width: 100%" name="selectTitulo" id="selectTitulo"></select>
+                            <select x-model="titulo.fk_codigo_titulo_confea" class="titulo_confea form-control" style="width: 100%" name="selectTitulo" id="selectTitulo"></select>
                         </div>
                     </div>
                     <div class="flex mb-2 ">
@@ -36,7 +36,7 @@
                             <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='data_conclusao'>
                                 Conclusão
                             </label>
-                            <input  x-model="titulo.data_conclusao" id='data_conclusao' name='data_conclusao' type='text' placeholder='Insira o data de conclusão'
+                            <input  x-model="titulo.data_conclusao_curso" id='data_conclusao_curso' name='data_conclusao_curso' type='text' placeholder='Insira o data de conclusão'
                                 class='appearance-none block w-36 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 h-8 leading-tight focus:outline-none focus:bg-white'>
                         </div>
 
@@ -85,7 +85,7 @@
 
         jQuery(document).ready(function ($){
 
-            $('.js-data-example-ajax').select2(
+            $('.titulo_confea').select2(
                 {
                 ajax: {
                     url: '/titulo/listatitulo',
@@ -103,7 +103,7 @@
         });
 
         VMasker(document.getElementById("data_diploma")).maskPattern('99/99/9999');
-        VMasker(document.getElementById("data_conclusao")).maskPattern('99/99/9999');
+        VMasker(document.getElementById("data_conclusao_curso")).maskPattern('99/99/9999');
 
     </script>
 
