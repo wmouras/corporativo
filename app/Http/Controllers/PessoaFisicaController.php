@@ -11,6 +11,7 @@ use App\Models\Pessoa;
 use App\Models\QuadroTecnico;
 use App\Models\Titulo;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Routing\Controller;
@@ -97,14 +98,22 @@ class PessoaFisicaController extends Controller
             $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
         }
 
-        $request->merge(['fk_id_pessoa' => $idPessoa]);
-        $result = PessoaFisica::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());
+        try{
 
-        $parentesco = array( $request->parentesco1, $request->parentesco2);
-        $modelParentesco = new Parentesco();
-        $modelParentesco->salvarParentesco($parentesco, $idPessoa);
+            $request->merge(['fk_id_pessoa' => $idPessoa]);
+            $result = PessoaFisica::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());
 
-        dd($result);
+            $parentesco = array( $request->parentesco1, $request->parentesco2);
+            $modelParentesco = new Parentesco();
+            $modelParentesco->salvarParentesco($parentesco, $idPessoa);
+
+            return response()->json(array('status'=>'success', 'msg'=>'Profissional cadastrado com sucesso.' ));
+
+            // return redirect()->route('pessoafisica.edit', ['id'=>$request->session()->get('id_pessoa')])->with('suscesso', 'You have no permission for this page!');
+
+        }catch(QueryException $e){
+
+        }
 
     }
 
@@ -123,7 +132,6 @@ class PessoaFisicaController extends Controller
         $pf = $pessoa->getPessoaFisica($idPessoa);
 
         $pf->id_pessoa = $id;
-<<<<<<< HEAD
         $pf->cpf = formatarCpf( $pf->cpf);
         $pf->data_nascimento = alterarDataMysqlBr( $pf->data_nascimento );
         $pf->data_emissao_identidade = alterarDataMysqlBr( $pf->data_emissao_identidade );
@@ -133,18 +141,6 @@ class PessoaFisicaController extends Controller
 
         if( $municipio ){
             $cidade = (object) $municipio;
-=======
-        $pf->cpf = formatarCpf($pf->cpf);
-        $pf->data_nascimento = alterarDataMysqlBr($pf->data_nascimento);
-        $pf->data_emissao_identidade = alterarDataMysqlBr($pf->data_emissao_identidade);
-        $cidade = Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_naturalidade)->json();
-        $pf->titulo_eleitor = formatarTituloEleitor($pf->titulo_eleitor);
-        $pf->observacao = addslashes($pf->observacao);
-
-        // dd( $cidade );
-
-        if (is_object($cidade)) {
->>>>>>> 7ad99860cea234665c4c0c84937a2a7418c59412
             $pf->fk_id_uf = $cidade->fk_uf;
             $pf['cidades'] = json_encode(Http::get('http://ws.creadf.org.br/api/endereco/cidade/uf/'.$cidade->fk_uf)->json());
             $pf->nome_cidade = $cidade->nome_cidade;

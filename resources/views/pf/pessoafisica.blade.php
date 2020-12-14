@@ -672,7 +672,7 @@
                                     fk_id_tipo_parentesco: '{{ $pessoafisica->parentesco2->fk_id_tipo_parentesco }}',
                                 },
                     cidades: pessoa.data,
-
+                    infoMessage: false,
                 },
                 frmPessoa: null,
                 salvarProfissional(){
@@ -682,7 +682,16 @@
                         method: 'post',
                         url: '{{route('pessoafisica.update')}}',
                         data: this.frmData
-                    });
+                    })
+                    .then(
+                        (response) => {
+                            $('#msgInfo').text(response.data.msg);
+                            $('#dvInfo').show();
+                            $('#cpf').focus();
+                        }, (error) => {
+                        console.log(error);
+                        }
+                    );
                     this.frmData.cidades = pessoa.data;
 
                 },
