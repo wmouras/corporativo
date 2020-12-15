@@ -249,8 +249,7 @@ class PessoaFisicaController extends Controller
 
         $pf->listaUf = json_decode(Http::get('http://ws.creadf.org.br/api/endereco/uf'));
         $pf->listaNacionalidade = $nacionalidade->listaNacionalidade();
-
-        return view('pf/pessoafisica', ['pessoafisica' => $pf]);
+        return view('pf/pessoafisica', ['pessoafisica' => $pf, 'admin' => true, 'editar' => '']);
 
     }
 

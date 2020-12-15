@@ -35,14 +35,14 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cpf'>
                                         CPF
                                     </label>
-                                    <input {{$editar}} x-model="frmData.cpf" id='cpf' name='cpf' type='text' placeholder='Insira o cpf' value=""
+                                    <input {{$editar ?? null}} x-model="frmData.cpf" id='cpf' name='cpf' type='text' placeholder='Insira o cpf' value=""
                                     class='appearance-none block w-48 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 mb-3 leading-tight focus:outline-none focus:bg-white'>
                                 </div>
                                 <div class="w-1/4 text-left py-3 ml-3">
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cpf'>
                                         E-mail
                                     </label>
-                                    <input {{$editar}} x-model="frmData.email" id='email' name='email' type='email' placeholder='Insira o e-mail' value=""
+                                    <input {{$editar ?? null}} x-model="frmData.email" id='email' name='email' type='email' placeholder='Insira o e-mail' value=""
                                     class='appearance-none block w-80 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 mb-3 leading-tight focus:outline-none focus:bg-white'>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='nome'>
                                     Nome
                                 </label>
-                                <input {{$editar}} x-model="frmData.nome" id='nome' name='nome' type='text' placeholder='Insira o nome' value=""
+                                <input {{$editar ?? null}} x-model="frmData.nome" id='nome' name='nome' type='text' placeholder='Insira o nome' value=""
                                     class='appearance-none block w-1/2 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -61,14 +61,14 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cpf'>
                                          Identidade(RG)
                                     </label>
-                                    <input {{$editar}} x-model="frmData.identidade" id='identidade' name='identidade' type='text' placeholder='Insira o RG' value=""
+                                    <input {{$editar ?? null}} x-model="frmData.identidade" id='identidade' name='identidade' type='text' placeholder='Insira o RG' value=""
                                     class='appearance-none block w-48 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 mb-3 leading-tight focus:outline-none focus:bg-white'>
                                 </div>
                                 <div class="w-1/4 text-left py-3 ml-3">
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='cpf'>
                                         Data de emissao
                                     </label>
-                                    <input {{$editar}} x-model="frmData.data_emissao_identidade" id='data_emissao_identidade' name='data_emissao_identidade' type='text' placeholder='Insira a data de emissão' value=""
+                                    <input {{$editar ?? null}} x-model="frmData.data_emissao_identidade" id='data_emissao_identidade' name='data_emissao_identidade' type='text' placeholder='Insira a data de emissão' value=""
                                     class='appearance-none block w-80 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 mb-3 leading-tight focus:outline-none focus:bg-white'>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='data_nascimento'>
                                     Data nascimento
                                 </label>
-                                <input {{$editar}} x-model="frmData.data_nascimento" id='data_nascimento' name='data_nascimento' type='text' placeholder='Insira o data_nascimento'
+                                <input {{$editar ?? null}} x-model="frmData.data_nascimento" id='data_nascimento' name='data_nascimento' type='text' placeholder='Insira o data_nascimento'
                                     class='appearance-none block w-65 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -86,7 +86,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='tipo_empresa'>
                                     Possui alguma deficência?
                                 </label>
-                                <select {{$editar}} class='w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
+                                <select {{$editar ?? null}} class='w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
                                     name="id_deficiencia" id="id_deficiencia" >
                                         <option value="99'">Selecione...</option>
                                         <option value="1'">SIM</option>
@@ -99,7 +99,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='fk_cd_nacionalidade'>
                                     Nacionalidade
                                 </label>
-                                <select {{$editar}} x-model="frmData.fk_cd_nacionalidade" name="fk_cd_nacionalidade" id="fk_cd_nacionalidade" placeholder='Insira sua nacionalidade'
+                                <select {{$editar ?? null}} x-model="frmData.fk_cd_nacionalidade" name="fk_cd_nacionalidade" id="fk_cd_nacionalidade" placeholder='Insira sua nacionalidade'
                                     class='w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                     @foreach ($pessoafisica->listaNacionalidade as $nacionalidade)
@@ -118,7 +118,7 @@
                                     Naturalidade
                                 </label>
                                 <div class="flex">
-                                    <select {{$editar}} name="fk_id_uf" id="fk_id_uf" placeholder='Selecione a UF' @change="listaCidade( this.fk_id_uf.value )"
+                                    <select {{$editar ?? null}} name="fk_id_uf" id="fk_id_uf" placeholder='Selecione a UF' @change="listaCidade( this.fk_id_uf.value )"
                                             class='flex-auto w-16 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 mr-3 leading-tight focus:outline-none focus:bg-white'>
                                         <option value="XX">Selecione</option>
                                         @foreach ($pessoafisica->listaUf as $uf)
@@ -130,7 +130,7 @@
                                     </select>
 
                                     <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                                        <select {{$editar}} x-model="frmData.fk_id_naturalidade" class='flex-auto w-full block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
+                                        <select {{$editar ?? null}} x-model="frmData.fk_id_naturalidade" class='flex-auto w-full block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
                                             name="fk_id_naturalidade" id="fk_id_naturalidade" >
                                             <template x-for="cidade in frmData.cidades" :key="cidade.pk_cidade">
                                                 <option :value="cidade.pk_cidade" x-text="cidade.nome_cidade" x-bind:selected="cidade.pk_cidade === {{$pessoafisica->fk_id_naturalidade ?? 0}}"></option>
@@ -145,10 +145,10 @@
                                 </label>
                                 <div class='w-full flex md:w-1/2 px-3 mb-6 md:mb-0'>
 
-                                    <input {{$editar}} x-model="frmData.parentesco1.nome" id='nome_parentesco1' name='nome_parentesco1' type='text' placeholder='Insira o nome'
+                                    <input {{$editar ?? null}} x-model="frmData.parentesco1.nome" id='nome_parentesco1' name='nome_parentesco1' type='text' placeholder='Insira o nome'
                                         class='appearance-none block w-80 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
-                                    <select {{$editar}} x-model="frmData.parentesco1.fk_id_tipo_parentesco" name="grau_parentesco1" id="grau_parentesco1" class='ml-5 w-32 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                    <select {{$editar ?? null}} x-model="frmData.parentesco1.fk_id_tipo_parentesco" name="grau_parentesco1" id="grau_parentesco1" class='ml-5 w-32 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                         <option value="0">Grau...</option>
                                         <option value="1" @if($pessoafisica->parentesco1->fk_id_tipo_parentesco == '1') { selected @endif }>Mãe</option>
@@ -159,10 +159,10 @@
                                 </div>
 
                                 <div class='w-full flex md:w-1/2 px-3 mb-6 md:mb-0'>
-                                    <input {{$editar}} x-model="frmData.parentesco2.nome" id='nome_parentesco2' name='nome_parentesco2' type='text' placeholder='Insira o nome'
+                                    <input {{$editar ?? null}} x-model="frmData.parentesco2.nome" id='nome_parentesco2' name='nome_parentesco2' type='text' placeholder='Insira o nome'
                                         class='appearance-none block w-80 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
-                                    <select {{$editar}} x-model="frmData.parentesco2.fk_id_tipo_parentesco" name="grau_parentesco2" id="grau_parentesco2" class='ml-5 w-32 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                    <select {{$editar ?? null}} x-model="frmData.parentesco2.fk_id_tipo_parentesco" name="grau_parentesco2" id="grau_parentesco2" class='ml-5 w-32 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                         <option value="0">Grau...</option>
                                         <option value="1" @if($pessoafisica->parentesco2->fk_id_tipo_parentesco == '1') { selected @endif }>Mãe</option>
@@ -176,7 +176,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='sexo'>
                                     Sexo
                                 </label>
-                                <select {{$editar}} x-model="frmData.sexo" name="sexo" id="sexo" class='w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
+                                <select {{$editar ?? null}} x-model="frmData.sexo" name="sexo" id="sexo" class='w-44 block bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                     <option value="0">Selecione</option>
                                     <option value="1" @if($pessoafisica->sexo == '1') selected @endif>Masculino</option>
@@ -188,7 +188,7 @@
                                 <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='tipo_sangue'>
                                     tipo sanguíneo
                                 </label>
-                                <input {{$editar}} x-model="frmData.tipo_sangue" id='tipo_sangue' name='tipo_sangue' type='text' placeholder='Insira o tipo sanguíneo' value="{{ $pessoafisica->tipo_sangue }}"
+                                <input {{$editar ?? null}} x-model="frmData.tipo_sangue" id='tipo_sangue' name='tipo_sangue' type='text' placeholder='Insira o tipo sanguíneo' value="{{ $pessoafisica->tipo_sangue }}"
                                     class='appearance-none block w-44 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                             </div>
@@ -198,7 +198,7 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='titulo_eleitor'>
                                         título eleitor
                                     </label>
-                                    <input {{$editar}} x-model="frmData.titulo_eleitor" id='titulo_eleitor' name='titulo_eleitor' type='text' placeholder='Insira o titulo_eleitor'
+                                    <input {{$editar ?? null}} x-model="frmData.titulo_eleitor" id='titulo_eleitor' name='titulo_eleitor' type='text' placeholder='Insira o titulo_eleitor'
                                         class='appearance-none block w-44 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -207,7 +207,7 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='zona_titulo_eleitor'>
                                         zona título eleitor
                                     </label>
-                                    <input {{$editar}} x-model="frmData.zona_titulo_eleitor" id='zona_titulo_eleitor' name='zona_titulo_eleitor' type='text' placeholder='Insira o zona_titulo_eleitor'
+                                    <input {{$editar ?? null}} x-model="frmData.zona_titulo_eleitor" id='zona_titulo_eleitor' name='zona_titulo_eleitor' type='text' placeholder='Insira o zona_titulo_eleitor'
                                         class='appearance-none block w-28 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -216,7 +216,7 @@
                                     <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='secao_titulo_eleitor'>
                                         Seção título eleitor
                                     </label>
-                                    <input {{$editar}} x-model="frmData.secao_titulo_eleitor" id='secao_titulo_eleitor' name='secao_titulo_eleitor' type='text' placeholder='Insira o secao_titulo_eleitor'
+                                    <input {{$editar ?? null}} x-model="frmData.secao_titulo_eleitor" id='secao_titulo_eleitor' name='secao_titulo_eleitor' type='text' placeholder='Insira o secao_titulo_eleitor'
                                         class='appearance-none block w-28 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -226,7 +226,7 @@
                                     Observação
                                 </label>
 
-                                <textarea {{$editar}} x-model="frmData.observacao" id='observacao' name='observacao'  placeholder='Insira as observações' value="{{ $pessoafisica->observacao }}" class='appearance-none block w-full h-32 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white resize border rounded focus:outline-none focus:shadow-outline'></textarea>
+                                <textarea {{$editar ?? null}} x-model="frmData.observacao" id='observacao' name='observacao'  placeholder='Insira as observações' value="{{ $pessoafisica->observacao }}" class='appearance-none block w-full h-32 bg-gray-50 text-gray-700 border border-blue-50 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white resize border rounded focus:outline-none focus:shadow-outline'></textarea>
                             </div>
 
                             <input id='field' name='field' type='hidden' />
@@ -234,7 +234,7 @@
 
                             <div class='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                             @if($admin)
-                                <button type='button' {{$editar}} x-on:click.prevent="salvarProfissional()" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8 center'>
+                                <button type='button' {{$editar ?? null}} x-on:click.prevent="salvarProfissional()" class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8 center'>
                                     Salvar
                                 </button>
                             @endif
@@ -470,7 +470,7 @@
                                         <div class="font-bold text-xl mb-2"> Quadro Técnico&nbsp;</div>
                                 </div>
 
-                                @if( !is_array($pessoafisica->quadros) )
+                                @if( is_array($pessoafisica->quadros) && count($pessoafisica->quadros) > 0)
 
                                 <div class="flex mb-2">
                                     <div class="w-1/4 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Empresa</span></div>
@@ -531,7 +531,7 @@
 
                                 </div>
 
-                                @if(count($pessoafisica->titulos) > 0)
+                                @if(is_array($pessoafisica->titulos) && count($pessoafisica->titulos) > 0)
 
                                 <div class="flex mb-1">
                                     <div class="w-1/4 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Título</span></div>
@@ -585,7 +585,7 @@
                                 </div>
                             </div>
 
-                            @if(count($pessoafisica->atribuicoes) > 0)
+                            @if(is_array($pessoafisica->atribuicoes) && count($pessoafisica->atribuicoes) > 0)
 
                                 <div class="flex mb-1 ml-8 mr-8">
                                     <div class="w-24 bg-gray-200 h-12 text-center py-2"><span class="font-bold"></span></div>
@@ -685,11 +685,25 @@
                     })
                     .then(
                         (response) => {
-                            $('#msgInfo').text(response.data.msg);
+                            if(response.data.status == 'success'){
+                                $('#msgInfo').text(response.data.msg);
+                                $('#dvInfo').show();
+                                $('#cpf').focus();
+                            }else{
+                                $('#msgInfo').text(response.data.msg);
+                                $('#dvInfo').show();
+                                $('#cpf').focus();
+                                $("#dvInfo").removeClass();
+                                $("#dvInfo").addClass("text-white px-6 py-4 border-0 rounded relative mb-4 bg-orange-200");
+                            }
+
+                        }, (error) => {
+                            console.log(error);
+                            $('#msgInfo').text("O sistema retorbou um erro interno. Contate a ATI.");
                             $('#dvInfo').show();
                             $('#cpf').focus();
-                        }, (error) => {
-                        console.log(error);
+                            $("#dvInfo").removeClass();
+                            $("#dvInfo").addClass("text-white px-6 py-4 border-0 rounded relative mb-4 bg-red-200");
                         }
                     );
                     this.frmData.cidades = pessoa.data;
