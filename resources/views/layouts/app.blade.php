@@ -11,7 +11,6 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
          <!-- Scripts -->
-         <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
          <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-masker/1.2.0/vanilla-masker.min.js" integrity="sha512-RbMQw6xKGymv6bRMO4z5OxHBzzem7BPEQX7nTJC9G08A70gXdUka76Rvgey83MsSXrIEJddog0vxUKN6iTce2Q==" crossorigin="anonymous"></script>
          <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.js" defer></script>
          <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -27,8 +26,6 @@
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
         @livewireStyles
-
-
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -43,8 +40,10 @@
 
             <!-- Page Content -->
             <main>
+                @include('layouts.flash')
                 {{ $slot }}
             </main>
+
         </div>
 
         @stack('modals')

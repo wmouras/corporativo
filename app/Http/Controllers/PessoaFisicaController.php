@@ -11,6 +11,7 @@ use App\Models\Pessoa;
 use App\Models\QuadroTecnico;
 use App\Models\Titulo;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Routing\Controller;
@@ -97,14 +98,22 @@ class PessoaFisicaController extends Controller
             $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
         }
 
-        $request->merge(['fk_id_pessoa' => $idPessoa]);
-        $result = PessoaFisica::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());
+        try{
 
-        $parentesco = array( $request->parentesco1, $request->parentesco2);
-        $modelParentesco = new Parentesco();
-        $modelParentesco->salvarParentesco($parentesco, $idPessoa);
+            $request->merge(['fk_id_pessoa' => $idPessoa]);
+            $result = PessoaFisica::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());
 
-        dd($result);
+            $parentesco = array( $request->parentesco1, $request->parentesco2);
+            $modelParentesco = new Parentesco();
+            $modelParentesco->salvarParentesco($parentesco, $idPessoa);
+
+            return response()->json(array('status'=>'success', 'msg'=>'Profissional cadastrado com sucesso.' ));
+
+            // return redirect()->route('pessoafisica.edit', ['id'=>$request->session()->get('id_pessoa')])->with('suscesso', 'You have no permission for this page!');
+
+        }catch(QueryException $e){
+
+        }
 
     }
 
@@ -240,8 +249,7 @@ class PessoaFisicaController extends Controller
 
         $pf->listaUf = json_decode(Http::get('http://ws.creadf.org.br/api/endereco/uf'));
         $pf->listaNacionalidade = $nacionalidade->listaNacionalidade();
-
-        return view('pf/pessoafisica', ['pessoafisica' => $pf]);
+        return view('pf/pessoafisica', ['pessoafisica' => $pf, 'admin' => true, 'editar' => '']);
 
     }
 
