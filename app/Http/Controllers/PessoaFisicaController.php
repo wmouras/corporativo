@@ -242,7 +242,7 @@ class PessoaFisicaController extends Controller
         // $pf->titulos = new Titulo();
         $pf->quadros = array();
         $pf->titulos = array();
-        $pf->atribuicoes = new Atribuicao();
+        $pf->atribuicoes = array();
 
         $cidade = array();
         $pf['cidades'] = '[]';
