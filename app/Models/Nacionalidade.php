@@ -21,7 +21,7 @@ class Nacionalidade extends Model
     }
 
     public function getNacionalidade($cdNacionalidade){
-        return model::select('nacionalidade', 'cd_nacionalidade')->where('cd_nacionalidade', $cdNacionalidade)->get();
+        return model::select('nacionalidade', 'cd_nacionalidade')->where('cd_nacionalidade', $cdNacionalidade)->first();
     }
 
 }

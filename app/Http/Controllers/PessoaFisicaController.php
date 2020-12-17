@@ -9,6 +9,7 @@ use App\Models\Nacionalidade;
 use App\Models\Parentesco;
 use App\Models\Pessoa;
 use App\Models\QuadroTecnico;
+use App\Models\RegistroProfissional;
 use App\Models\Titulo;
 use App\Models\User;
 use Illuminate\Database\QueryException;
@@ -221,8 +222,6 @@ class PessoaFisicaController extends Controller
             return view('pf/pessoafisica', ['pessoafisica' => $pf, 'admin' => false, 'editar' => 'disabled']);
         }
 
-        // ['pessoa' => $pessoa, ]
-
         session(['id_pessoa' => $id]);
         return view('pf/pessoafisica', ['pessoafisica' => $pf]);
 
@@ -231,15 +230,12 @@ class PessoaFisicaController extends Controller
     public function novo(Request $rquest){
 
         session(['id_pessoa' => null]);
-        // dd(session('id_pessoa'));
         $pf = new PessoaFisica();
         $nacionalidade = new Nacionalidade();
         $pf->endereco = new Endereco();
         $pf->correspondencia = new Endereco();
         $pf->parentesco1 = new Parentesco();
         $pf->parentesco2 = new Parentesco();
-        // $pf->quadros = new QuadroTecnico();
-        // $pf->titulos = new Titulo();
         $pf->quadros = array();
         $pf->titulos = array();
         $pf->atribuicoes = array();
@@ -255,65 +251,125 @@ class PessoaFisicaController extends Controller
 
     }
 
-    public function enviaRegistroConfea(Request $request)
+    public function enviarRegistroProfissional(Request $request)
     {
 
-        $idPessoa = $request->session()->get('id_pessoa');
-
+        $idPessoa = Crypt::decrypt($request->session()->get('id_pessoa'));
+        $endereco = new Endereco();
         $pessoafisica = new PessoaFisica();
-        $profissional = $pessoafisica->getPessoaFisica($idPessoa);
+        $registro = new RegistroProfissional();
+        $parentesco = new Parentesco();
+        $nacionalidade = new Nacionalidade();
 
-        dd($profissional);
+        $profissional = $pessoafisica->getPessoaFisica($idPessoa);
+        $contato = $endereco->getEnderecoPessoa($idPessoa);
+        $parente = $parentesco->getParentescoPessoa($idPessoa);
+        $idRegistro = RegistroProfissional::where()->max('id_registro_profissional');
+        $carteira = ($idRegistro+1).'/D-DF';
+        $registro->setRegistroProfissional($idPessoa, $carteira);
+        $nac = $nacionalidade->getNacionalidade($profissional->fk_cd_nacionalidade);
+        $municipio = Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_naturalidade)->json();
+
+        dd($parente);
 
         $dadoProfissional = array(
             'SISUSU_LGN' => '',
-            'DTAALT' => '',
+            'DTAALT' => date('Y-m-d'),
             'DTAVALPROV' => '',
-            'dtaativa' => '',
+            'dtaativa' => date('Y-m-d'),
             'DTARECAD' => '',
             'DTAFAL' => '',
             'TPORNP' => '',
-            'CRECAD_COD' => '',
-            'CRECAD_CODREG' => '',
-            'NROPROT' => '',
+            'CRECAD_COD' => '07',
+            'CRECAD_CODREG' => '07',
+            'NROPROT' => ($idRegistro+1),
             'TPOPRF' => '',
-            'SISIDTPRF_NROCPF' => '',
-            'NME' => '',
-            'TPOSEX' => '',
+            'SISIDTPRF_NROCPF' => $profissional->cpf,
+            'NME' => $profissional->nome,
+            'TPOSEX' => $profissional->sexo,
             'ESTCIV' => '',
-            'NMEMAE' => '',
-            'NMEPAI' => '',
-            'DSCNAC' => '',
-            'DSCNAT' => '',
-            'UFNAT' => '',
-            'PISNAC' => '',
-            'DTANSC' => '',
+            'NMEMAE' => $parente[0]->nome,
+            'NMEPAI' => $parente[1]->nome,
+            'DSCNAC' => $nac['nacionalidade'],
+            'DSCNAT' => $municipio['nome_cidade'],
+            'UFNAT' => $municipio['fk_uf'],
+            'PISNAC' => $nac['nacionalidade'],
+            'DTANSC' => $profissional->data_nascimento,
             'TPONECESP' => '',
-            'NROIDT' => '',
-            'DTAEXPIDT' => '',
+            'NROIDT' => $profissional->identidade,
+            'DTAEXPIDT' => $profissional->data_emissao_identidade,
             'ORGEXPIDT' => '',
-            'TPOSNG' => '',
-            'TPOFRH' => '',
-            'NROTITELE' => '',
-            'ZONTITELE' => '',
-            'SECTITELE' => '',
+            'TPOSNG' => $profissional->tipo_sangue,
+            'TPOFRH' => $profissional->tipo_sangue,
+            'NROTITELE' => $profissional->titulo_eleitor,
+            'ZONTITELE' => $profissional->zona_titulo_eleitor,
+            'SECTITELE' => $profissional->secao_titulo_eleitor,
             'DSCMUNTITELE' => '',
             'UFTITELE' => '',
             'TPOREG' => '',
-            'EML' => '',
+            'EML' => $profissional->email,
             'HPG' => '',
-            'TPOENDCOR' => '',
-            'DTAREGCRE' => '',
-            'NROREGCRE' => '',
-            'NROCRTCRE' => '',
+            'TPOENDCOR' => 1,
+            'DTAREGCRE' => date('Y-m-d'),
+            'NROREGCRE' => ($idRegistro+1),
+            'NROCRTCRE' => $carteira,
             'TPONROIMPCRT' => '',
-            'DTAINIREG' => '',
-            'DTAFIMREG' => '',
+            'DTAINIREG' => $profissional->data_registro_origem,
+            'DTAFIMREG' => $profissional->data_cancelamento,
             'PRFCAD_CODRNPAST' => '',
             'CPFAST' => '',
             'NMEAST' => '',
             'DTAINIVCLAST' => '',
             'DTAFIMVCLAST' => '');
+
+        foreach($contato as $contat){
+            $enderecoProfissional['Endereco'] = array(
+                'VdeEnd' => $contat;
+                'TPOEND' => $contat;
+                'TPOLOG' => $contat;
+                'DSCLOG' => $contat;
+                'COMLOG' => $contat;
+                'BAILOG' => $contat;
+                'LOCLOG' => $contat;
+                'UFLOG' => $contat;
+                'CEPLOG' => $contat->cep;
+                'DDD' => $contat;
+                'TEL' => $contat;
+                'DDD2' => $contat;
+                'TEL2' => $contat;
+            );
+            $end['Enderecos'][] = $enderecoProfissional;
+        }
+
+        foreach($titulos as $titulo){
+            $tituloProfissional['Titulo'] = array(
+                'VdeEnd' => $titulo;
+                'DSCLOG' => $titulo;
+                'COMLOG' => $titulo;
+                'TPOEND' => $titulo;
+                'TPOLOG' => $titulo;
+                'BAILOG' => $titulo;
+                'LOCLOG' => $titulo;
+                'UFLOG' => $titulo;
+                'CEPLOG' => $titulo->cep;
+                'DDD' => $titulo;
+                'TEL' => $titulo;
+                'DDD2' => $titulo;
+                'TEL2' => $titulo;
+            );
+            $tit['Titulos'][] = $tituloProfissional;
+        }
+
+        foreach($titulos as $titulo){
+            $anuidadeProfissional['Anuidade'] = array(
+                'DTAALT' => $titulo;
+                'ANOPAG' => $titulo;
+                'TPOSIT' => $titulo;
+            );
+            $anu['Anuidades'][] = $anuidadeProfissional;
+        }
+
+        $envio['CadastrarProfissional xmlns="http://wcf.confea.org.br/WsCreaCadastroProfissional"']['_FichaCadastro'] = array($dadoProfissional, $end, $tit, $anu, '_senha' => $senha, '_crea' => $crea);
 
     }
 

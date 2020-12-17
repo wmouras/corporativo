@@ -29,7 +29,6 @@ class Parentesco extends Model
             $parente['fk_id_pessoa'] = $idPessoa;
             $result = model::updateOrCreate(['id_parentesco' => $parente['id_parentesco']], $parente);
         }
-
         return $result;
 
     }

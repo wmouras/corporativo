@@ -21,9 +21,16 @@ class Endereco extends Model
 
     protected $fillable = ['id_endereco','fk_id_pessoa', 'fk_id_tipo_endereco', 'logradouro', 'complemento', 'numero', 'bairro', 'fk_id_cidade', 'cep', 'endereco_valido', 'envia_correspondencia', 'endereco_recital', 'data_atualizacao', 'usuario_atualizacao', 'situacao_envio_confea'];
 
-    public function getEnderecoPessoa($idPessoa, $idTipoEndereco){
-        return model::select()
-            ->where('fk_id_pessoa', $idPessoa)->where('fk_id_tipo_endereco', $idTipoEndereco)->first();
+    public function getEnderecoPessoa($idPessoa, $idTipoEndereco = false){
+        if($idTipoEndereco)
+        {
+            return model::select()
+                ->where('fk_id_pessoa', $idPessoa)->where('fk_id_tipo_endereco', $idTipoEndereco)->first();
+        }
+        else
+        {
+            return model::select()->where('fk_id_pessoa', $idPessoa)->get();
+        }
     }
 
     public function getEnderecoCep( $cep ){
