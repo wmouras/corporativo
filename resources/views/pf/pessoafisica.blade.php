@@ -520,7 +520,7 @@
                                 <div class="px-10 py-4">
                                     <div class="mb-2 text-xl font-bold"  x-data="registro()">Títulos&nbsp;
                                         @if($admin)
-                                            <button id="get-endereco" x-on:click.prevent="showModal = true" title="Adicionar ao quadro técnico" class="px-1 py-1 font-bold text-white bg-blue-400 rounded-full hover:bg-blue-700 h-9 w-9">
+                                            <button id="get-endereco" x-on:click.prevent="showModalTitulo = true" title="Adicionar ao quadro técnico" class="px-1 py-1 font-bold text-white bg-blue-400 rounded-full hover:bg-blue-700 h-9 w-9">
                                                     <i class="fa fa-plus"></i>
 
                                             </button>
@@ -575,7 +575,7 @@
                         <div class="max-w-full mt-5 overflow-hidden rounded shadow-lg">
 
                             <div class="px-10 py-4">
-                                <div class="mb-2 text-xl font-bold"> Atribuições&nbsp;
+                                <div class="mb-2 text-xl font-bold"  x-data="atribuicao()"> Atribuições&nbsp;
 
                                  @if($admin)
                                     <button id="get-atribuicao" x-on:click.prevent="showModalAtribuicao = true" title="Adicionar atribuição do profissional" class="px-1 py-1 font-bold text-white bg-blue-400 rounded-full hover:bg-blue-700 h-9 w-9">
@@ -588,7 +588,7 @@
 
                             @if(count($pessoafisica->atribuicoes) > 0)
 
-                                <div class="flex mb-1 ml-8 mr-8">
+                                <div class="flex mb-1">
                                     <div class="w-24 h-12 py-2 text-center bg-gray-200"><span class="font-bold"></span></div>
                                     <div class="w-full h-12 text-center bg-gray-200"><span class="font-bold">Descrição</span></div>
                                     <div class="w-24 h-12 py-2 text-center bg-gray-200"><span class="font-bold"></span></div>
@@ -599,7 +599,7 @@
 
                                 @foreach($pessoafisica->atribuicoes as $atribuicao)
 
-                                    <div class="flex mb-1 ml-8 mr-8">
+                                    <div class="flex mb-1">
                                         <div class="w-24 h-12 py-2 text-center bg-gray-50"><span class="font-bold"></span></div>
                                         <div class="w-full h-12 py-2 text-center bg-gray-50">{{$atribuicao->descricao_atribuicao ??  ''}}</div>
                                         <div class="w-24 h-12 py-2 text-center bg-gray-50"><span class="font-bold"></span></div>
@@ -860,7 +860,7 @@
                         }
                     );
                 },
-                showModal: false,
+                showModalTitulo: false,
                 listaTitulo() {
                     console.log(uf);
                     this.titulo.titulos = fetch('/titulo/listatitulo').then(response => response.json()).then(data => this.titulo.titulos = data);
@@ -881,33 +881,49 @@
                     ).catch(err =>{
                         console.log(err);
                     });
-                },
+                }
+            }
+        }
+
+        function atribuicao()
+        {
+
+            return{
                 atribuicao: {
                     codigo_atribuicao: '',
+                    fk_codigo_atribuicao: '',
                     descricao_atribuicao: '',
                     atribuicoes: [],
                 },
-                showModalAtribuicao: false,
                 frmAtribuicaoProfissional: null,
                 frmAtribuicao: null,
                 salvarAtribuicaoProfissional(){
-                    this.titulo.codigo_atribuicao = $('#selectAtribuicao').select2('data')[0].id;
+                    this.atribuicao.fk_codigo_atribuicao = $('#selectAtribuicao').select2('data')[0].id;
                     axios({
                         method: 'post',
-                        url: '{{route('atribuicao.salvar')}}',
+                        url: '{{ route("atribuicao.salvar") }}',
                         data: this.atribuicao,
-                        });
+                        }).then(
+                            response =>{
+                                if(response.data.status == 'sucesso') {
+                                    window.location.reload();
+                                }
+                            }
+                        ).catch(err =>{
+                        console.log(err);
+                    });;
                 },
+                showModalAtribuicao: false,
                 listaAtribuicao(){
                     this.atribuicao.atribuicoes = fetch('/atribuicao/listaatribuicao').then(response => response.json()).then(data => this.atribuicao.atribuicoes = data);
                     console.log(this.atribuicao.atribuicoes);
                 },
-                deletarAtribuicao(idAtribuicao){
+                deletarAtribuicao(codigoAtribuicao){
 
                     axios({
                         method: 'post',
                         url: '{{route('atribuicao.delete')}}',
-                        data: {'idAtribuicao': idAtribuicao},
+                        data: {'fk_codigo_atribuicao': codigoAtribuicao},
                     }).then(
                         response =>{
                             if(response.data.status == 'sucesso'){

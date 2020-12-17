@@ -324,47 +324,47 @@ class PessoaFisicaController extends Controller
 
         foreach($contato as $contat){
             $enderecoProfissional['Endereco'] = array(
-                'VdeEnd' => $contat;
-                'TPOEND' => $contat;
-                'TPOLOG' => $contat;
-                'DSCLOG' => $contat;
-                'COMLOG' => $contat;
-                'BAILOG' => $contat;
-                'LOCLOG' => $contat;
-                'UFLOG' => $contat;
-                'CEPLOG' => $contat->cep;
-                'DDD' => $contat;
-                'TEL' => $contat;
-                'DDD2' => $contat;
-                'TEL2' => $contat;
+                'VdeEnd' => $contat,
+                'TPOEND' => $contat,
+                'TPOLOG' => $contat,
+                'DSCLOG' => $contat,
+                'COMLOG' => $contat,
+                'BAILOG' => $contat,
+                'LOCLOG' => $contat,
+                'UFLOG' => $contat,
+                'CEPLOG' => $contat->cep,
+                'DDD' => $contat,
+                'TEL' => $contat,
+                'DDD2' => $contat,
+                'TEL2' => $contat
             );
             $end['Enderecos'][] = $enderecoProfissional;
         }
 
         foreach($titulos as $titulo){
             $tituloProfissional['Titulo'] = array(
-                'VdeEnd' => $titulo;
-                'DSCLOG' => $titulo;
-                'COMLOG' => $titulo;
-                'TPOEND' => $titulo;
-                'TPOLOG' => $titulo;
-                'BAILOG' => $titulo;
-                'LOCLOG' => $titulo;
-                'UFLOG' => $titulo;
-                'CEPLOG' => $titulo->cep;
-                'DDD' => $titulo;
-                'TEL' => $titulo;
-                'DDD2' => $titulo;
-                'TEL2' => $titulo;
+                'VdeEnd' => $titulo,
+                'DSCLOG' => $titulo,
+                'COMLOG' => $titulo,
+                'TPOEND' => $titulo,
+                'TPOLOG' => $titulo,
+                'BAILOG' => $titulo,
+                'LOCLOG' => $titulo,
+                'UFLOG' => $titulo,
+                'CEPLOG' => $titulo->cep,
+                'DDD' => $titulo,
+                'TEL' => $titulo,
+                'DDD2' => $titulo,
+                'TEL2' => $titulo,
             );
             $tit['Titulos'][] = $tituloProfissional;
         }
 
         foreach($titulos as $titulo){
             $anuidadeProfissional['Anuidade'] = array(
-                'DTAALT' => $titulo;
-                'ANOPAG' => $titulo;
-                'TPOSIT' => $titulo;
+                'DTAALT' => $titulo,
+                'ANOPAG' => $titulo,
+                'TPOSIT' => $titulo
             );
             $anu['Anuidades'][] = $anuidadeProfissional;
         }
