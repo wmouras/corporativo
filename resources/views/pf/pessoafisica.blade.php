@@ -470,7 +470,7 @@
                                         <div class="font-bold text-xl mb-2"> Quadro Técnico&nbsp;</div>
                                 </div>
 
-                                @if( is_array($pessoafisica->quadros) && count($pessoafisica->quadros) > 0)
+                                @if( count($pessoafisica->quadros) > 0)
 
                                 <div class="flex mb-2">
                                     <div class="w-1/4 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Empresa</span></div>
@@ -531,7 +531,7 @@
 
                                 </div>
 
-                                @if(is_array($pessoafisica->titulos) && count($pessoafisica->titulos) > 0)
+                                @if(count($pessoafisica->titulos) > 0)
 
                                 <div class="flex mb-1">
                                     <div class="w-1/4 bg-gray-200 h-12 text-center py-2"><span class="font-bold">Título</span></div>
@@ -585,7 +585,7 @@
                                 </div>
                             </div>
 
-                            @if(is_array($pessoafisica->atribuicoes) && count($pessoafisica->atribuicoes) > 0)
+                            @if(count($pessoafisica->atribuicoes) > 0)
 
                                 <div class="flex mb-1 ml-8 mr-8">
                                     <div class="w-24 bg-gray-200 h-12 text-center py-2"><span class="font-bold"></span></div>

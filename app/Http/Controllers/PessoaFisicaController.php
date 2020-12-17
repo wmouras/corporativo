@@ -117,10 +117,10 @@ class PessoaFisicaController extends Controller
 
     }
 
-    public function edicao($id = null, Request $request){
+    public function edicao(Request $request){
 
-        session(['id_pessoa' => $id]);
-        $idPessoa = Crypt::decryptString($id);
+        session(['id_pessoa' => $request->id]);
+        $idPessoa = Crypt::decryptString($request->id);
 
         $nacionalidade = new Nacionalidade();
         $endereco = new Endereco();
@@ -131,7 +131,7 @@ class PessoaFisicaController extends Controller
 
         $pf = $pessoa->getPessoaFisica($idPessoa);
 
-        $pf->id_pessoa = $id;
+        $pf->id_pessoa = $request->id;
         $pf->cpf = formatarCpf( $pf->cpf);
         $pf->data_nascimento = alterarDataMysqlBr( $pf->data_nascimento );
         $pf->data_emissao_identidade = alterarDataMysqlBr( $pf->data_emissao_identidade );
@@ -238,9 +238,11 @@ class PessoaFisicaController extends Controller
         $pf->correspondencia = new Endereco();
         $pf->parentesco1 = new Parentesco();
         $pf->parentesco2 = new Parentesco();
-        $pf->quadros = new QuadroTecnico();
-        $pf->titulos = new Titulo();
-        $pf->atribuicoes = new Atribuicao();
+        // $pf->quadros = new QuadroTecnico();
+        // $pf->titulos = new Titulo();
+        $pf->quadros = array();
+        $pf->titulos = array();
+        $pf->atribuicoes = array();
 
         $cidade = array();
         $pf['cidades'] = '[]';
