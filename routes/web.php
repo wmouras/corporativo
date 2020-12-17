@@ -50,7 +50,11 @@ use App\Http\Controllers\TituloController;
     Route::get('/endereco/cep/{id}', [EnderecoController::class, 'cep'])->name('endereco.get')->middleware(['auth:sanctum', 'verified']);
     Route::get('/endereco/cidade/uf/{id}', [EnderecoController::class, 'cidade'])->name('listacidade')->middleware(['auth:sanctum', 'verified']);
     Route::post('/endereco/salvar', [EnderecoController::class, 'SalvarEndereco'])->name('endereco.update')->middleware(['auth:sanctum', 'verified']);
+
     Route::get('/titulo/listatitulo', [TituloController::class, 'getListaTitulo'])->name('listatitulo')->middleware(['auth:sanctum', 'verified']);
     Route::post('/titulo/salvar', [TituloController::class, 'salvarTituloProfissional'])->name('titulo.salvar')->middleware(['auth:sanctum', 'verified']);
     Route::post('/titulo/delete', [TituloController::class, 'excluirTituloProfissional'])->name('titulo.delete')->middleware(['auth:sanctum', 'verified']);
 
+    Route::get('/atribuicao/listaatribuicao', [TituloController::class, 'getListaAtribuicao'])->name('listaatribuicao')->middleware(['auth:sanctum', 'verified']);
+    Route::post('/atribuicao/salvar', [TituloController::class, 'salvarAtribuicaoProfissional'])->name('atribuicao.salvar')->middleware(['auth:sanctum', 'verified']);
+    Route::post('/atribuicao/delete', [TituloController::class, 'excluirAtribuicaoProfissional'])->name('atribuicao.delete')->middleware(['auth:sanctum', 'verified']);
