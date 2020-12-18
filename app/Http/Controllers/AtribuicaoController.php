@@ -36,10 +36,21 @@ class AtribuicaoController extends Controller
         return response()->json(['status'=>'sucesso', 'msg'=>'Atribuição incluída com sucesso.']);
     }
 
-    public function excluirTituloProfissional(Request $request)
+    public function excluirAtribuicaoProfissional(Request $request)
     {
-        // dd($request->idTitulo);
-        $res = DB::table('tb_titulo_profissional')->where('id_titulo_profissional', '=', $request->idTitulo)->delete();
-        return response()->json(['status'=>'sucesso']);
+
+        $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
+        $registro = new RegistroProfissional();
+        $idRegistroProfissional = $registro->getRegistroProfissional($idPessoa)->id_registro_profissional;
+        try {
+            $res = DB::table('tb_atribuicao_profissional')
+            ->where('fk_codigo_atribuicao', '=', $request->fk_codigo_atribuicao)
+            ->where('fk_id_registro_profissional', '=', $idRegistroProfissional)
+            ->delete();
+            return response()->json(['status'=>'sucesso']);
+        } catch (\Throwable $th) {
+            return response()->json(['status'=>'erro']);
+        }
+
     }
 }
