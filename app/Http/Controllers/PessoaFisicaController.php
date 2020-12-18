@@ -193,6 +193,7 @@ class PessoaFisicaController extends Controller
 
         $pf->listaUf = json_decode(Http::get('http://ws.creadf.org.br/api/endereco/uf'));
         $pf->listaNacionalidade = $nacionalidade->listaNacionalidade();
+        $pf->estadocivil = '1';
 
         $quadro = new QuadroTecnico();
         $quadros = $quadro->getListaEmpresaQuadro($idPessoa);

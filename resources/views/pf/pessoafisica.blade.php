@@ -94,23 +94,36 @@
 
                                 </select>
                             </div>
+                            <div class="flex w-full px-3">
+                                <div class='w-1/4 px-3 text-left'>
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='fk_cd_nacionalidade'>
+                                        Nacionalidade
+                                    </label>
+                                    <select {{$editar ?? null}} x-model="frmData.fk_cd_nacionalidade" name="fk_cd_nacionalidade" id="fk_cd_nacionalidade" placeholder='Insira sua nacionalidade'
+                                        class='block w-48 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
 
-                            <div class='w-full px-3 mb-6 md:w-1/2 md:mb-0'>
-                                <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='fk_cd_nacionalidade'>
-                                    Nacionalidade
-                                </label>
-                                <select {{$editar ?? null}} x-model="frmData.fk_cd_nacionalidade" name="fk_cd_nacionalidade" id="fk_cd_nacionalidade" placeholder='Insira sua nacionalidade'
-                                    class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                        @foreach ($pessoafisica->listaNacionalidade as $nacionalidade)
+                                            <option value='{{ $nacionalidade["cd_nacionalidade"] }}'
+                                                @if( $nacionalidade["cd_nacionalidade"] == $pessoafisica["fk_cd_nacionalidade"] )
+                                                    selected
+                                                @endif
+                                            >{{ $nacionalidade['nacionalidade'] }}</option>
+                                        @endforeach
+                                    </select>
 
-                                    @foreach ($pessoafisica->listaNacionalidade as $nacionalidade)
-                                        <option value='{{ $nacionalidade["cd_nacionalidade"] }}'
-                                            @if( $nacionalidade["cd_nacionalidade"] == $pessoafisica["fk_cd_nacionalidade"] )
-                                                selected
-                                            @endif
-                                        >{{ $nacionalidade['nacionalidade'] }}</option>
-                                    @endforeach
-                                </select>
+                                </div>
+                                <div class="w-1/4 px-3 text-left md:w-1/2 md:mb-0">
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='estadocivil'>
+                                        Estado Civil
+                                    </label>
+                                        <select {{$editar ?? null}} x-model="frmData.estadocivil" name="estadocivil" id="estadocivil"
+                                        class='flex-auto block px-3 py-3 leading-tight text-gray-700 border rounded w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
 
+                                            <option value="0">Escolha...</option>
+                                            <option value="1" @if($pessoafisica->estadocivil == '1') { selected @endif }>Casado</option>
+                                            <option value="2" @if($pessoafisica->estadocivil == '2') { selected @endif }>Solteiro</option>
+                                        </select>
+                                </div>
                             </div>
 
                             <div class='w-full px-3 mb-6 md:w-1/2 md:mb-0'>
@@ -154,8 +167,6 @@
                                         <option value="1" @if($pessoafisica->parentesco1->fk_id_tipo_parentesco == '1') { selected @endif }>Mãe</option>
                                         <option value="2" @if($pessoafisica->parentesco1->fk_id_tipo_parentesco == '2') { selected @endif }>Pai</option>
                                     </select>
-
-
                                 </div>
 
                                 <div class='flex w-full px-3 mb-6 md:w-1/2 md:mb-0'>
@@ -607,11 +618,11 @@
                                         @if($admin)
 
                                             <div class="w-16 h-12 py-2 bg-gray-50 center">
-                                            <button x-data="registro()" x-on:click.prevent="deletarAtribuicao({{$titulo->id_atribuicao}})" class="font-bold text-red-700 bg-transparent border border-red-500 rounded hover:bg-blue-500 hover:text-white hover:border-transparent">
+                                            <button x-data="atribuicao()" x-on:click.prevent="deletarAtribuicao({{$atribuicao->codigo_atribuicao}})" class="font-bold text-red-700 bg-transparent border border-red-500 rounded hover:bg-blue-500 hover:text-white hover:border-transparent">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                             </div>
-                                            <input type='hidden' x-data="registro()"  x-model="titulo.id_atribuicao" id="id_atribuicao" name="id_atribuicao" value="{{$atribuicao->id_atribuicao}}" />
+                                            <input type='hidden' x-data="atribuicao()"  x-model="atribuicao.codigo_atribuicao" id="codigo_atribuicao" name="codigo_atribuicao" value="{{$atribuicao->codigo_atribuicao}}" />
 
                                         @endif
                                             </div>
@@ -645,6 +656,7 @@
                 frmData: {
                     fk_id_pessoa: '{{ $pessoafisica->id }}',
                     nome: '{{ $pessoafisica->nome }}',
+                    estadocivil: '{{ $pessoafisica->estadocivil }}',
                     cpf: "{{ $pessoafisica->cpf }}",
                     identidade: '{{ $pessoafisica->identidade }}',
                     data_emissao_identidade: '{{ $pessoafisica->data_emissao_identidade }}',
