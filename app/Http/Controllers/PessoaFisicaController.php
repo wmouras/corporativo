@@ -128,10 +128,9 @@ class PessoaFisicaController extends Controller
         $parentesco = new Parentesco();
         $quadro = new QuadroTecnico();
         $titulo = new Titulo();
-        $pessoa = new PessoaFisica();
+        $pessoafisica = new PessoaFisica();
 
-        $pf = $pessoa->getPessoaFisica($idPessoa);
-
+        $pf = $pessoafisica->getPessoaFisica($idPessoa);
         $pf->id_pessoa = $request->id;
         $pf->cpf = formatarCpf( $pf->cpf);
         $pf->data_nascimento = alterarDataMysqlBr( $pf->data_nascimento );
