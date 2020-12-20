@@ -1,6 +1,6 @@
       <!-- Button (blue), duh! -->
       <!-- Dialog (full screen) -->
-      <div class="absolute top-0 left-0 flex items-center content-center justify-center w-full h-full" style="background-color: rgba(0,0,0,.5);" x-show="showModalAtribuicao"  >
+      <div class="absolute top-0 left-0 flex items-center content-center justify-center w-full h-full" style="background-color: rgba(0,0,0,.5); display:none;" x-show="showModalAtribuicao"  >
 
         <!-- A basic modal dialog with title, body and one button to close -->
         <div class="h-auto w-auto text-center bg-white rounded shadow-xl" @click.away="showModalAtribuicao = false">
