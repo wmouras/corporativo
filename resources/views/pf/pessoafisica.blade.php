@@ -7,18 +7,23 @@
 
     <div class='py-1'>
 
-        <div x-data="{ tab: 'divRegistro' }" >
+        <div x-data="{ tab: 'divConclusao' }" >
 
-                <div class='mx-auto max-w-7xl sm:px-6 lg:px-8'>
-                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divDescricao' }" class="inline py-3 mb-1 leading-tight border rounded w-65 border-grey-100 px-36" @click="tab = 'divDescricao'">
+                <div class='mx-auto max-w-7xl sm:px-6 lg:px-8 text-center'>
+                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divDescricao' }" class="inline py-3 mb-1 leading-tight border rounded w-64 border-grey-100 px-12" @click="tab = 'divDescricao'">
                         <b>Descrição</b>
                     </button>
-                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divContato' }" class="inline py-3 mb-1 leading-tight border rounded w-65 border-grey-100 px-36" @click="tab = 'divContato'">
+                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divContato' }" class="inline py-3 mb-1 leading-tight border rounded w-64 border-grey-100 px-12" @click="tab = 'divContato'">
                         <b>Contato</b>
                     </button>
-                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divRegistro' }" class="inline py-3 mb-1 leading-tight border rounded w-65 border-grey-100 px-36" @click="tab = 'divRegistro'">
+                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divRegistro' }" class="inline py-3 mb-1 leading-tight border rounded w-64 border-grey-100 px-12" @click="tab = 'divRegistro'">
                         <b>Registro</b>
                     </button>
+                     @if($admin)
+                        <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divConclusao' }" class="inline py-3 mb-1 leading-tight border rounded w-64 border-grey-100 px-12" @click="tab = 'divConclusao'">
+                            <b>Conclusão</b>
+                        </button>
+                    @endif
                 </div>
 
             <div class='mx-auto max-w-7xl sm:px-6 lg:px-8' id="divDescricao" ref="divDescricao" x-show="tab === 'divDescricao'">
@@ -645,6 +650,18 @@
 
             </div>
 
+            <div class='mx-auto max-w-7xl sm:px-6 lg:px-8' id="divConclusao" ref="divConclusao" x-show="tab === 'divConclusao'">
+
+                <div class='py-3 overflow-hidden bg-white shadow-xl sm:rounded-lg'>
+                    <form x-model='frmConcluso' id='frmConclusao' name='frmConclusao' method='POST' x-on:click.prevent="" x-data="conclusao()">
+                         @csrf
+                        <div class='py-3 row col-md-6'>ddfasdfasdfasdfadfasdfasd</div>
+                    </form>
+                </div>
+
+            </div>
+
+
         </div>
     </div>
 
@@ -946,6 +963,36 @@
                         console.log(err);
                     });
                 }
+
+            }
+
+        }
+
+        function conclusao()
+        {
+
+            return{
+                conclusao: {
+
+                },
+                frmConclusao: null,
+                frmConcluso: null,
+                enviarRegistroProfissional(){
+
+                    axios({
+                        method: 'post',
+                        url: '{{ route("atribuicao.salvar") }}',
+                        data: this.atribuicao,
+                        }).then(response =>{
+                            if(response.data.status == 'sucesso') {
+                                window.location.reload();
+                            }
+                        }
+                    ).catch(err =>{
+                        console.log(err);
+                    });
+
+                },
 
             }
 

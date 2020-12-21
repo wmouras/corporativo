@@ -15,12 +15,16 @@ class AtribuicaoController extends Controller
     public function getListaAtribuicao(Request $request)
     {
 
-        $listaAtribuicao = Atribuicao::select()->where('descricao_atribuicao', 'like', '%'.$request['term'].'%')->orderBy('descricao_atribuicao')->get();
+        $listaAtribuicao = Atribuicao::select()
+                            ->where('descricao_atribuicao', 'like', '%'.$request['term'].'%')
+                            ->where('descricao_atribuicao', 'not like', '%5524/68%')
+                            ->orWhere('codigo_atribuicao', $request['term'])
+                            ->orderBy('descricao_atribuicao')->get();
         $lista = array();
 
         foreach ($listaAtribuicao as $atribuicao) {
             $t['id'] = $atribuicao['codigo_atribuicao'];
-            $t['text'] = $atribuicao['descricao_atribuicao'];
+            $t['text'] = $atribuicao['codigo_atribuicao'] . ' - ' . $atribuicao['descricao_atribuicao'];
             $lista[] = $t;
         }
         return response()->json($lista);

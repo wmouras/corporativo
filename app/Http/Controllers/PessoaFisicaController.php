@@ -271,7 +271,7 @@ class PessoaFisicaController extends Controller
         $nac = $nacionalidade->getNacionalidade($profissional->fk_cd_nacionalidade);
         $municipio = Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_naturalidade)->json();
 
-        dd($parente);
+        dd($contato);
 
         $dadoProfissional = array(
             'SISUSU_LGN' => '',
