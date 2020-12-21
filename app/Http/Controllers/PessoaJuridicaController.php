@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Endereco;
+use App\Models\Parentesco;
 use Illuminate\Http\Request;
 use App\Models\TipoEmpresa;
 use App\Models\PessoaJuridica;
+use App\Models\QuadroTecnico;
 use App\Models\TipoEstabelecimento;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Http;
 use Laravel\Jetstream\InertiaManager;
 
 /**
@@ -100,24 +105,153 @@ class PessoaJuridicaController extends Controller
         dd($result);
     }
 
-    /**
-     * Função que retorna um empresa para edição
-     *
-     * @param  Integer $id id da empresa
-     * @return array
-     */
+    public function salvarPessoaJuridica( Request $request )
+    {
+
+        $data_emissao_identidade = alterarDataBrMysql($request->data_emissao_identidade);
+        $data_nascimento = alterarDataBrMysql($request->data_nascimento);
+        $request['titulo_eleitor'] = validarTituloEleitor($request->titulo_eleitor);
+        $request['cpj'] = preg_replace("/[^0-9]/", "", $request->cpj);
+        $request->merge(['usuario' => Auth::id()]);
+        $request->merge(['data_emissao_identidade' => $data_emissao_identidade]);
+        $request->merge(['data_nascimento' => $data_nascimento]);
+
+        if(!$request->session()->get('id_pessoa')) {
+            $user = new User();
+            $pessoa = new Pessoa();
+            $idPessoa = null;
+            $cpj = $request['cpj'];
+            $usuario['name'] = $request['nome'];
+            $usuario['email'] = $request['email'];
+            $usuario['password'] = Hash::make($user->gerarSenhaAleatoria($cpj));
+            $idUsuario = $user->salvarUsuario($usuario);
+
+            $pj['fk_id_user'] = $idUsuario;
+            $pj['id_pessoa'] = null;
+            $pj['tipo_pessoa'] = 1;
+            $idPessoa = $pessoa->salvarPessoa($pj);
+            $request->merge(['fk_id_pessoa' => $idPessoa]);
+            session(['id_pessoa' => Crypt::encryptString($idPessoa)]);
+
+        } else {
+            $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
+        }
+
+        try{
+
+            $request->merge(['fk_id_pessoa' => $idPessoa]);
+            $result = PessoaJuridica::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());
+
+            $parentesco = array( $request->parentesco1, $request->parentesco2);
+            $modelParentesco = new Parentesco();
+            $modelParentesco->salvarParentesco($parentesco, $idPessoa);
+
+            return response()->json(array('status'=>'success', 'msg'=>'Profissional cadastrado com sucesso.' ));
+
+            // return redirect()->route('pessoajuridica.edit', ['id'=>$request->session()->get('id_pessoa')])->with('suscesso', 'You have no permission for this page!');
+
+        }catch(QueryException $e){
+
+        }
+
+    }
+
     public function edicao(Request $request)
     {
+
+        session(['id_pessoa' => $request->id]);
+        $idPessoa = Crypt::decryptString($request->id);
+
         $tpEst = new TipoEstabelecimento();
         $tpEmp = new TipoEmpresa();
-        $id = Crypt::decryptString($request->id);
+        $endereco = new Endereco();
+        $quadro = new QuadroTecnico();
+        $pessoajuridica = new PessoaJuridica();
 
-        $pj = PessoaJuridica::where('fk_id_pessoa', $id)->first();
-        $pj['empresa'] = $tpEmp->getTipoEmpresa( $pj['fk_id_tipo_empresa'] );
-        $pj['estabelecimento'] = $tpEst->getTipoEstabelecimento( $pj['fk_id_tipo_estabelecimento'] );
-        session(['id_pessoa' => Crypt::encryptString($id)]);
+        $pj = $pessoajuridica->getPessoaJuridica($idPessoa);
+        $pj->empresa = $tpEmp->getTipoEmpresa($pj['fk_id_tipo_empresa']);
+        $pj->estabelecimento = $tpEst->getTipoEstabelecimento($pj['fk_id_tipo_estabelecimento']);
+        $pj->id_pessoa = $request->id;
+        $pj->cpj = formatarCnpj($pj->cnpj);
+        $municipio = Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pj->fk_id_naturalidade)->json();
+        $pj->observacao = addslashes($pj->observacao);
+
+        if($municipio ) {
+            $cidade = (object) $municipio;
+            $pj->fk_id_uf = $cidade->fk_uf;
+            $pj['cidades'] = json_encode(Http::get('http://ws.creadf.org.br/api/endereco/cidade/uf/'.$cidade->fk_uf)->json());
+            $pj->nome_cidade = $cidade->nome_cidade;
+            $pj->fk_id_naturalidade = $cidade->pk_cidade;
+        } else {
+            $cidade = array();
+            $pj['cidades'] = '[]';
+            $pj->nome_cidade = '';
+            $pj->fk_id_uf = '';
+        }
+
+        $pj->endereco = $endereco->getEnderecoPessoa($idPessoa, 1);
+
+        if(!$pj->endereco) {
+            $pj->endereco = new Endereco();
+        }else{
+            $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pj->endereco->fk_id_cidade)->json();
+
+            $pj->endereco->cidade = $cidade->nome_cidade;
+            $pj->endereco->estado = $cidade->descricao_uf;
+            $pj->endereco->cep = formatarCep($pj->endereco->cep);
+        }
+
+        $pj->correspondencia = $endereco->getEnderecoPessoa($idPessoa, 2);
+        if(!$pj->correspondencia) {
+            $pj->correspondencia = new Endereco();
+        }
+        else
+        {
+            $cidade = (object) Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pj->correspondencia->fk_id_cidade)->json();
+            $pj->correspondencia->cidade = $cidade->nome_cidade;
+            $pj->correspondencia->estado = $cidade->descricao_uf;
+            $pj->correspondencia->cep = formatarCep($pj->correspondencia->cep);
+        }
+
+        $quadro = new QuadroTecnico();
+        $quadros = $quadro->getListaEmpresaQuadro($idPessoa);
+        $qts = [];
+
+        $qts = [];
+        foreach ($quadros as $qt) {
+            $quadro = $qt;
+            $quadro['data_baixa'] = alterarDataMysqlBr($qt['data_baixa']);
+            $quadro['data_inicio'] = alterarDataMysqlBr($qt['data_inicio']);
+            $quadro['data_validade'] = alterarDataMysqlBr($qt['data_validade']);
+
+            $qts[] = $quadro;
+        }
+        $pj->quadros = $qts;
+
+        if($request->session()->get('admin', 0) ) {
+            return view('pj/pessoajuridica', ['pessoajuridica' => $pj, 'admin' => true, 'editar' => '']);
+        }else
+        {
+            return view('pj/pessoajuridica', ['pessoajuridica' => $pj, 'admin' => false, 'editar' => 'disabled']);
+        }
+
+        session(['id_pessoa' => $idPessoa]);
         return view('pj/pessoajuridica', ['pessoajuridica' => $pj]);
 
     }
+
+    public function novo(Request $rquest)
+    {
+
+        session(['id_pessoa' => null]);
+        $pj = new PessoaJuridica();
+        $pj->endereco = new Endereco();
+        $pj->correspondencia = new Endereco();
+        $pj->quadros = array();
+        return view('pj/pessoajuridica', ['pessoajuridica' => $pj, 'admin' => true, 'editar' => '']);
+
+    }
+
+    public function enviarRegistroProfissional(Request $request){}
 
 }

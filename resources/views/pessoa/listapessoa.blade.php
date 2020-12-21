@@ -69,20 +69,20 @@
                     <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
 
                     <td class="border-t">
-                        <span class="flex items-center px-6 py-4 focus:text-indigo-500">
+                        <span class="flex items-center px-6 py-4 focus:text-indigo-500 md:text-xs">
                         {{$pessoa->registro ?? ''}}
                         </span>
                     </td>
                     <td class="border-t">
-                        <span class="flex items-center px-6 py-4" tabindex="-1">
-                        {{ $pessoa->nome ?? '' }}
+                        <span class="block items-center px-3 py-4 md:text-xs" tabindex="-1">
+                        {{ substr($pessoa->nome, 0, 75) ?? '' }}
                         </span>
                     </td>
                     <td class="border-t">
-                        <input disabled type="text" class="flex items-center px-6 py-4" tabindex="-2" value="{{ $pessoa->idReceita }}"/>
+                        <input disabled type="text" class="flex items-center px-6 py-4 md:text-xs" tabindex="-2" value="{{ $pessoa->idReceita }}"/>
                     </td>
                     <td class="border-t">
-                        <span class="flex items-center px-6 py-4" tabindex="-3">
+                        <span class="flex items-center px-6 py-4 md:text-xs" tabindex="-3">
                         {{$pessoa->email ?? '' }}
                         </span>
                     </td>

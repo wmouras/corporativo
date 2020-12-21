@@ -26,4 +26,5 @@ class QuadroTecnico extends Model
             // ->where('fk_id_tipo_endereco', $idTipoEndereco)->first();
 
     }
+
 }

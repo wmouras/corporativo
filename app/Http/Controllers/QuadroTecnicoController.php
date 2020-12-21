@@ -15,4 +15,8 @@ class QuadroTecnicoController extends Controller
 
         return QuadroTecnico::getListaEmpresaQuadro($idPessoa);
     }
+
+    public function salvarQuadroTecnico(){}
+
+    public function ExcluirQuadroTecnico(){}
 }
