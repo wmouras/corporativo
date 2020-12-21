@@ -3,6 +3,7 @@
 use App\Http\Controllers\AtribuicaoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EnderecoController;
+use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\PessoaFisicaController;
 use App\Http\Controllers\PessoaJuridicaController;
 use App\Http\Controllers\TituloController;
@@ -23,15 +24,16 @@ use App\Http\Controllers\TituloController;
     //     dd($request);
     // });
 
-    Route::redirect("/", "/pf/pessoafisica", 301)->name("home")->middleware(['auth:sanctum', 'verified']);
-    Route::get("/", [PessoaFisicaController::class, 'index'])->name("pf")->middleware(['auth:sanctum', 'verified']);
+    Route::redirect("/", "/pessoa", 301)->name("home")->middleware(['auth:sanctum', 'verified']);
+    Route::get("/pessoa", [PessoaController::class, 'index'])->name("pessoa")->middleware(['auth:sanctum', 'verified']);
+    Route::get('/pessoa/lista', [PessoaController::class, 'lista'])->middleware(['auth:sanctum', 'verified']);
+    Route::post('/pessoa/lista', [PessoaController::class, 'lista'])->name('pessoa.filtro')->middleware(['auth:sanctum', 'verified']);
 
     Route::get('/pessoajuridica/listatipo', [PessoaJuridicaController::class, 'listaTipoEmpresa']);
     Route::get('/pessoajuridica/listatpestabelecimento', [PessoaJuridicaController::class, 'listaTipoEstabelecimento']);
     Route::get('/pessoajuridica/salvar', [PessoaJuridicaController::class, 'salvarPessoaJuridica'])->middleware(['auth:sanctum', 'verified']);
     Route::get('/pj/pessoajuridica/lista', [PessoaJuridicaController::class, 'lista'])->middleware(['auth:sanctum', 'verified']);
-    Route::get('/pf/pessoafisica/lista', [PessoaJuridicaController::class, 'lista'])->middleware(['auth:sanctum', 'verified']);
-    Route::get('/pf/pessoafisica', [PessoaFisicaController::class, 'index'])->middleware(['auth:sanctum', 'verified'])->name('pessoafisica');
+    Route::get('/pj/pessoafisica', [PessoaFisicaController::class, 'index'])->middleware(['auth:sanctum', 'verified'])->name('pessoafisica');
 
     Route::get('/pessoafisica/nacionalidade', [PessoaFisicaController::class, 'listaNacionalidade'])->middleware(['auth:sanctum', 'verified']);
     Route::get('/pessoafisica/envioregistro', [PessoaFisicaController::class, 'enviarRegistroProfissional'])->middleware(['auth:sanctum', 'verified']);
@@ -45,7 +47,7 @@ use App\Http\Controllers\TituloController;
         return view('pj/listapessoajuridica');
     })->middleware(['verified']);
 
-    Route::get('/pj/pessoajuridica/dados/{id}', [PessoaJuridicaController::class, 'dados'])->name('pessoajuridica.edit')->middleware(['auth:sanctum', 'verified']);
+    Route::get('/pj/pessoajuridica/edicao/{id}', [PessoaJuridicaController::class, 'edicao'])->name('pessoajuridica.edit')->middleware(['auth:sanctum', 'verified']);
     Route::get('/pf/pessoafisica/edicao/{id}', [PessoaFisicaController::class, 'edicao'])->name('pessoafisica.edit')->middleware(['auth:sanctum', 'verified']);
     Route::get('/pf/pessoafisica/novo', [PessoaFisicaController::class, 'novo'])->name('pessoafisica.novo')->middleware(['auth:sanctum', 'verified']);
     Route::get('/endereco/cep/{id}', [EnderecoController::class, 'cep'])->name('endereco.get')->middleware(['auth:sanctum', 'verified']);

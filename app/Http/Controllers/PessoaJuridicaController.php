@@ -9,7 +9,7 @@ use App\Models\TipoEstabelecimento;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Crypt;
-
+use Laravel\Jetstream\InertiaManager;
 
 /**
  * Classe de tratamento de dados das empresas.
@@ -106,18 +106,17 @@ class PessoaJuridicaController extends Controller
      * @param  Integer $id id da empresa
      * @return array
      */
-    public function dados($id)
+    public function edicao(Request $request)
     {
         $tpEst = new TipoEstabelecimento();
         $tpEmp = new TipoEmpresa();
-        $id = Crypt::decryptString($id);
+        $id = Crypt::decryptString($request->id);
 
-        $pj = PessoaJuridica::where('fk_id_pessoa', $id)->get()[0];
+        $pj = PessoaJuridica::where('fk_id_pessoa', $id)->first();
         $pj['empresa'] = $tpEmp->getTipoEmpresa( $pj['fk_id_tipo_empresa'] );
         $pj['estabelecimento'] = $tpEst->getTipoEstabelecimento( $pj['fk_id_tipo_estabelecimento'] );
-        $aRetorno = array('pj' => $pj);
         session(['id_pessoa' => Crypt::encryptString($id)]);
-        return Inertia::render('pj/PessoaJuridica', $aRetorno);
+        return view('pj/pessoajuridica', ['pessoajuridica' => $pj]);
 
     }
 
