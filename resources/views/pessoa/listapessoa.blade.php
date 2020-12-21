@@ -9,30 +9,30 @@
             <div class='mx-auto max-w-7xl sm:px-6 lg:px-8' id="div_1" ref="divDescricao">
                 <div class='overflow-hidden bg-white shadow-xl sm:rounded-lg'>
 
-                    <form id="frmPesquisaPessoa" name="frmPesquisaPessoa" action="" x-on:click.prevent="" method="POST">
-
+                    <form x-data="pesquisa()" id="frmPesquisaPessoa" name="frmPesquisaPessoa" action="{{ route('pessoa.filtro') }}" x-on:click.prevent="" method="POST">
+                        @csrf
                         <div class='flex inline px-3 row col-md-6'>
 
                             <div class="h-12 py-3 text-left w-1/8">
-                                <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='codigo_registro'>
+                                <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='registro'>
                                     Registro:
                                 </label>
 
-                                <input id='codigo_registro' name='codigo_registro' type='text' placeholder='Insira o registro' @keyup.enter="$event.target.nextElementSibling.focus()"
+                                <input x-model="filtro.registro" id='registro' name='registro' type='text' value="{{ $filtro->registro ?? '' }}" placeholder='Insira o registro' @keyup.enter="$event.target.nextElementSibling.focus()"
                                     class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-28 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                             </div>
                             <div class="w-1/4 h-12 py-3 pl-5 text-left">
                                 <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='nome'>
                                     Nome:
                                 </label>
-                                <input id='nome' name='nome' type='text' placeholder='Insira o nome'
+                                <input x-model="filtro.nome" id='nome' name='nome' type='text' placeholder='Insira o nome' value="{{ $filtro->nome ?? '' }}"
                                     class='block w-full px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                             </div>
                             <div class="w-1/6 h-12 py-3 pl-5 text-left">
-                                <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='cpf'>
+                                <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='idReceita'>
                                     CPF:
                                 </label>
-                                <input name='cpf' id='cpf' type='text' placeholder='Apenas números' v-mask="'##.###.###/####-##'"
+                                <input x-model="filtro.idReceita" name='idReceita' id='idReceita' type='text' placeholder='Apenas números' value="{{ $filtro->idReceita ?? '' }}"
                                 class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-65 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                             </div>
 
@@ -61,7 +61,7 @@
                     <th class="px-6 pt-6 pb-4">Nome</th>
                     <th class="px-6 pt-6 pb-4">CPF/CNPJ</th>
                     <th class="px-6 pt-6 pb-4">E-mail</th>
-                    <th class="px-6 pt-6 pb-4" colspan="2">Ação</th>
+                    <th class="px-6 pt-6 pb-4">Ação</th>
                     </tr>
 
                     @foreach ($pessoas as $pessoa)

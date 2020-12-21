@@ -864,13 +864,11 @@
                 frmTitulo: null,
                 salvarTituloProfissional(){
                     this.titulo.fk_codigo_titulo_confea = $('#selectTitulo').select2('data')[0].id;
-                    axios(
-                        {
+                    axios({
                         method: 'post',
                         url: '{{route('titulo.salvar')}}',
                         data: this.titulo,
-                        }
-                    );
+                        });
                 },
                 showModalTitulo: false,
                 listaTitulo() {
