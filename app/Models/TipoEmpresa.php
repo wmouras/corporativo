@@ -16,7 +16,7 @@ class TipoEmpresa extends Model
      */
     protected $table = 'tb_tipo_empresa';
 
-    public function listaTipoEmpresa(){
+    public function getListaTipoEmpresa(){
         return model::select('id_tipo_empresa', 'tipo_empresa')->orderBy('tipo_empresa')->get();
     }
 

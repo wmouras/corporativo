@@ -40,7 +40,7 @@ class PessoaController extends Controller
 
     public function lista(Request $request){
 
-        $lista = Pessoa::select('tb_pessoa.id_pessoa', 'tb_pessoa.tipo_pessoa', 'tb_pessoa_fisica.nome', 'tb_pessoa_fisica.cpf', 'users.email as email',
+        $lista = Pessoa::select('tb_pessoa.id_pessoa', 'tb_pessoa.tipo_pessoa', 'tb_pessoa_fisica.nome', 'tb_pessoa_fisica.cpf', 'users.email',
                                 'tb_pessoa_juridica.razao_social', 'tb_pessoa_juridica.fk_id_pessoa', 'tb_pessoa_juridica.cnpj', 'tb_email.email as email_pessoa',
                                 'tb_registro_empresa.codigo_registro', 'tb_registro_profissional.numero_carteira')
             ->leftjoin('tb_pessoa_fisica', 'tb_pessoa.id_pessoa', '=', 'tb_pessoa_fisica.fk_id_pessoa')
