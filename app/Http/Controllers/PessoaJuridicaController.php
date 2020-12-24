@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
-use Laravel\Jetstream\InertiaManager;
+use App\Models\Email;
 
 /**
  * Classe de tratamento de dados das empresas.
@@ -167,12 +167,17 @@ class PessoaJuridicaController extends Controller
         $endereco = new Endereco();
         $quadro = new QuadroTecnico();
         $pessoajuridica = new PessoaJuridica();
+        $email = new Email();
+        $emailPessoa = $email->getEmail($idPessoa);
 
         $pj = $pessoajuridica->getPessoaJuridica($idPessoa);
-        $pj->empresa = $tpEmp->getTipoEmpresa($pj['fk_id_tipo_empresa']);
-        $pj->estabelecimento = $tpEst->getTipoEstabelecimento($pj['fk_id_tipo_estabelecimento']);
+        $pj->tipoEmpresa = $tpEmp->getListaTipoEmpresa();
+        $pj->tipoEstabelecimento = $tpEst->getListaTipoEstabelecimento();
         $pj->id_pessoa = $request->id;
-        $pj->cpj = formatarCnpj($pj->cnpj);
+        $pj->email_empresa = $emailPessoa->email;
+        $pj->cnpj = formatarCnpj($pj->cnpj);
+        $pj->dt_ultima_alt_capital = alterarDataMysqlBr($pj->dt_ultima_alt_capital);
+        $pj->dt_ultima_alt_contratual = alterarDataMysqlBr($pj->dt_ultima_alt_contratual);
         $municipio = Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pj->fk_id_naturalidade)->json();
         $pj->observacao = addslashes($pj->observacao);
 
@@ -234,9 +239,6 @@ class PessoaJuridicaController extends Controller
         {
             return view('pj/pessoajuridica', ['pessoajuridica' => $pj, 'admin' => false, 'editar' => 'disabled']);
         }
-
-        session(['id_pessoa' => $idPessoa]);
-        return view('pj/pessoajuridica', ['pessoajuridica' => $pj]);
 
     }
 

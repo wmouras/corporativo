@@ -7,7 +7,7 @@
 
     <div class='py-1'>
 
-        <div x-data="{ tab: 'divConclusao' }" >
+        <div x-data="{ tab: 'divDescricao' }" >
 
                 <div class='mx-auto max-w-7xl sm:px-6 lg:px-8 text-center'>
                     <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divDescricao' }" class="inline py-3 mb-1 leading-tight border rounded w-64 border-grey-100 px-12" @click="tab = 'divDescricao'">
@@ -31,20 +31,20 @@
                 <div class='overflow-hidden bg-white shadow-xl sm:rounded-lg'>
 
                     <div class='row col-md-6'>
-                        <form x-model='frmPessoa' id='frmPF' name='frmPF' method='POST' x-on:click.prevent=""
-                            x-data="empresa({data: {{$pessoajuridica->cidades}} })">
+                        <form x-model='frmEmpresa' id='frmPF' name='frmPF' method='POST' x-on:click.prevent=""
+                            x-data="empresa()">
                             @csrf
 
                             <div class="flex w-full px-3">
-                                <div class="w-1/6 py-3 text-left">
+                                <div class="w-54 px-3 py-3 text-left">
                                     <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='cnpj'>
                                         CNPJ
                                     </label>
                                     <input {{$editar ?? null}} x-model="empresa.cnpj" id='cnpj' name='cnpj' type='text' placeholder='Insira o cnpj' value=""
-                                    class='block w-48 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                    class='block w- py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                                 </div>
-                                <div class="w-1/4 py-3 ml-3 text-left">
-                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='cpj'>
+                                <div class="w-54 px-3 py-3 ml-3 text-left">
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='email'>
                                         E-mail
                                     </label>
                                     <input {{$editar ?? null}} x-model="empresa.email" id='email' name='email' type='email' placeholder='Insira o e-mail' value=""
@@ -56,113 +56,136 @@
 
                             </div>
 
-                             <div class="flex w-full px-3">
-                                <div class="w-1/6 py-3 text-left">
+                            <div class="w-full px-3">
+                                 <div class="w-full py-3 ml-3 text-left">
                                     <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='razao_social'>
                                         Razão Social
                                     </label>
                                 <input {{$editar ?? null}} x-model="empresa.razao_social" id='razao_social' name='razao_social' type='text' placeholder='Insira a razão social' value=""
-                                    class='block w-1/2 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                    class='block w-1/2 px-3 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
 
                                 </div>
-                                <div class="w-1/4 py-3 ml-3 text-left">
+                            </div>
+
+                            <div class="w-full px-3">
+                                <div class="w-full py-3 ml-3 text-left">
                                     <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='nome_fantasia'>
                                         Nome Fantasia
                                     </label>
                                     <input {{$editar ?? null}} x-model="empresa.nome_fantasia" id='nome_fantasia' name='nome_fantasia' type='text' placeholder='Insira o nome fantasia' value=""
-                                    class='block py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-80 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                    class='block w-1/2 py-3 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                                 </div>
                             </div>
 
-                            <div class='w-full px-3 mb-6 md:w-1/2 md:mb-0'>
-                                <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='fk_id_tipo_empresa'>
-                                    Tipo Empresa
-                                </label>
-                                <input {{$editar ?? null}} x-model="empresa.fk_id_tipo_empresa" id='fk_id_tipo_empresa' name='fk_id_tipo_empresa' type='text' placeholder='Tipo de Empresa'
-                                    class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-65 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
-
-                            </div>
-
-                            <div class='px-3 mb-6 w-44 md:w-1/2 md:mb-0'>
-                                <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='fk_id_tipo_estabelecimento'>
-                                    Tipo Estabelecimento
-                                </label>
-                                <select {{$editar ?? null}} class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'
-                                    name="fk_id_tipo_estabelecimento" id="fk_id_tipo_estabelecimento" >
-                                        <option value="99'">Selecione...</option>
-                                        <option value="1'">SIM</option>
-                                        <option value="0">NÃO</option>
-
-                                </select>
+                            <div class="flex w-full px-3">
+                                <div class="w-64 px-3 py-3 text-left">
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='fk_id_tipo_empresa'>
+                                        Tipo Empresa
+                                    </label>
+                                    <select {{$editar ?? null}}  x-model="empresa.fk_id_tipo_empresa"
+                                    class='block px-3 py-3 mb-3 leading-tight text-gray-700 border rounded w-64 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'
+                                        name="fk_id_tipo_empresa" id="fk_id_tipo_empresa" >
+                                            <option value="99">Selecione...</option>
+                                            @foreach ($pessoajuridica->tipoEmpresa as $empresa)
+                                                <option value="{{$empresa->id_tipo_empresa}}"
+                                                    @if ($pessoajuridica->fk_id_tipo_empresa == $empresa->id_tipo_empresa)
+                                                        selected
+                                                    @endif >
+                                                {{ $empresa->tipo_empresa }}
+                                            </option>
+                                            @endforeach
+                                    </select>
+                                </div>
+                                <div class="w-64 px-3 py-3 ml-6 text-left">
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='fk_id_tipo_estabelecimento'>
+                                        Tipo Estabelecimento
+                                    </label>
+                                    <select {{$editar ?? null}} class='block px-3 py-3 mb-3 leading-tight text-gray-700 border rounded w-64 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'
+                                        name="fk_id_tipo_estabelecimento" id="fk_id_tipo_estabelecimento" >
+                                            <option value="99">Selecione...</option>
+                                            @foreach ($pessoajuridica->tipoEstabelecimento as $estabelecimento)
+                                                <option value="{{$estabelecimento->id_tipo_estabelecimento}}"
+                                                    @if ($pessoajuridica->fk_id_tipo_estabelecimento == $estabelecimento->id_tipo_estabelecimento)
+                                                        selected
+                                                    @endif >
+                                                {{ trim($estabelecimento->tipo_estabelecimento) }}
+                                                </option>
+                                            @endforeach
+                                    </select>
+                                </div>
                             </div>
                             <div class="flex w-full px-3">
-                                <div class='w-1/4 px-3 text-left'>
+                                <div class='w-64 px-3 text-left'>
                                     <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='capital_social'>
                                         Capital Social
                                     </label>
                                     <input {{$editar ?? null}} x-model="empresa.capital_social" id='capital_social' name='capital_social' type='text' placeholder='Capital Social'
-                                    class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-65 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                    class='vl-capital-social block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                                 </div>
                                 <div class="w-1/4 px-3 text-left md:w-1/2 md:mb-0">
-                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='capital_filial'>
+                                    <label class='block mb-2 ml-6 text-xs font-bold tracking-wide text-gray-700 uppercase' for='capital_filial'>
                                         Capital Filial
                                     </label>
                                     <input {{$editar ?? null}} x-model="empresa.capital_filial" id='capital_filial' name='capital_filial' type='text' placeholder='Capital Filial'
-                                    class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-65 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                    class='vl-capital-filial block px-4 py-3 mb-3 ml-6 leading-tight text-gray-700 border rounded appearance-none w-65 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                                 </div>
                             </div>
 
-                            <div class='w-full px-3 mb-6 md:w-1/2 md:mb-0'>
-                                <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='dt_ultima_alt_capital'>
-                                    Data Última Alteração de capital
-                                </label>
-                                <div class="flex">
+                            <div class="w-full px-3">
+                                <div class='w-64 px-3 text-left'>
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='dt_ultima_alt_capital'>
+                                        Dt Últ Alteração do capital
+                                    </label>
                                     <input {{$editar ?? null}} x-model="empresa.dt_ultima_alt_capital" id='dt_ultima_alt_capital' name='dt_ultima_alt_capital' type='text' placeholder='Data Última Alteração de capital'
-                                    class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-65 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                        class='block px-3 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-54 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                                 </div>
                             </div>
-                            <fieldset class="" value="Parentesco">
-                                <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='nr_ultima_alt_contratual'>
-                                    N° da Última Alteração Contratual
-                                </label>
-                                <div class='flex'>
-                                    <input {{$editar ?? null}} x-model="empresa.nr_ultima_alt_contratual" id='nr_ultima_alt_contratual' name='nr_ultima_alt_contratual' type='text' placeholder='Número da Última Alteração de Contratual'
-                                    class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-65 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+
+                            <div class="flex w-full px-3">
+                                <div class="w-64 px-3 py-3 text-left">
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='nr_ultima_alt_contratual'>
+                                        N° Últ Alteração Contratual
+                                    </label>
+                                        <input {{$editar ?? null}} x-model="empresa.nr_ultima_alt_contratual" id='nr_ultima_alt_contratual' name='nr_ultima_alt_contratual' type='text' placeholder='Número da Última Alteração de Contratual'
+                                            class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-65 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                </div>
+                                <div class="w-64 px-3 py-3 text-left">
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='nr_ultima_alt_contratual'>
+                                        Dt Últ Alteração Contratual
+                                    </label>
+                                        <input {{$editar ?? null}} x-model="empresa.dt_ultima_alt_contratual" id='dt_ultima_alt_contratual' name='dt_ultima_alt_contratual' type='text' placeholder='Data da Última Alteração de Contratual'
+                                            class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-65 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                                 </div>
 
-                                <div class='flex w-full px-3 mb-6 md:w-1/2 md:mb-0'>
-                                    <input {{$editar ?? null}} x-model="empresa.dt_ultima_alt_contratual" id='dt_ultima_alt_contratual' name='dt_ultima_alt_contratual' type='text' placeholder='Insira o nome'
-                                        class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-80 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                            </div>
 
-                                   <div class='flex'>
-                                    <input {{$editar ?? null}} x-model="empresa.dt_ultima_alt_contratual" id='dt_ultima_alt_contratual' name='dt_ultima_alt_contratual' type='text' placeholder='Data da Última Alteração de Contratual'
-                                    class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-65 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
-                                </div>
-
-                                </div>
                             </fieldset>
 
                             <div class='w-full px-3 mb-6 md:w-1/2 md:mb-0'>
-                                <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='objetivo_social'>
-                                    Objetivo Social
-                                </label>
-                                <textarea {{$editar ?? null}} x-model="empresa.objetivo_social" id='objetivo_social' name='objetivo_social'  placeholder='Insira o Objetivo Social' class='block w-full h-32 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none resize bg-gray-50 border-blue-50 focus:outline-none focus:bg-white focus:shadow-outline'></textarea>
+                                <div class="px-3 py-3 text-left">
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='objetivo_social'>
+                                        Objetivo Social
+                                    </label>
+                                    <textarea {{$editar ?? null}} x-model="empresa.objetivo_social" id='objetivo_social' name='objetivo_social'  placeholder='Insira o Objetivo Social' class='block w-full h-32 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none resize bg-gray-50 border-blue-50 focus:outline-none focus:bg-white focus:shadow-outline'></textarea>
+                                </div>
                             </div>
 
                             <div class='w-full px-3 mb-6 md:w-1/2 md:mb-0'>
-                                <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='socios'>
-                                    Sócios
-                                </label>
-
-                                <textarea {{$editar ?? null}} x-model="empresa.socios" id='socios' name='socios'  placeholder='Insira os sócios' class='block w-full h-32 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none resize bg-gray-50 border-blue-50 focus:outline-none focus:bg-white focus:shadow-outline'></textarea>
+                                <div class="px-3 py-3 text-left">
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='socios'>
+                                        Sócios
+                                    </label>
+                                    <textarea {{$editar ?? null}} x-model="empresa.socios" id='socios' name='socios'  placeholder='Insira os sócios' class='block w-full h-32 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none resize bg-gray-50 border-blue-50 focus:outline-none focus:bg-white focus:shadow-outline'></textarea>
                                 </div>
+                            </div>
 
                             <div class='w-full px-3 mb-6 md:w-1/2 md:mb-0'>
-                                <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='observacoes'>
-                                    Observação
-                                </label>
-
-                                <textarea {{$editar ?? null}} x-model="empresa.observacoes" id='observacoes' name='observacoes'  placeholder='Insira as observações' class='block w-full h-32 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none resize bg-gray-50 border-blue-50 focus:outline-none focus:bg-white focus:shadow-outline'></textarea>
+                                <div class="px-3 py-3 text-left">
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='observacoes'>
+                                        Observação
+                                    </label>
+                                    <textarea {{$editar ?? null}} x-model="empresa.observacoes" id='observacoes' name='observacoes'  placeholder='Insira as observações' class='block w-full h-32 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none resize bg-gray-50 border-blue-50 focus:outline-none focus:bg-white focus:shadow-outline'></textarea>
+                                </div>
                             </div>
 
                             <input id='field' name='field' type='hidden' />
@@ -464,31 +487,32 @@
 
     <script type="text/javascript">
 
-        function empresa(pessoa){
+        function empresa(){
 
             return {
                 empresa: {
-                    fk_id_pessoa: '',
-                    razao_social: '',
-                    nome_fantasia: '',
-                    cnpj: '',
-                    fk_id_tipo_empresa: '',
-                    fk_id_tipo_estabelecimento: '',
-                    capital_social: '',
-                    capital_filial: '',
-                    dt_ultima_alt_capital: '',
-                    nr_ultima_alt_contratual: '',
-                    dt_ultima_alt_contratual: '',
-                    objetivo_social: '',
-                    observacoes: '',
-                    socios: '',
-                    usuario: '',
-                    data_cadastro: '',
-                    data_alteracao: '',
+                    fk_id_pessoa: '{{$pessoajuridica->id_pessoa}}',
+                    razao_social: '{{$pessoajuridica->razao_social}}',
+                    nome_fantasia: '{{$pessoajuridica->nome_fantasia}}',
+                    cnpj: '{{$pessoajuridica->cnpj}}',
+                    email: '{{$pessoajuridica->email_empresa}}',
+                    fk_id_tipo_empresa: '{{$pessoajuridica->fk_id_tipo_empresa}}',
+                    fk_id_tipo_estabelecimento: '{{$pessoajuridica->fk_id_tipo_estabelecimento}}',
+                    capital_social: 'R$ {{ number_format($pessoajuridica->capital_social, 2, ",", ".")}}',
+                    capital_filial: 'R$ {{ number_format($pessoajuridica->capital_filial, 2, ",", ".")}}',
+                    dt_ultima_alt_capital: '{{$pessoajuridica->dt_ultima_alt_capital}}',
+                    nr_ultima_alt_contratual: '{{$pessoajuridica->nr_ultima_alt_contratual}}',
+                    dt_ultima_alt_contratual: '{{$pessoajuridica->dt_ultima_alt_contratual}}',
+                    objetivo_social: `{{$pessoajuridica->objetivo_social}}`,
+                    observacoes: `{{$pessoajuridica->observacoes}}`,
+                    socios: `{{$pessoajuridica->socios}}`,
+                    usuario: '{{$pessoajuridica->usuario}}',
+                    data_cadastro: '{{$pessoajuridica->data_cadastro}}',
+                    data_alteracao: '{{$pessoajuridica->data_alteracao}}',
                     infoMessage: false,
                 },
-                frmPessoa: null,
-                salvarProfissional(){
+                frmEmpresa: null,
+                salvarEmpresa(){
                     axios({
                         method: 'post',
                         url: '{{route('pessoajuridica.salvar')}}',
@@ -717,6 +741,10 @@
         VMasker(document.getElementById("cnpj")).maskPattern('99.999.999/9999-99');
         VMasker(document.getElementById("cep")).maskPattern('99.999-999');
         VMasker(document.getElementById("cepCorrespondencia")).maskPattern('99.999-999');
+
+        VMasker(document.querySelector(".vl-capital-social")).maskMoney({precision: 2, unit: 'R$', separator: ',', delimiter: '.', zeroCents: false });
+        VMasker(document.querySelector(".vl-capital-filial")).maskMoney({precision: 2, unit: 'R$', separator: ',', delimiter: '.', zeroCents: false });
+
     </script>
 
 </x-app-layout>
