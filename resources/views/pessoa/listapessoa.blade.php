@@ -9,7 +9,7 @@
             <div class='mx-auto max-w-7xl sm:px-6 lg:px-8' id="div_1" ref="divDescricao">
                 <div class='overflow-hidden bg-white shadow-xl sm:rounded-lg'>
 
-                    <form x-data="pesquisa()" id="frmPesquisaPessoa" name="frmPesquisaPessoa" action="{{ route('pessoa.filtro') }}" x-on:click.prevent="" method="POST">
+                    <form id="frmPesquisaPessoa" name="frmPesquisaPessoa" action="{{ route('pessoa.filtro') }}" x-on:click.prevent="" method="POST">
                         @csrf
                         <div class='flex inline px-3 row col-md-6'>
 
@@ -74,7 +74,7 @@
                         </span>
                     </td>
                     <td class="border-t">
-                        <span class="block items-center px-3 py-4 md:text-xs" tabindex="-1">
+                        <span class="items-center block px-3 py-4 md:text-xs" tabindex="-1">
                         {{ substr($pessoa->nome, 0, 75) ?? '' }}
                         </span>
                     </td>

@@ -32,7 +32,7 @@ use App\Models\QuadroTecnico;
 
     Route::get('/pessoajuridica/listatipo', [PessoaJuridicaController::class, 'listaTipoEmpresa']);
     Route::get('/pessoajuridica/listatpestabelecimento', [PessoaJuridicaController::class, 'listaTipoEstabelecimento']);
-    Route::get('/pessoajuridica/salvar', [PessoaJuridicaController::class, 'salvarPessoaJuridica'])->name('pessoajuridica.salvar')->middleware(['auth:sanctum', 'verified']);
+    Route::post('/pessoajuridica/salvar', [PessoaJuridicaController::class, 'salvarPessoaJuridica'])->name('pessoajuridica.salvar')->middleware(['auth:sanctum', 'verified']);
     Route::get('/pj/pessoajuridica/lista', [PessoaJuridicaController::class, 'lista'])->middleware(['auth:sanctum', 'verified']);
     Route::get('/pj/pessoajuridica/edicao/{id}', [PessoaJuridicaController::class, 'edicao'])->name('pessoajuridica.edit')->middleware(['auth:sanctum', 'verified']);
 

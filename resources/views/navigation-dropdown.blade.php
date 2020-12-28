@@ -5,9 +5,13 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="flex items-center flex-md-shrink-1">
-                    <a href="{{ route('pessoa') }}">
-                        <img src="http://creadf.org.br/images/logo.jpg" alt="Corporativo - CREA-DF" width="225px" />
-                    </a>
+
+                    <svg height="30" width="200" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <a href="{{ route('pessoa') }}">
+                            <text x="0" y="27" fill="green" font-size="20pt">CREA-DF</text>
+                        </a>
+                    </svg>
+
                 </div>
 
                 <!-- Navigation Links -->

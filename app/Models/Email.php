@@ -16,8 +16,7 @@ class Email extends Model
       */
     protected $table = 'tb_email';
     protected $fillable = ['fk_id_pessoa', 'fk_id_tipo_email', 'email', 'principal', 'usuario_alteracao', 'data_alteracao'];
-    const CREATED_AT = 'data_cadastro';
-    const UPDATED_AT = 'data_alteracao';
+    public $timestamps = false;
 
     public function getEmail($idPessoa)
     {

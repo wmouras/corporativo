@@ -37,6 +37,17 @@ function apenasNumero( $campo )
     return preg_replace('/[^0-9]/', '', $campo);
 }
 
+function valorMysqlBr( $valor )
+{
+    return str_replace('.', ',', $valor);
+}
+
+function valorBrMysql( $valor )
+{
+    $vl = preg_replace("/[^0-9,]/", "", $valor );
+    return str_replace(',', '.', $vl);
+}
+
 function formatarTituloEleitor( $campo )
 {
     return substr($campo, 0, 4).' '.substr($campo, 4, 4).' '.substr($campo, 8, 2).' '.substr($campo, 10, 2);

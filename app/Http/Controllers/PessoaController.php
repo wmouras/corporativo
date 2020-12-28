@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pessoa;
+use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -21,9 +23,12 @@ class PessoaController extends Controller
         }
         else
         {
-            // dd( Auth::user()->id );
-            $pessoa = Pessoa::where('fk_id_pessoa', Auth::user()->id)->get()[0];
-            $pessoa['idPessoa'] = Crypt::encryptString($pessoa->fk_id_pessoa);
+            try {
+                $pessoa = Pessoa::where('fk_id_pessoa', Auth::user()->id)->get()[0];
+                $pessoa['idPessoa'] = Crypt::encryptString($pessoa->fk_id_pessoa);
+            }catch(QueryException $e){
+                return view('nr/index', ['pessoa' => new User(), 'admin' => false, 'editar' => 'disabled']);
+            }
 
             // dd( $pessoa );
             // $pessoa->listaUf = $endereco->;

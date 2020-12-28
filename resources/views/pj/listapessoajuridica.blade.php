@@ -40,7 +40,7 @@
 
                         </div>
                         <div class='w-full px-3 mt-6 mb-6 md:w-1/2 md:mb-0'>
-                            <button type='button' class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-65 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                            <button type='submit' class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-65 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                                 <i class="fas fa-search"></i><span class="ml-3">Pesquisar</span>
                             </button>
 

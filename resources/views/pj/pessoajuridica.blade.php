@@ -9,18 +9,18 @@
 
         <div x-data="{ tab: 'divDescricao' }" >
 
-                <div class='mx-auto max-w-7xl sm:px-6 lg:px-8 text-center'>
-                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divDescricao' }" class="inline py-3 mb-1 leading-tight border rounded w-64 border-grey-100 px-12" @click="tab = 'divDescricao'">
+                <div class='mx-auto text-center max-w-7xl sm:px-6 lg:px-8'>
+                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divDescricao' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divDescricao'">
                         <b>Descrição</b>
                     </button>
-                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divContato' }" class="inline py-3 mb-1 leading-tight border rounded w-64 border-grey-100 px-12" @click="tab = 'divContato'">
+                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divContato' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divContato'">
                         <b>Contato</b>
                     </button>
-                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divRegistro' }" class="inline py-3 mb-1 leading-tight border rounded w-64 border-grey-100 px-12" @click="tab = 'divRegistro'">
+                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divRegistro' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divRegistro'">
                         <b>Registro</b>
                     </button>
                      @if($admin)
-                        <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divConclusao' }" class="inline py-3 mb-1 leading-tight border rounded w-64 border-grey-100 px-12" @click="tab = 'divConclusao'">
+                        <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divConclusao' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divConclusao'">
                             <b>Conclusão</b>
                         </button>
                     @endif
@@ -36,14 +36,14 @@
                             @csrf
 
                             <div class="flex w-full px-3">
-                                <div class="w-54 px-3 py-3 text-left">
+                                <div class="px-3 py-3 text-left w-54">
                                     <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='cnpj'>
                                         CNPJ
                                     </label>
                                     <input {{$editar ?? null}} x-model="empresa.cnpj" id='cnpj' name='cnpj' type='text' placeholder='Insira o cnpj' value=""
-                                    class='block w- py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                    class='block py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w- bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                                 </div>
-                                <div class="w-54 px-3 py-3 ml-3 text-left">
+                                <div class="px-3 py-3 ml-3 text-left w-54">
                                     <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='email'>
                                         E-mail
                                     </label>
@@ -73,7 +73,7 @@
                                         Nome Fantasia
                                     </label>
                                     <input {{$editar ?? null}} x-model="empresa.nome_fantasia" id='nome_fantasia' name='nome_fantasia' type='text' placeholder='Insira o nome fantasia' value=""
-                                    class='block w-1/2 py-3 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                    class='block w-1/2 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                                 </div>
                             </div>
 
@@ -83,7 +83,7 @@
                                         Tipo Empresa
                                     </label>
                                     <select {{$editar ?? null}}  x-model="empresa.fk_id_tipo_empresa"
-                                    class='block px-3 py-3 mb-3 leading-tight text-gray-700 border rounded w-64 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'
+                                    class='block w-64 px-3 py-3 mb-3 leading-tight text-gray-700 border rounded bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'
                                         name="fk_id_tipo_empresa" id="fk_id_tipo_empresa" >
                                             <option value="99">Selecione...</option>
                                             @foreach ($pessoajuridica->tipoEmpresa as $empresa)
@@ -100,7 +100,7 @@
                                     <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='fk_id_tipo_estabelecimento'>
                                         Tipo Estabelecimento
                                     </label>
-                                    <select {{$editar ?? null}} class='block px-3 py-3 mb-3 leading-tight text-gray-700 border rounded w-64 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'
+                                    <select {{$editar ?? null}} class='block w-64 px-3 py-3 mb-3 leading-tight text-gray-700 border rounded bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'
                                         name="fk_id_tipo_estabelecimento" id="fk_id_tipo_estabelecimento" >
                                             <option value="99">Selecione...</option>
                                             @foreach ($pessoajuridica->tipoEstabelecimento as $estabelecimento)
@@ -120,14 +120,14 @@
                                         Capital Social
                                     </label>
                                     <input {{$editar ?? null}} x-model="empresa.capital_social" id='capital_social' name='capital_social' type='text' placeholder='Capital Social'
-                                    class='vl-capital-social block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                    class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none vl-capital-social w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                                 </div>
                                 <div class="w-1/4 px-3 text-left md:w-1/2 md:mb-0">
                                     <label class='block mb-2 ml-6 text-xs font-bold tracking-wide text-gray-700 uppercase' for='capital_filial'>
                                         Capital Filial
                                     </label>
                                     <input {{$editar ?? null}} x-model="empresa.capital_filial" id='capital_filial' name='capital_filial' type='text' placeholder='Capital Filial'
-                                    class='vl-capital-filial block px-4 py-3 mb-3 ml-6 leading-tight text-gray-700 border rounded appearance-none w-65 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                    class='block px-4 py-3 mb-3 ml-6 leading-tight text-gray-700 border rounded appearance-none vl-capital-filial w-65 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                                 </div>
                             </div>
 
@@ -513,6 +513,7 @@
                 },
                 frmEmpresa: null,
                 salvarEmpresa(){
+                    alert( 'OK' );
                     axios({
                         method: 'post',
                         url: '{{route('pessoajuridica.salvar')}}',
@@ -687,7 +688,7 @@
                         });
                 },
                 showModalTitulo: false,
-                deletarQUadroTecnico(idTitulo){
+                deletarQuadroTecnico(idTitulo){
 
                     axios({
                         method: 'post',
