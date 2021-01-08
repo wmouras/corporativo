@@ -209,10 +209,9 @@ class PessoaJuridicaController extends Controller
         }
         $pj->quadros = $qts;
 
-        if($request->session()->get('admin', 0) ) {
+        if ($request->session()->get('admin', 0)) {
             return view('pj/pessoajuridica', ['pessoajuridica' => $pj, 'admin' => true, 'editar' => '']);
-        }else
-        {
+        } else {
             return view('pj/pessoajuridica', ['pessoajuridica' => $pj, 'admin' => false, 'editar' => 'disabled']);
         }
 
@@ -221,8 +220,14 @@ class PessoaJuridicaController extends Controller
     public function novo(Request $rquest)
     {
 
+        $tpEst = new TipoEstabelecimento();
+        $tpEmp = new TipoEmpresa();
+
         session(['id_pessoa' => null]);
         $pj = new PessoaJuridica();
+        $pj->tipoEmpresa = $tpEmp->getListaTipoEmpresa();
+        $pj->tipoEstabelecimento = $tpEst->getListaTipoEstabelecimento();
+        $pj->id_pessoa = null;
         $pj->endereco = new Endereco();
         $pj->correspondencia = new Endereco();
         $pj->quadros = array();

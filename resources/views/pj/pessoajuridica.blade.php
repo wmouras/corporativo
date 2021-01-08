@@ -7,7 +7,7 @@
 
     <div class='py-1'>
 
-        <div x-data="{ tab: 'divDescricao' }" >
+        <div x-data="{ tab: 'divRegistro' }" >
 
                 <div class='mx-auto text-center max-w-7xl sm:px-6 lg:px-8'>
                     <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divDescricao' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divDescricao'">
@@ -19,7 +19,7 @@
                     <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divRegistro' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divRegistro'">
                         <b>Registro</b>
                     </button>
-                     @if($admin)
+                    @if($admin)
                         <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divConclusao' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divConclusao'">
                             <b>Conclusão</b>
                         </button>
@@ -402,24 +402,32 @@
                 <div class='overflow-hidden bg-white shadow-xl sm:rounded-lg'>
 
                     <div class='row col-md-6'>
-                            <div class='flex w-full md:w-1/2 md:mb-0'>
-                                <div class='flex-auto px-3 mb-6 md:w-1/2 md:mb-0'>
-                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='registro'>
-                                        Registro
-                                    </label>
-                                    <div id='registro' class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-half-width bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
-                                        {{$pessoajuridica->numero_carteira}}
-                                    </div>
+                         <div class='flex-auto px-3 mb-6 md:w-1/2 md:mb-0'>
+                            <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='registro'>
+                                Registro
+                            </label>
+                            <div id='registro' class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-half-width bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                {{$pessoajuridica->numero_carteira ?? 'N/A'}}
+                            </div>
+                        </div>
+
+                        <div class="max-w-full mt-5 overflow-hidden rounded">
+
+                            <div class="px-10 py-4">
+                                <div class="mb-2 text-xl font-bold"  x-data="registro()">Quadro Técnico&nbsp;
+                                    @if($admin)
+                                        <button id="get-quadrotecnico" x-on:click.prevent="showModalQuadroTecnico = true" title="Adicionar ao quadro técnico" class="px-1 py-1 font-bold text-white bg-blue-400 rounded-full hover:bg-blue-700 h-9 w-9">
+                                                <i class="fa fa-plus"></i>
+                                        </button>
+                                        @include ('modal.quadrotecnico', [])
+                                    @endif
+
                                 </div>
+
                             </div>
 
-                            <div class="max-w-full mt-5 overflow-hidden rounded">
 
-                                <div class="px-10 py-4">
-                                        <div class="mb-2 text-xl font-bold"> Quadro Técnico&nbsp;</div>
-                                </div>
-
-                                @if( count($pessoajuridica->quadros) > 0)
+                            @if( count($pessoajuridica->quadros) > 0)
 
                                 <div class="flex mb-2">
                                     <div class="w-1/4 h-12 py-2 text-center bg-gray-200"><span class="font-bold">Empresa</span></div>
@@ -454,15 +462,15 @@
 
                                 @endforeach
 
-                                @else
-                                    <div class="max-w-full mt-5 overflow-hidden rounded shadow-lg">
-                                        <div class="px-10 py-4 bg-gray-50">
-                                            <div class="mb-2 text-xl font-bold text-alert-info"><i class="fa fa-info" aria-hidden="true"></i>&nbsp;Não há registro</div>
-                                        </div>
+                            @else
+                                <div class="max-w-full mt-5 overflow-hidden rounded shadow-lg">
+                                    <div class="px-10 py-4 bg-gray-50">
+                                        <div class="mb-2 text-xl font-bold text-alert-info"><i class="fa fa-info" aria-hidden="true"></i>&nbsp;Não há registro</div>
                                     </div>
-                                @endif
+                                </div>
+                            @endif
 
-                            </div>
+                        </div>
 
                     </div>
 
@@ -473,14 +481,13 @@
             <div class='mx-auto max-w-7xl sm:px-6 lg:px-8' id="divConclusao" ref="divConclusao" x-show="tab === 'divConclusao'">
 
                 <div class='py-3 overflow-hidden bg-white shadow-xl sm:rounded-lg'>
-                    <form x-model='frmConcluso' id='frmConclusao' name='frmConclusao' method='POST' x-on:click.prevent="" x-data="conclusao()">
+                    <form id='frmConclusao' name='frmConclusao' method='POST' x-on:click.prevent="" x-data="conclusao()">
                          @csrf
                         <div class='py-3 row col-md-6'>Conclusão</div>
                     </form>
                 </div>
 
             </div>
-
 
         </div>
     </div>
@@ -669,17 +676,9 @@
         {
             return {
                 quadro: {
-                    fk_codigo_titulo_confea: '',
                     fk_id_registro_profissional: '',
-                    instituicao_ensino: '',
-                    data_conclusao_curso: '',
-                    data_diploma: '',
-                    fk_numero_processo: '',
-                    principal: '',
-                    titulos: [],
                 },
-                frmfrmQuadroTecnico: null,
-                frmTitulo: null,
+                frmQuadroTecnico: null,
                 salvarQuadroTecnico(){
                     axios({
                         method: 'post',
@@ -687,9 +686,8 @@
                         data: this.quadro,
                         });
                 },
-                showModalTitulo: false,
-                deletarQuadroTecnico(idTitulo){
-
+                showModalQuadroTecnico: false,
+                deletarQuadroTecnico(idQuadroTecnico){
                     axios({
                         method: 'post',
                         url: "{{route('quadrotecnico.delete')}}",
@@ -715,13 +713,12 @@
 
                 },
                 frmConclusao: null,
-                frmConcluso: null,
-                enviarRegistroProfissional(){
+                concluirRegistro(){
 
                     axios({
                         method: 'post',
-                        url: '{{ route("atribuicao.salvar") }}',
-                        data: this.atribuicao,
+                        url: '{{ route("pessoajuridica.concluir") }}',
+                        data: this.conclusao,
                         }).then(response =>{
                             if(response.data.status == 'sucesso') {
                                 window.location.reload();

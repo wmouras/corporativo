@@ -35,6 +35,8 @@ use App\Models\QuadroTecnico;
     Route::post('/pessoajuridica/salvar', [PessoaJuridicaController::class, 'salvarPessoaJuridica'])->name('pessoajuridica.salvar')->middleware(['auth:sanctum', 'verified']);
     Route::get('/pj/pessoajuridica/lista', [PessoaJuridicaController::class, 'lista'])->middleware(['auth:sanctum', 'verified']);
     Route::get('/pj/pessoajuridica/edicao/{id}', [PessoaJuridicaController::class, 'edicao'])->name('pessoajuridica.edit')->middleware(['auth:sanctum', 'verified']);
+    Route::get('/pj/pessoajuridica/novo', [PessoaJuridicaController::class, 'novo'])->name('pessoajuridica.novo')->middleware(['auth:sanctum', 'verified']);
+    Route::post('/pessoajuridica/concluir', [PessoaJuridicaController::class, 'concluirPessoaJuridica'])->name('pessoajuridica.concluir')->middleware(['auth:sanctum', 'verified']);
 
     Route::post('/quadrotecnico/salvar', [QuadroTecnicoController::class, 'salvarQuadroTecnico'])->name('quadrotecnico.salvar')->middleware(['auth:sanctum', 'verified']);
     Route::post('/quadrotecnico/delete', [QuadroTecnicoController::class, 'ExcluirQuadroTecnico'])->name('quadrotecnico.delete')->middleware(['auth:sanctum', 'verified']);

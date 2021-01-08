@@ -1,30 +1,33 @@
 
       <!-- Button (blue), duh! -->
       <!-- Dialog (full screen) -->
-      <div class="absolute top-0 left-0 flex items-center justify-center w-full h-full" style="background-color: rgba(0,0,0,.5);" x-show="showModal"  >
+    <div class="absolute top-0 left-0 flex items-center justify-center w-full h-full" style="background-color: rgba(0,0,0,.5);" x-show="showModalQuadroTecnico"  >
 
         <!-- A basic modal dialog with title, body and one button to close -->
-        <div class="h-auto p-4 mx-2 text-left bg-white rounded shadow-xl md:max-w-xl md:p-6 lg:p-8 md:mx-0" @click.away="showModal = false">
-          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-            <h3 class="text-lg font-medium leading-6 text-gray-900">
-              Modal Title
-            </h3>
+        <div class="h-auto p-4 mx-2 text-left bg-white rounded shadow-xl md:max-w-xl md:p-6 lg:p-8 md:mx-0" @click.away="showModalQuadroTecnico = false">
+            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">
+                Modal Title
+                </h3>
+            </div>
 
-            <div class="mt-2">
-              <p class="text-sm leading-5 text-gray-500">
-                Adipisci quasi doloribus. Veniam veritatis dignissimos. Quis maiores ea. Et nulla sunt.
-              </p>
-          </div>
+            <form x-model="frmQuadroTecnico" x-data="registro()" name="frmQuadroTecnico" id="frmQuadroTecnico" x-on-click.prevent = "">
+
+                <div class="max-w-lg rounded overflow-hidden shadow-lg mt-5">
+
+                    <div class="flex mb-2">
+
+
+
+                    </div>
+
+                    <button x-on:click.prevent="concluirRegistro()" class="inline-flex justify-center mt-8 ml-5 w-24 px-3 py-1 text-white bg-blue-500 rounded-2xl hover:bg-blue-700">
+                        <i class="fas fa-check">&nbsp;Incluir</i>
+                    </button>
+
+                </div>
+
+            </form>
+
         </div>
-
-          <!-- One big close button.  --->
-          <div class="mt-5 sm:mt-6">
-            <span class="flex w-full rounded-md shadow-sm">
-              <button @click="showModal = false" class="inline-flex justify-center w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700">
-                Close this modal!
-              </button>
-            </span>
-          </div>
-
-        </div>
-      </div>
+    </div>
