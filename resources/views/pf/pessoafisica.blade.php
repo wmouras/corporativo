@@ -273,6 +273,25 @@
                          @csrf
                         <div class='py-3 row col-md-6'>
 
+
+                            <div class="flex mt-5 mb-10 row h-24 w-100">
+                                <div class="w-1/5 h-12 mb-4 mr-5">
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='telefone_1'>
+                                        telefone 1
+                                    </label>
+                                    <input x-on:click.prevent="" x-model="frmEndereco.empresa.telefone_1" id='telefone_1' name='telefone_1' type='text' placeholder='Insira nº do telefone'
+                                        class='inline w-44 px-4 py-3 mb-3 leading-tight text-center text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                </div>
+                                    <div class="w-1/3 h-12 mb-4">
+                                        <label class='block w-full mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='telefone_2'>
+                                        telefone 2 (opcional)
+                                    </label>
+                                    <input x-model="frmEndereco.empresa.telefone_2" id='telefone_2' name='telefone_2' type='text' placeholder='Insira o nº do telefone'
+                                        class='block w-44 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+
+                                </div>
+                            </div>
+
                             <div class="flex flex-wrap mt-5 row">
                                 <div class="w-1/5 h-12 mb-4 mr-5">
                                     <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='cep'>
@@ -1004,6 +1023,8 @@
         VMasker(document.getElementById("zona_titulo_eleitor")).maskPattern('9999');
         VMasker(document.getElementById("cep")).maskPattern('99.999-999');
         VMasker(document.getElementById("cepCorrespondencia")).maskPattern('99.999-999');
+        VMasker(document.getElementById("telefone_1")).maskPattern('(99) 999-999-999');
+        VMasker(document.getElementById("telefone_2")).maskPattern('(99) 999-999-999');
     </script>
 
 </x-app-layout>

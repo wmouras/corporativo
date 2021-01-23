@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use App\Models\Email;
 use App\Models\Pessoa;
+use App\Models\RegimeTrabalho;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -137,6 +138,7 @@ class PessoaJuridicaController extends Controller
         $endereco = new Endereco();
         $quadro = new QuadroTecnico();
         $pessoajuridica = new PessoaJuridica();
+        $regimeTrabalho = new RegimeTrabalho();
 
         $pj = $pessoajuridica->getPessoaJuridica($idPessoa);
         $pj->tipoEmpresa = $tpEmp->getListaTipoEmpresa();
@@ -148,6 +150,7 @@ class PessoaJuridicaController extends Controller
         $pj->dt_ultima_alt_contratual = alterarDataMysqlBr($pj->dt_ultima_alt_contratual);
         $municipio = Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pj->fk_id_naturalidade)->json();
         $pj->observacao = addslashes($pj->observacao);
+        $pj->listaRegime = RegimeTrabalho::select()->get();
 
         try {
             $email = new Email();

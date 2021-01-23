@@ -15,6 +15,68 @@
 
                 <div class="max-w-lg rounded overflow-hidden shadow-lg mt-5">
 
+                    <div class="flex mt-5 mb-10 row border-2 h-24 w-100">
+                        <div class="w-1/5 h-12 mb-4 mr-5">
+                            <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='fk_id_tipo_vinculo'>
+                                Tipo Vínculo
+                            </label>
+                            <input x-on:click.prevent="" x-model="registro.quadro.fk_id_tipo_vinculo" id='fk_id_tipo_vinculo' name='fk_id_tipo_vinculo' type='text' placeholder='Tipo do vínculo'
+                                class='inline w-44 px-4 py-3 mb-3 leading-tight text-center text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                        </div>
+                            <div class="w-1/3 h-12 mb-4">
+                                <label class='block w-full mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='fk_id_regime_trabalho'>
+                                Regime de Trabalho
+                            </label>
+                            <input x-model="registro.quadro.telefone_2" id='fk_id_regime_trabalho' name='fk_id_regime_trabalho' type='text' placeholder='Insira o nº do telefone'
+                                class='block w-44 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+
+                        </div>
+                    </div>
+
+                    <div class="flex mt-5 mb-10 row border-2 h-24 w-100">
+                        <div class="w-1/5 h-12 mb-4 mr-5">
+                            <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='data_inicio'>
+                                Data Início
+                            </label>
+                            <input x-on:click.prevent="" x-model="registro.quadro.fk_id_tipo_vinculo" id='data_inicio' name='data_inicio' type='text' placeholder='Tipo do vínculo'
+                                class='inline w-44 px-4 py-3 mb-3 leading-tight text-center text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                        </div>
+                            <div class="w-1/3 h-12 mb-4">
+                                <label class='block w-full mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='data_validade'>
+                                Data Validade
+                            </label>
+                            <input x-model="registro.quadro.data_validade" id='data_validade' name='data_validade' type='text' placeholder='Validade do vínculo'
+                                class='block w-44 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+
+                        </div>
+                        <div class="w-1/3 h-12 mb-4">
+                                <label class='block w-full mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='data_baixa'>
+                                Data a Baixa
+                            </label>
+                            <input x-model="registro.quadro.data_baixa" id='data_baixa' name='data_baixa' type='text' placeholder='Insira uma data'
+                                class='block w-44 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+
+                        </div>
+                    </div>
+
+                    <div class="flex mt-5 mb-10 row border-2 h-24 w-100">
+                        <div class="w-1/5 h-12 mb-4 mr-5">
+                            <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='horario_trabalho'>
+                                Horário de Trabalho
+                            </label>
+                            <input x-on:click.prevent="" x-model="registro.quadro.horario_trabalho" id='horario_trabalho' name='horario_trabalho' type='text' placeholder=''
+                                class='inline w-44 px-4 py-3 mb-3 leading-tight text-center text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                        </div>
+                            <div class="w-1/3 h-12 mb-4">
+                                <label class='block w-full mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='observacao'>
+                                Observação
+                            </label>
+                            <input x-model="registro.quadro.observacao" id='observacao' name='observacao' type='text' placeholder='Insira Observações'
+                                class='block w-44 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+
+                        </div>
+                    </div>
+
                     <div class="flex mb-2">
 
 

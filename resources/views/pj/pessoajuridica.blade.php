@@ -216,6 +216,24 @@
                          @csrf
                         <div class='py-3 row col-md-6'>
 
+                            <div class="flex mt-5 mb-10 row border-2 h-24 w-100">
+                                <div class="w-1/5 h-12 mb-4 mr-5">
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='telefone_1'>
+                                        telefone 1
+                                    </label>
+                                    <input x-on:click.prevent="" x-model="frmEndereco.empresa.telefone_1" id='telefone_1' name='telefone_1' type='text' placeholder='Insira nº do telefone'
+                                        class='inline w-44 px-4 py-3 mb-3 leading-tight text-center text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                </div>
+                                    <div class="w-1/3 h-12 mb-4">
+                                        <label class='block w-full mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='telefone_2'>
+                                        telefone 2 (opcional)
+                                    </label>
+                                    <input x-model="frmEndereco.empresa.telefone_2" id='telefone_2' name='telefone_2' type='text' placeholder='Insira o nº do telefone'
+                                        class='block w-44 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+
+                                </div>
+                            </div>
+
                             <div class="flex flex-wrap mt-5 row">
                                 <div class="w-1/5 h-12 mb-4 mr-5">
                                     <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='cep'>
@@ -676,7 +694,19 @@
         {
             return {
                 quadro: {
-                    fk_id_registro_profissional: '',
+                    id_quadro_tecnico: '{{$pessoajuridica->quadrotecnico->id_quadro_tecnico}}',
+                    fk_id_registro_profissional: '{{$pessoajuridica->quadrotecnico->fk_id_registro_profissional}}',
+                    fk_id_registro_empresa: '{{$pessoajuridica->quadrotecnico->fk_id_registro_empresa}}',
+                    fk_id_tipo_vinculo: '{{$pessoajuridica->quadrotecnico->fk_id_tipo_vinculo}}',
+                    fk_id_regime_trabalho: '{{$pessoajuridica->quadrotecnico->fk_id_regime_trabalho}}',
+                    data_inicio: '{{$pessoajuridica->quadrotecnico->data_inicio}}',
+                    data_validade: '{{$pessoajuridica->quadrotecnico->data_validade}}',
+                    data_baixa: '{{$pessoajuridica->quadrotecnico->data_baixa}}',
+                    horario_trabalho: '{{$pessoajuridica->quadrotecnico->horario_trabalho}}',
+                    data_ultima_alteracao: '{{$pessoajuridica->quadrotecnico->data_ultima_alteracao}}',
+                    data_cadastro: '{{$pessoajuridica->quadrotecnico->data_cadastro}}',
+                    observacao: '{{$pessoajuridica->quadrotecnico->observacao}}',
+                    usuario: '{{$pessoajuridica->quadrotecnico->usuario}}',
                 },
                 frmQuadroTecnico: null,
                 salvarQuadroTecnico(){

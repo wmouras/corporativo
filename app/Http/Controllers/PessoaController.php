@@ -24,7 +24,7 @@ class PessoaController extends Controller
         else
         {
             try {
-                $pessoa = Pessoa::where('fk_id_pessoa', Auth::user()->id)->get()[0];
+                $pessoa = Pessoa::where('fk_id_user', Auth::user()->id)->get()[0];
                 $pessoa['idPessoa'] = Crypt::encryptString($pessoa->fk_id_pessoa);
             }catch(QueryException $e){
                 return view('nr/index', ['pessoa' => new User(), 'admin' => false, 'editar' => 'disabled']);
