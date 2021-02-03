@@ -212,24 +212,24 @@
 
                 <div class='py-3 overflow-hidden bg-white shadow-xl sm:rounded-lg'>
 
-                    <form x-model='frmEnder' id='frmEnd' name='frmEnd' method='POST' x-on:click.prevent="" x-data="endereco()">
+                    <form x-model='frmEndereco' id='frmEnd' name='frmEnd' method='POST' x-on:click.prevent="" x-data="endereco()">
                          @csrf
                         <div class='py-3 row col-md-6'>
 
-                            <div class="flex mt-5 mb-10 row border-2 h-24 w-100">
+                            <div class="flex h-24 mt-5 mb-10 border-2 row w-100">
                                 <div class="w-1/5 h-12 mb-4 mr-5">
                                     <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='telefone_1'>
                                         telefone 1
                                     </label>
-                                    <input x-on:click.prevent="" x-model="frmEndereco.empresa.telefone_1" id='telefone_1' name='telefone_1' type='text' placeholder='Insira nº do telefone'
-                                        class='inline w-44 px-4 py-3 mb-3 leading-tight text-center text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                    <input x-model="frmEndereco.telefone.telefone_1" id='telefone_1' name='telefone_1' type='text' placeholder='Insira nº do telefone'
+                                        class='inline px-4 py-3 mb-3 leading-tight text-center text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                                 </div>
-                                    <div class="w-1/3 h-12 mb-4">
-                                        <label class='block w-full mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='telefone_2'>
+                                <div class="w-1/3 h-12 mb-4">
+                                    <label class='block w-full mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='telefone_2'>
                                         telefone 2 (opcional)
                                     </label>
-                                    <input x-model="frmEndereco.empresa.telefone_2" id='telefone_2' name='telefone_2' type='text' placeholder='Insira o nº do telefone'
-                                        class='block w-44 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                    <input x-model="frmEndereco.telefone.telefone_2" id='telefone_2' name='telefone_2' type='text' placeholder='Insira o nº do telefone'
+                                        class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
 
                                 </div>
                             </div>
@@ -247,7 +247,7 @@
                                     </button>
 
                                 </div>
-                                    <div class="w-1/3 h-12 mb-4">
+                                <div class="w-1/3 h-12 mb-4">
                                         <label class='block w-full mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='logradouro'>
                                         Logradouro
                                     </label>
@@ -609,6 +609,10 @@
                         fk_id_cidade: '{{ $pessoajuridica->correspondencia->fk_id_cidade }}',
                         fk_id_logradouro: '{{ $pessoajuridica->correspondencia->fk_id_logradouro }}',
                         fk_id_tipologradouro: '{{ $pessoajuridica->correspondencia->fk_id_tipologradouro }}',
+                    },
+                    telefone:{
+                        telefone_1: '{{$pessoajuridica->telefone1 ?? ""}}',
+                        telefone_2: '{{$pessoajuridica->telefone2 ?? ""}}',
                     }
 
 
@@ -694,19 +698,19 @@
         {
             return {
                 quadro: {
-                    id_quadro_tecnico: '{{$pessoajuridica->quadrotecnico->id_quadro_tecnico}}',
-                    fk_id_registro_profissional: '{{$pessoajuridica->quadrotecnico->fk_id_registro_profissional}}',
-                    fk_id_registro_empresa: '{{$pessoajuridica->quadrotecnico->fk_id_registro_empresa}}',
-                    fk_id_tipo_vinculo: '{{$pessoajuridica->quadrotecnico->fk_id_tipo_vinculo}}',
-                    fk_id_regime_trabalho: '{{$pessoajuridica->quadrotecnico->fk_id_regime_trabalho}}',
-                    data_inicio: '{{$pessoajuridica->quadrotecnico->data_inicio}}',
-                    data_validade: '{{$pessoajuridica->quadrotecnico->data_validade}}',
-                    data_baixa: '{{$pessoajuridica->quadrotecnico->data_baixa}}',
-                    horario_trabalho: '{{$pessoajuridica->quadrotecnico->horario_trabalho}}',
-                    data_ultima_alteracao: '{{$pessoajuridica->quadrotecnico->data_ultima_alteracao}}',
-                    data_cadastro: '{{$pessoajuridica->quadrotecnico->data_cadastro}}',
-                    observacao: '{{$pessoajuridica->quadrotecnico->observacao}}',
-                    usuario: '{{$pessoajuridica->quadrotecnico->usuario}}',
+                    id_quadro_tecnico: '',
+                    fk_id_registro_profissional: '',
+                    fk_id_registro_empresa: '',
+                    fk_id_tipo_vinculo: '',
+                    fk_id_regime_trabalho: '',
+                    data_inicio: '',
+                    data_validade: '',
+                    data_baixa: '',
+                    horario_trabalho: '',
+                    data_ultima_alteracao: '',
+                    data_cadastro: '',
+                    observacao: '',
+                    usuario: '',
                 },
                 frmQuadroTecnico: null,
                 salvarQuadroTecnico(){

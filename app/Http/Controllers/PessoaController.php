@@ -55,6 +55,7 @@ class PessoaController extends Controller
             ->leftjoin('tb_email', 'tb_pessoa.id_pessoa', '=', 'tb_email.fk_id_pessoa')
             ->leftjoin('users', 'users.id', '=', 'tb_pessoa.id_pessoa')
             ->whereIn('tb_pessoa.tipo_pessoa', [1,2]);
+
             if ($request->registro) {
                 $lista->where("tb_registro_profissional.numero_carteira", "=", $request->registro)
                     ->orWhere("tb_registro_empresa.codigo_registro", "=", $request->registro);

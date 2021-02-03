@@ -199,17 +199,23 @@ class PessoaJuridicaController extends Controller
 
         $quadro = new QuadroTecnico();
         $quadros = $quadro->getListaEmpresaQuadro($idPessoa);
-        $qts = [];
 
         $qts = [];
-        foreach ($quadros as $qt) {
-            $quadro = $qt;
-            $quadro['data_baixa'] = alterarDataMysqlBr($qt['data_baixa']);
-            $quadro['data_inicio'] = alterarDataMysqlBr($qt['data_inicio']);
-            $quadro['data_validade'] = alterarDataMysqlBr($qt['data_validade']);
 
-            $qts[] = $quadro;
+        if(sizeof($quadros) > 0)
+        {
+
+            foreach ($quadros as $qt) {
+                $quadro = $qt;
+                $quadro['data_baixa'] = alterarDataMysqlBr($qt['data_baixa']);
+                $quadro['data_inicio'] = alterarDataMysqlBr($qt['data_inicio']);
+                $quadro['data_validade'] = alterarDataMysqlBr($qt['data_validade']);
+
+                $qts[] = $quadro;
+            }
+
         }
+
         $pj->quadros = $qts;
 
         if ($request->session()->get('admin', 0)) {
