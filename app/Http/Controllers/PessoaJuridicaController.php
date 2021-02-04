@@ -218,6 +218,8 @@ class PessoaJuridicaController extends Controller
 
         $pj->quadros = $qts;
 
+        $pj->listaRegimeTrabalho = $regimeTrabalho->getListaRegimeTrabalho();
+
         if ($request->session()->get('admin', 0)) {
             return view('pj/pessoajuridica', ['pessoajuridica' => $pj, 'admin' => true, 'editar' => '']);
         } else {

@@ -9,10 +9,13 @@ class RegimeTrabalho extends Model
 {
     use HasFactory;
 
-    const CREATED_AT = 'data_cadastro';
-    const UPDATED_AT = 'data_alteracao';
-    protected $table = 'tb_pessoa_fisica';
-    protected $primaryKey = 'fk_id_pessoa';
+    public $timestamps = false;
+    protected $table = 'tb_regime_trabalho';
+    protected $primaryKey = 'id_regime_trabalho';
 
     protected $fillable = ['id_regime_trabalho', 'regime_trabalho'];
+
+    public function getListaRegimeTrabalho(){
+        return model::select('id_regime_trabalho', 'regime_trabalho')->orderBy('regime_trabalho')->get();
+    }
 }
