@@ -33,6 +33,9 @@ class TituloController extends Controller
     {
 
         $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
+
+        // dd($idPessoa);
+
         $registro = new RegistroProfissional();
         $request['fk_id_registro_profissional'] = $registro->getRegistroProfissional($idPessoa)->id_registro_profissional;
 

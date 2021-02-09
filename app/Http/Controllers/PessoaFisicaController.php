@@ -70,6 +70,10 @@ class PessoaFisicaController extends Controller
 
     public function salvarPessoaFisica( Request $request ){
 
+        // if(Auth::id() != ){
+
+        // }
+
         $data_emissao_identidade = alterarDataBrMysql($request->data_emissao_identidade);
         $data_nascimento = alterarDataBrMysql($request->data_nascimento);
         $request['titulo_eleitor'] = validarTituloEleitor($request->titulo_eleitor);
@@ -107,6 +111,9 @@ class PessoaFisicaController extends Controller
             $parentesco = array( $request->parentesco1, $request->parentesco2);
             $modelParentesco = new Parentesco();
             $modelParentesco->salvarParentesco($parentesco, $idPessoa);
+
+            $registro = new RegistroProfissional();
+            $registro->setRegistroProfissional($idPessoa, false);
 
             return response()->json(array('status'=>'success', 'msg'=>'Profissional cadastrado com sucesso.' ));
 

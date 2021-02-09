@@ -29,15 +29,21 @@ class RegistroProfissional extends Model
 
     public function setRegistroProfissional($idPessoa, $carteira)
     {
+        $regPessoa = $this->getRegistroProfissional($idPessoa);
+        if (!$regPessoa) {
 
-        $registro = array(null, $idPessoa, 0, $carteira, 'DF');
-        return DB::insert('insert into tb_registro_profissional (id_registro_profissional, fk_id_pessoa, rnp, numero_carteira) values (?, ?, ?, ?)', $registro);
+            if(!$carteira)
+                $carteira = $this->getMaxRegistroProfissional().'/TEMP';
+
+            $registro = array(null, $idPessoa, 0, $carteira, 'DF');
+            return DB::insert('insert into tb_registro_profissional (id_registro_profissional, fk_id_pessoa, rnp, numero_carteira) values (?, ?, ?, ?)', $registro);
+        }
 
     }
 
     public function getMaxRegistroProfissional()
     {
-        return RegistroProfissional::where()->max('id_registro_profissional');
+        return model::select()->max('id_registro_profissional');
     }
 
 
