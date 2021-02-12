@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class='text-xl font-semibold leading-tight text-gray-800'>
-            Cadastro Empresa
+            Cadastro Empresa ({{$pessoajuridica->razao_social ?? ''}})
         </h2>
     </x-slot>
 
@@ -719,6 +719,21 @@
                         url: "{{route('quadrotecnico.salvar')}}",
                         data: this.quadro,
                         });
+                },
+                buscarProfissional(){
+                    axios({
+                        method: 'post',
+                        url: "{{route('pessoafisica.nome')}}",
+                        data: {'nu_registro': document.getElementById('nu_registro').value},
+                    }).then(
+                        response =>{
+                            if(response.data.status == 'sucesso') {
+                                document.getElementById('nu_registro').innerHTML = response.data.nome;
+                                this.quadro.fk_id_registro_profissional = response.data.fk_id_registro_profissional;
+                            }
+                    }).catch(err =>{
+                        console.log(err);
+                    });
                 },
                 showModalQuadroTecnico: false,
                 deletarQuadroTecnico(idQuadroTecnico){

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class='text-xl font-semibold leading-tight text-gray-800'>
-            Cadastro Pessoa Física
+            Cadastro Pessoa Física ({{ $pessoafisica->nome ?? ''}})
         </h2>
     </x-slot>
 
@@ -9,18 +9,18 @@
 
         <div x-data="{ tab: 'divConclusao' }" >
 
-                <div class='mx-auto max-w-7xl sm:px-6 lg:px-8 text-center'>
-                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divDescricao' }" class="inline py-3 mb-1 leading-tight border rounded w-64 border-grey-100 px-12" @click="tab = 'divDescricao'">
+                <div class='mx-auto text-center max-w-7xl sm:px-6 lg:px-8'>
+                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divDescricao' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divDescricao'">
                         <b>Descrição</b>
                     </button>
-                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divContato' }" class="inline py-3 mb-1 leading-tight border rounded w-64 border-grey-100 px-12" @click="tab = 'divContato'">
+                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divContato' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divContato'">
                         <b>Contato</b>
                     </button>
-                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divRegistro' }" class="inline py-3 mb-1 leading-tight border rounded w-64 border-grey-100 px-12" @click="tab = 'divRegistro'">
+                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divRegistro' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divRegistro'">
                         <b>Registro</b>
                     </button>
                      @if($admin)
-                        <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divConclusao' }" class="inline py-3 mb-1 leading-tight border rounded w-64 border-grey-100 px-12" @click="tab = 'divConclusao'">
+                        <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divConclusao' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divConclusao'">
                             <b>Conclusão</b>
                         </button>
                     @endif
@@ -188,25 +188,39 @@
                                 </div>
                             </fieldset>
 
-                            <div class='w-full px-3 mb-6 md:w-1/2 md:mb-0'>
-                                <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='sexo'>
-                                    Sexo
-                                </label>
-                                <select {{$editar ?? null}} x-model="frmData.sexo" name="sexo" id="sexo" class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                            <div class='flex w-full md:w-1/2 md:mb-0'>
+                                <div class='flex-auto w-full px-3 mb-6 md:w-1/2 md:mb-0'>
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='sexo'>
+                                        Sexo
+                                    </label>
+                                    <select {{$editar ?? null}} x-model="frmData.sexo" name="sexo" id="sexo" class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
 
-                                    <option value="0">Selecione</option>
-                                    <option value="1" @if($pessoafisica->sexo == '1') selected @endif>Masculino</option>
-                                    <option value="2" @if($pessoafisica->sexo == '2') selected @endif>Feminino</option>
-                                </select>
+                                        <option value="0">Selecione</option>
+                                        <option value="1" @if($pessoafisica->sexo == '1') selected @endif>Masculino</option>
+                                        <option value="2" @if($pessoafisica->sexo == '2') selected @endif;>Feminino</option>
+                                    </select>
+                                </div>
+
+                                <div class='flex-auto w-full px-3 mb-6 md:w-1/2 md:mb-0'>
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='tipo_sangue'>
+                                        tipo sanguíneo
+                                    </label>
+                                    <input {{$editar ?? null}} x-model="frmData.tipo_sangue" id='tipo_sangue' name='tipo_sangue' type='text' placeholder='Insira o tipo sanguíneo' value="{{ $pessoafisica->tipo_sangue }}"
+                                        class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+
+                                </div>
                             </div>
 
-                            <div class='w-full px-3 mb-6 md:w-1/2 md:mb-0'>
-                                <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='tipo_sangue'>
-                                    tipo sanguíneo
-                                </label>
-                                <input {{$editar ?? null}} x-model="frmData.tipo_sangue" id='tipo_sangue' name='tipo_sangue' type='text' placeholder='Insira o tipo sanguíneo' value="{{ $pessoafisica->tipo_sangue }}"
-                                    class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                            <div class='flex w-full md:w-1/2 md:mb-0'>
 
+                                <div class='flex-auto w-full px-3 mb-6 md:w-1/2 md:mb-0'>
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='tipo_sangue'>
+                                        Nº PIS/PASEP
+                                    </label>
+                                    <input {{$editar ?? null}} x-model="frmData.nu_pis_pasep" id='nu_pis_pasep' name='nu_pis_pasep' type='text' placeholder='Insira PIS/PASEP' value="{{ $pessoafisica->nu_pis_pasep }}"
+                                        class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+
+                                </div>
                             </div>
 
                             <div class='flex w-full md:w-1/2 md:mb-0'>
@@ -274,20 +288,20 @@
                         <div class='py-3 row col-md-6'>
 
 
-                            <div class="flex mt-5 mb-10 row h-24 w-100">
+                            <div class="flex h-24 mt-5 mb-10 row w-100">
                                 <div class="w-1/5 h-12 mb-4 mr-5">
                                     <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='telefone_1'>
                                         telefone 1
                                     </label>
                                     <input x-on:click.prevent="" x-model="frmEndereco.empresa.telefone_1" id='telefone_1' name='telefone_1' type='text' placeholder='Insira nº do telefone'
-                                        class='inline w-44 px-4 py-3 mb-3 leading-tight text-center text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                        class='inline px-4 py-3 mb-3 leading-tight text-center text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
                                 </div>
                                     <div class="w-1/3 h-12 mb-4">
                                         <label class='block w-full mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='telefone_2'>
                                         telefone 2 (opcional)
                                     </label>
                                     <input x-model="frmEndereco.empresa.telefone_2" id='telefone_2' name='telefone_2' type='text' placeholder='Insira o nº do telefone'
-                                        class='block w-44 px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                        class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
 
                                 </div>
                             </div>
@@ -709,6 +723,7 @@
                     zona_titulo_eleitor: '{{ $pessoafisica->zona_titulo_eleitor }}',
                     secao_titulo_eleitor: '{{ $pessoafisica->secao_titulo_eleitor }}',
                     observacao: `{{ $pessoafisica->observacao }}`,
+                    nu_pis_pasep: `{{ $pessoafisica->nu_pis_pasep ?? '' }}`,
                     email: '{{ $pessoafisica->email }}',
                     parentesco1: {
                                     id_parentesco: '{{ $pessoafisica->parentesco1->id_parentesco }}',

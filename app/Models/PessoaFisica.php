@@ -28,4 +28,14 @@ class PessoaFisica extends Model
         return $select->first();
     }
 
+    public  function getDadoProfissional($request)
+    {
+
+
+        $select = model::select()
+            ->leftJoin('tb_registro_profissional', 'tb_registro_profissional.fk_id_pessoa', '=', 'tb_pessoa_fisica.fk_id_pessoa')
+            ->where('tb_registro_profissional.numero_carteira', $request['nu_registro']);
+        return $select->first();
+    }
+
 }

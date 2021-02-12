@@ -7,6 +7,7 @@ use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\PessoaFisicaController;
 use App\Http\Controllers\PessoaJuridicaController;
 use App\Http\Controllers\TituloController;
+use App\Http\Controllers\QuadroTecnicoController;
 use App\Models\QuadroTecnico;
 
 /*
@@ -39,7 +40,7 @@ use App\Models\QuadroTecnico;
     Route::post('/pessoajuridica/concluir', [PessoaJuridicaController::class, 'concluirPessoaJuridica'])->name('pessoajuridica.concluir')->middleware(['auth:sanctum', 'verified']);
 
     Route::post('/quadrotecnico/salvar', [QuadroTecnicoController::class, 'salvarQuadroTecnico'])->name('quadrotecnico.salvar')->middleware(['auth:sanctum', 'verified']);
-    Route::post('/quadrotecnico/delete', [QuadroTecnicoController::class, 'ExcluirQuadroTecnico'])->name('quadrotecnico.delete')->middleware(['auth:sanctum', 'verified']);
+    Route::post('/quadrotecnico/delete', [QuadroTecnicoController::class, 'excluirQuadroTecnico'])->name('quadrotecnico.delete')->middleware(['auth:sanctum', 'verified']);
 
     Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
         return view('dashboard');
@@ -50,6 +51,7 @@ use App\Models\QuadroTecnico;
     })->middleware(['verified']);
 
     Route::get('/pessoafisica/nacionalidade', [PessoaFisicaController::class, 'listaNacionalidade'])->middleware(['auth:sanctum', 'verified']);
+    Route::post('/pessoafisica/nome', [PessoaFisicaController::class, 'getNomeProfissional'])->name('pessoafisica.nome')->middleware(['auth:sanctum', 'verified']);
     Route::get('/pessoafisica/envioregistro', [PessoaFisicaController::class, 'enviarRegistroProfissional'])->middleware(['auth:sanctum', 'verified']);
     Route::get('/pf/pessoafisica/edicao/{id}', [PessoaFisicaController::class, 'edicao'])->name('pessoafisica.edit')->middleware(['auth:sanctum', 'verified']);
     Route::get('/pf/pessoafisica/novo', [PessoaFisicaController::class, 'novo'])->name('pessoafisica.novo')->middleware(['auth:sanctum', 'verified']);

@@ -380,5 +380,10 @@ class PessoaFisicaController extends Controller
 
     }
 
+    public function getNomeProfissional(Request $request){
+        $pessoafisica = new PessoaFisica();
+        $profissional = $pessoafisica->getDadoProfissional($request->all());
+
+    }
 
 }

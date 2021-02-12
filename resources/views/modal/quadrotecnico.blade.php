@@ -23,6 +23,24 @@
 
                 <div class="w-full h-full py-5 mt-5 overflow-hidden rounded shadow-lg">
 
+
+                    <div class="flex w-full h-24 px-5 mt-5 mb-10 row">
+                       <div class="h-12 mb-4 w-52">
+                            <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='nu_registro'>
+                                Registro nº:
+                            </label>
+                            <input x-on:click.prevent="" x-on:blur="buscarProfissional()" id='nu_registro' name='nu_registro' type='text' placeholder='Nº do registro'
+                                class='inline px-4 py-3 mb-3 leading-tight text-center text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                        </div>
+                            <div class="h-12 mb-4 w-52">
+
+                            <div id='no_profisional' name='no_profisional' type='text'
+                                class='block px-4 py-3 mb-3 leading-tight text-gray-700 border-none rounded appearance-none w-44 focus:outline-none focus:bg-white'> </div>
+
+                        </div>
+                    </div>
+
+
                     <div class="flex w-full h-24 px-5 mt-5 mb-10 row">
                         <div class="h-12 mb-4 mr-5 w-72">
                             <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='fk_id_tipo_vinculo'>
@@ -106,7 +124,7 @@
 
                     </div>
 
-                    <button x-on:click.prevent="concluirRegistro()" class="inline-flex justify-center w-24 px-3 py-1 mt-8 ml-5 text-white bg-blue-500 rounded-2xl hover:bg-blue-700">
+                    <button x-on:click.prevent="salvarQuadroTecnico()" class="inline-flex justify-center w-24 px-3 py-1 mt-8 ml-5 text-white bg-blue-500 rounded-2xl hover:bg-blue-700">
                         <i class="fas fa-check">&nbsp;Incluir</i>
                     </button>
 

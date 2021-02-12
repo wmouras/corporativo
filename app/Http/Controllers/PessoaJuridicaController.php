@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Endereco;
-use App\Models\Parentesco;
 use Illuminate\Http\Request;
 use App\Models\TipoEmpresa;
 use App\Models\PessoaJuridica;
@@ -17,8 +16,6 @@ use Illuminate\Support\Facades\Http;
 use App\Models\Email;
 use App\Models\Pessoa;
 use App\Models\RegimeTrabalho;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 /**
  * Classe de tratamento de dados das empresas.
