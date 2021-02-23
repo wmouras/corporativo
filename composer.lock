@@ -1192,16 +1192,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.26.1",
+            "version": "v8.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "275c78c97e007e4a9d771d4d1caa1c77ebfdcf94"
+                "reference": "a6680d98f9dadaa363aa7d5218517a08706cee64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/275c78c97e007e4a9d771d4d1caa1c77ebfdcf94",
-                "reference": "275c78c97e007e4a9d771d4d1caa1c77ebfdcf94",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/a6680d98f9dadaa363aa7d5218517a08706cee64",
+                "reference": "a6680d98f9dadaa363aa7d5218517a08706cee64",
                 "shasum": ""
             },
             "require": {
@@ -1356,7 +1356,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-02-02T14:07:24+00:00"
+            "time": "2021-02-09T15:14:54+00:00"
         },
         {
             "name": "laravel/jetstream",
@@ -1810,16 +1810,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v2.3.14",
+            "version": "v2.3.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "3ead3ff1342d9b17c7fd3559fd1a5f880cf78f28"
+                "reference": "1a1d43ff365301ae99ed7f0ccf02c553d4eeba03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/3ead3ff1342d9b17c7fd3559fd1a5f880cf78f28",
-                "reference": "3ead3ff1342d9b17c7fd3559fd1a5f880cf78f28",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/1a1d43ff365301ae99ed7f0ccf02c553d4eeba03",
+                "reference": "1a1d43ff365301ae99ed7f0ccf02c553d4eeba03",
                 "shasum": ""
             },
             "require": {
@@ -1870,7 +1870,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v2.3.14"
+                "source": "https://github.com/livewire/livewire/tree/v2.3.17"
             },
             "funding": [
                 {
@@ -1878,7 +1878,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-03T23:14:23+00:00"
+            "time": "2021-02-09T15:15:49+00:00"
         },
         {
             "name": "lucascudo/laravel-pt-br-localization",
@@ -1926,16 +1926,16 @@
         },
         {
             "name": "mobiledetect/mobiledetectlib",
-            "version": "2.8.35",
+            "version": "2.8.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/serbanghita/Mobile-Detect.git",
-                "reference": "68a35170fdf36e7b35f9c125e5102338dbc3ff65"
+                "reference": "e55c155f4d1ab299a0cfca8ec29a0154918c9e3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/68a35170fdf36e7b35f9c125e5102338dbc3ff65",
-                "reference": "68a35170fdf36e7b35f9c125e5102338dbc3ff65",
+                "url": "https://api.github.com/repos/serbanghita/Mobile-Detect/zipball/e55c155f4d1ab299a0cfca8ec29a0154918c9e3d",
+                "reference": "e55c155f4d1ab299a0cfca8ec29a0154918c9e3d",
                 "shasum": ""
             },
             "require": {
@@ -1976,9 +1976,9 @@
             ],
             "support": {
                 "issues": "https://github.com/serbanghita/Mobile-Detect/issues",
-                "source": "https://github.com/serbanghita/Mobile-Detect/tree/2.8.35"
+                "source": "https://github.com/serbanghita/Mobile-Detect/tree/2.8.36"
             },
-            "time": "2021-01-25T19:09:34+00:00"
+            "time": "2021-02-13T14:35:52+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2078,16 +2078,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.44.0",
+            "version": "2.45.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "e6ef33cb1f67a4bed831ed6d0f7e156739a5d8cd"
+                "reference": "528783b188bdb853eb21239b1722831e0f000a8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/e6ef33cb1f67a4bed831ed6d0f7e156739a5d8cd",
-                "reference": "e6ef33cb1f67a4bed831ed6d0f7e156739a5d8cd",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/528783b188bdb853eb21239b1722831e0f000a8d",
+                "reference": "528783b188bdb853eb21239b1722831e0f000a8d",
                 "shasum": ""
             },
             "require": {
@@ -2167,7 +2167,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-26T20:46:41+00:00"
+            "time": "2021-02-11T18:30:17+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -5720,16 +5720,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "2.5.10",
+            "version": "2.5.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "98154e8b991fb616304c213cd405299ffedc26f5"
+                "reference": "e91d67353054bf827c64687fcac5ea44e4dcec54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/98154e8b991fb616304c213cd405299ffedc26f5",
-                "reference": "98154e8b991fb616304c213cd405299ffedc26f5",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/e91d67353054bf827c64687fcac5ea44e4dcec54",
+                "reference": "e91d67353054bf827c64687fcac5ea44e4dcec54",
                 "shasum": ""
             },
             "require": {
@@ -5793,7 +5793,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2021-02-02T10:15:48+00:00"
+            "time": "2021-02-05T12:52:11+00:00"
         },
         {
             "name": "facade/ignition-contracts",

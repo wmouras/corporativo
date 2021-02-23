@@ -725,6 +725,8 @@
                     observacao: `{{ $pessoafisica->observacao }}`,
                     nu_pis_pasep: `{{ $pessoafisica->nu_pis_pasep ?? '' }}`,
                     email: '{{ $pessoafisica->email }}',
+                    telefone_1: '{{ $pessoafisica->telefone[0]->telefone ?? ''}}',
+                    telefone_2: '{{ $pessoafisica->telefone[1]->telefone ?? '' }}',
                     parentesco1: {
                                     id_parentesco: '{{ $pessoafisica->parentesco1->id_parentesco }}',
                                     nome: '{{ $pessoafisica->parentesco1->nome }}',

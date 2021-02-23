@@ -10,6 +10,7 @@ use App\Models\Parentesco;
 use App\Models\Pessoa;
 use App\Models\QuadroTecnico;
 use App\Models\RegistroProfissional;
+use App\Models\Telefone;
 use App\Models\Titulo;
 use App\Models\User;
 use Illuminate\Database\QueryException;
@@ -136,6 +137,7 @@ class PessoaFisicaController extends Controller
         $quadro = new QuadroTecnico();
         $titulo = new Titulo();
         $pessoafisica = new PessoaFisica();
+        $telefone = new Telefone();
 
         $pf = $pessoafisica->getPessoaFisica($idPessoa);
         $pf->id_pessoa = $request->id;
@@ -145,6 +147,14 @@ class PessoaFisicaController extends Controller
         $municipio = Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_naturalidade)->json();
         $pf->titulo_eleitor = formatarTituloEleitor($pf->titulo_eleitor);
         $pf->observacao = addslashes($pf->observacao);
+        $pf->telefones = $telefone->getTelefonePessoa($idPessoa);
+
+        $pf->telefone = [$telefone, $telefone];
+        foreach($pf->telefones as $telefone){
+            $pf->telefone[] = $telefone;
+        }
+
+        // dd( $pf->telefone);
 
         if( $municipio ){
             $cidade = (object) $municipio;
@@ -246,11 +256,13 @@ class PessoaFisicaController extends Controller
         $pf->quadros = array();
         $pf->titulos = array();
         $pf->atribuicoes = array();
+        $telefone = new Telefone();
 
         $cidade = array();
         $pf['cidades'] = '[]';
         $pf->nome_cidade = '';
         $pf->fk_id_uf = '';
+        $pf->telefone = [$telefone, $telefone];
 
         $pf->listaUf = json_decode(Http::get('http://ws.creadf.org.br/api/endereco/uf'));
         $pf->listaNacionalidade = $nacionalidade->listaNacionalidade();

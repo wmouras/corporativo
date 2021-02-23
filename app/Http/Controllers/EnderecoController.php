@@ -24,7 +24,7 @@ class EnderecoController extends Controller
 
     public function salvarEndereco( Request $request ){
 
-        // dd( $request->session()->all() );
+        dd( $request['empresa']['telefone_1'] );
 
         if(is_null(session('id_pessoa')))
         {
