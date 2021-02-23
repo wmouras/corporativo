@@ -8,7 +8,7 @@ use App\Http\Controllers\PessoaFisicaController;
 use App\Http\Controllers\PessoaJuridicaController;
 use App\Http\Controllers\TituloController;
 use App\Http\Controllers\QuadroTecnicoController;
-use App\Models\QuadroTecnico;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +20,7 @@ use App\Models\QuadroTecnico;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
     Route::post('/pf/pessoafisica/salvar', [PessoaFisicaController::class, 'salvarPessoaFisica'])->middleware(['auth:sanctum', 'verified'])->name('pessoafisica.update');
 
     // Route::get('/pf/pessoafisica/salva/', function (Request $request) {
@@ -67,3 +68,5 @@ use App\Models\QuadroTecnico;
     Route::get('/atribuicao/listaatribuicao', [AtribuicaoController::class, 'getListaAtribuicao'])->name('listaatribuicao')->middleware(['auth:sanctum', 'verified']);
     Route::post('/atribuicao/salvar', [AtribuicaoController::class, 'salvarAtribuicaoProfissional'])->name('atribuicao.salvar')->middleware(['auth:sanctum', 'verified']);
     Route::post('/atribuicao/delete', [AtribuicaoController::class, 'excluirAtribuicaoProfissional'])->name('atribuicao.delete')->middleware(['auth:sanctum', 'verified']);
+
+    Route::post('logged_in', [LoginController::class, 'authenticate'])->name("logged_in");
