@@ -217,7 +217,7 @@
                                     <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='tipo_sangue'>
                                         Nº PIS/PASEP
                                     </label>
-                                    <input {{$editar ?? null}} x-model="frmData.nu_pis_pasep" id='nu_pis_pasep' name='nu_pis_pasep' type='text' placeholder='Insira PIS/PASEP' value="{{ $pessoafisica->nu_pis_pasep }}"
+                                    <input {{$editar ?? null}} x-model="frmData.nr_pis_pasep" id='nr_pis_pasep' name='nr_pis_pasep' type='text' placeholder='Insira PIS/PASEP' value="{{ $pessoafisica->nr_pis_pasep }}"
                                         class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -723,7 +723,7 @@
                     zona_titulo_eleitor: '{{ $pessoafisica->zona_titulo_eleitor }}',
                     secao_titulo_eleitor: '{{ $pessoafisica->secao_titulo_eleitor }}',
                     observacao: `{{ $pessoafisica->observacao }}`,
-                    nu_pis_pasep: `{{ $pessoafisica->nu_pis_pasep ?? '' }}`,
+                    nr_pis_pasep: `{{ $pessoafisica->nr_pis_pasep ?? '' }}`,
                     email: '{{ $pessoafisica->email }}',
                     telefone_1: '{{ $pessoafisica->telefone[0]->telefone ?? ''}}',
                     telefone_2: '{{ $pessoafisica->telefone[1]->telefone ?? '' }}',
