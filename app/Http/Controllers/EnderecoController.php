@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Endereco;
+use App\Models\Telefone;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
@@ -24,9 +26,9 @@ class EnderecoController extends Controller
 
     public function salvarEndereco( Request $request ){
 
-        dd( $request['empresa']['telefone_1'] );
+        // dd( apenasNumero($request['telefone']['telefone_0']) );
 
-        if(is_null(session('id_pessoa')))
+        if(is_null($request->session()->get('id_pessoa')))
         {
             return false;
         }
@@ -56,7 +58,17 @@ class EnderecoController extends Controller
         $empresa['cep'] = apenasNumero($endereco['empresa']['cep']);
         $empresa['situacao_envio_confea'] = 0;
         $empresa['fk_id_tipo_endereco'] = 1;
-        // dd( $empresa );
+
+        for($i=0; $i<2; $i++){
+            $telefone['id_telefone'] = $request['fk_id_telefone_'.$i];
+            $telefone['fk_id_pessoa'] = $idPessoa;
+            $telefone['fk_id_tipo_telefone'] = $i+1;
+            $telefone['telefone'] = apenasNumero($request['telefone']['telefone_'.$i]);
+            $telefone['usuario_alteracao'] = Auth::user()->id;
+            $tel = new Telefone();
+            $tel->salvarTelefone($telefone);
+        }
+
         $result = Endereco::updateOrCreate(['id_endereco' => $empresa['id_endereco']], $empresa);
 
         dd($result);

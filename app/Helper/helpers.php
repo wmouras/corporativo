@@ -28,6 +28,11 @@ function formatarCnpj($cnpj){
     return substr( $cnpj, 0, 2 ).'.'.substr( $cnpj, 2, 3 ).'.'.substr( $cnpj, 5, 3 ).'/'.substr( $cnpj, 9, 4 ).'-'.substr( $cnpj, 13, 2 );
 }
 
+function formatarNrTelefone($nrTelefone)
+{
+    return '('.substr($nrTelefone, 0, 2).') '.substr($nrTelefone, 2, 3).'-'.substr($nrTelefone, 5, 3).'-'.substr($nrTelefone, 8, 3);
+}
+
 function formatarCep($cep){
     return substr( $cep, 0, 2 ).'.'.substr( $cep, 2, 3 ).'-'.substr( $cep, 5, 3 );
 }

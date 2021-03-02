@@ -137,7 +137,7 @@ class PessoaFisicaController extends Controller
         $quadro = new QuadroTecnico();
         $titulo = new Titulo();
         $pessoafisica = new PessoaFisica();
-        $telefone = new Telefone();
+        $tel = new Telefone();
 
         $pf = $pessoafisica->getPessoaFisica($idPessoa);
         $pf->id_pessoa = $request->id;
@@ -147,14 +147,14 @@ class PessoaFisicaController extends Controller
         $municipio = Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pf->fk_id_naturalidade)->json();
         $pf->titulo_eleitor = formatarTituloEleitor($pf->titulo_eleitor);
         $pf->observacao = addslashes($pf->observacao);
-        $pf->telefones = $telefone->getTelefonePessoa($idPessoa);
+        $pf->telefone = $tel->getTelefonePessoa($idPessoa);
 
-        $pf->telefone = [$telefone, $telefone];
-        foreach($pf->telefones as $telefone){
-            $pf->telefone[] = $telefone;
+        for($i=0; $i<2; $i++){
+            $telefone[$i]['fk_id_telefone_'.$i] = $pf->telefone[$i]['id_telefone'];
+            $telefone[$i]['telefone_'.$i] = formatarNrTelefone($pf->telefone[$i]['telefone']);
         }
 
-        // dd( $pf->telefone);
+        $pf->telefone = $telefone;
 
         if( $municipio ){
             $cidade = (object) $municipio;

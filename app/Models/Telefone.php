@@ -19,4 +19,9 @@ class Telefone extends Model
     {
         return model::select()->where('fk_id_pessoa', $idPessoa)->get();
     }
+
+    public function salvarTelefone($telefone)
+    {
+        return model::updateOrCreate(['id_telefone' => $telefone['id_telefone']], $telefone);
+    }
 }
