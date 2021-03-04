@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Http;
 use App\Models\Email;
 use App\Models\Pessoa;
 use App\Models\RegimeTrabalho;
+use App\Models\Telefone;
 
 /**
  * Classe de tratamento de dados das empresas.
@@ -136,6 +137,7 @@ class PessoaJuridicaController extends Controller
         $quadro = new QuadroTecnico();
         $pessoajuridica = new PessoaJuridica();
         $regimeTrabalho = new RegimeTrabalho();
+        $tel = new Telefone();
 
         $pj = $pessoajuridica->getPessoaJuridica($idPessoa);
         $pj->tipoEmpresa = $tpEmp->getListaTipoEmpresa();
@@ -148,6 +150,7 @@ class PessoaJuridicaController extends Controller
         $municipio = Http::get('http://ws.creadf.org.br/api/endereco/cidade/'.$pj->fk_id_naturalidade)->json();
         $pj->observacao = addslashes($pj->observacao);
         $pj->listaRegime = RegimeTrabalho::select()->get();
+        $pj->telefone = $tel->getTelefonePessoa($idPessoa);
 
         try {
             $email = new Email();

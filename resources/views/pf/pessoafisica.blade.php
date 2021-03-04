@@ -291,19 +291,20 @@
 
 
                             <div class="flex h-24 mt-5 mb-10 row w-100">
-                            @foreach ($pessoafisica->telefone as $key => $telefone)
+                                @for ($i = 0; $i < 2; $i++)
 
-                                <div class="w-1/5 h-12 mb-4 mr-5">
-                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='telefone_{{$key}}'>
-                                        telefone {{$key+1}}
-                                    </label>
-                                    <input x-on:click.prevent="" maxlength="16" x-model="frmEndereco.telefone.telefone_{{$key}}" id='telefone_{{$key}}' name='telefone_{{$key}}' type='text' placeholder='Insira nº do telefone'
-                                        class='inline px-4 py-3 mb-3 leading-tight text-center text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                                    <div class="w-1/5 h-12 mb-4 mr-5">
+                                        <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='telefone{{$i}}'>
+                                            telefone {{$i+1}}
+                                        </label>
+                                        <input maxlength="16" x-model="frmEndereco.telefone.telefone{{$i}}" id="telefone{{$i}}" name="telefone{{$i}}" type='text' placeholder='Insira nº do telefone'
+                                            class='inline px-4 py-3 mb-3 leading-tight text-center text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
 
-                                    <input type="hidden" x-model="frmEndereco.telefone.fk_id_telefone_{{$key}}" id="fk_id_telefone_{{$key}}" name="fk_id_telefone_{{$key}}">
+                                        <input type="hidden" x-model="frmEndereco.telefone.id_telefone{{$i}}" id="id_telefone{{$i}}" name="id_telefone{{$i}}">
 
-                                </div>
-                            @endforeach
+                                    </div>
+
+                                @endfor
                             </div>
 
                             <div class="flex flex-wrap mt-5 row">
@@ -821,13 +822,11 @@
                         fk_id_tipologradouro: '{{ $pessoafisica->correspondencia->fk_id_tipologradouro }}',
                     },
                     telefone:{
-                        telefone_0: "{{ $pessoafisica->telefone[0]['telefone_0'] ?? null }}",
-                        telefone_1: "{{ $pessoafisica->telefone[1]['telefone_1'] ?? null}}",
-                        fk_id_telefone_0: "{{ $pessoafisica->telefone[0]['fk_id_telefone_0'] ?? null}}",
-                        fk_id_telefone_1: "{{ $pessoafisica->telefone[1]['fk_id_telefone_1'] ?? null}}",
+                        telefone0: "{{ $pessoafisica->telefone[0]['telefone'] ?? null }}",
+                        telefone1: "{{ $pessoafisica->telefone[1]['telefone'] ?? null}}",
+                        id_telefone0: "{{ $pessoafisica->telefone[0]['id_telefone'] ?? null}}",
+                        id_telefone1: "{{ $pessoafisica->telefone[1]['id_telefone'] ?? null}}",
                     }
-
-
                 },
                 marcarBox(){
                     this.frmEndereco.st_correspondencia = !this.frmEndereco.st_correspondencia;
@@ -1046,8 +1045,8 @@
         VMasker(document.getElementById("zona_titulo_eleitor")).maskPattern('9999');
         VMasker(document.getElementById("cep")).maskPattern('99.999-999');
         VMasker(document.getElementById("cepCorrespondencia")).maskPattern('99.999-999');
-        VMasker(document.getElementById("telefone_0")).maskPattern('(99) 999-999-999');
-        VMasker(document.getElementById("telefone_1")).maskPattern('(99) 999-999-999');
+        VMasker(document.getElementById("telefone0")).maskPattern('(99) 999-999-999');
+        VMasker(document.getElementById("telefone1")).maskPattern('(99) 999-999-999');
     </script>
 
 </x-app-layout>

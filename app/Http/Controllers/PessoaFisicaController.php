@@ -149,13 +149,6 @@ class PessoaFisicaController extends Controller
         $pf->observacao = addslashes($pf->observacao);
         $pf->telefone = $tel->getTelefonePessoa($idPessoa);
 
-        for($i=0; $i<2; $i++){
-            $telefone[$i]['fk_id_telefone_'.$i] = $pf->telefone[$i]['id_telefone'];
-            $telefone[$i]['telefone_'.$i] = formatarNrTelefone($pf->telefone[$i]['telefone']);
-        }
-
-        $pf->telefone = $telefone;
-
         if( $municipio ){
             $cidade = (object) $municipio;
             $pf->fk_id_uf = $cidade->fk_uf;

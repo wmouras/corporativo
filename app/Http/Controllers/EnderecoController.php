@@ -37,6 +37,7 @@ class EnderecoController extends Controller
             $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
         }
         $endereco = $request->all();
+
         $empresa = $endereco['empresa'];
         $empresa['envia_correspondencia'] = 0;
 
@@ -59,15 +60,8 @@ class EnderecoController extends Controller
         $empresa['situacao_envio_confea'] = 0;
         $empresa['fk_id_tipo_endereco'] = 1;
 
-        for($i=0; $i<2; $i++){
-            $telefone['id_telefone'] = $request['fk_id_telefone_'.$i];
-            $telefone['fk_id_pessoa'] = $idPessoa;
-            $telefone['fk_id_tipo_telefone'] = $i+1;
-            $telefone['telefone'] = apenasNumero($request['telefone']['telefone_'.$i]);
-            $telefone['usuario_alteracao'] = Auth::user()->id;
-            $tel = new Telefone();
-            $tel->salvarTelefone($telefone);
-        }
+        $tel = new Telefone();
+        $tel->salvarTelefone($request->all(), $idPessoa, Auth::user()->id);
 
         $result = Endereco::updateOrCreate(['id_endereco' => $empresa['id_endereco']], $empresa);
 

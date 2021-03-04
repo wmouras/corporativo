@@ -17,11 +17,36 @@ class Telefone extends Model
 
     public  function getTelefonePessoa($idPessoa)
     {
-        return model::select()->where('fk_id_pessoa', $idPessoa)->get();
+        $tel = model::select()->where('fk_id_pessoa', $idPessoa)->get();
+
+        for($i=0; $i<2; $i++){
+
+            if(isset($tel[$i])){
+                $telefone[$i]['id_telefone'] = $tel[$i]['id_telefone'];
+                $telefone[$i]['telefone'] = formatarNrTelefone($tel[$i]['telefone']);
+            }else{
+                $telefone[$i]['id_telefone'] = '';
+                $telefone[$i]['telefone'] = '';
+            }
+        }
+        // dd($telefone);
+
+        return $telefone;
     }
 
-    public function salvarTelefone($telefone)
+    public function salvarTelefone($request, $idPessoa, $idUser)
     {
-        return model::updateOrCreate(['id_telefone' => $telefone['id_telefone']], $telefone);
+
+        // dd($request);
+        for($i=0; $i<2; $i++){
+            $telefone['id_telefone'] = $request['telefone']['id_telefone'.$i];
+            $telefone['fk_id_pessoa'] = $idPessoa;
+            $telefone['fk_id_tipo_telefone'] = $i+1;
+            $telefone['telefone'] = apenasNumero($request['telefone']['telefone'.$i]);
+            $telefone['usuario_alteracao'] = $idUser;
+
+            $rs = model::updateOrCreate(['id_telefone' => $telefone['id_telefone'.$i]], $telefone);
+        }
+        return $rs;
     }
 }

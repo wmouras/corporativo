@@ -5,6 +5,8 @@
         </h2>
     </x-slot>
 
+    <?php //dd($pessoajuridica->telefone[1]['telefone_1']); ?>
+
     <div class='py-1'>
 
         <div x-data="{ tab: 'divRegistro' }" >
@@ -216,22 +218,21 @@
                          @csrf
                         <div class='py-3 row col-md-6'>
 
-                            <div class="flex h-24 mt-5 mb-10 border-2 row w-100">
-                                <div class="w-1/5 h-12 mb-4 mr-5">
-                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='telefone_1'>
-                                        telefone 1
-                                    </label>
-                                    <input x-model="frmEndereco.telefone.telefone_1" id='telefone_1' name='telefone_1' type='text' placeholder='Insira nº do telefone'
-                                        class='inline px-4 py-3 mb-3 leading-tight text-center text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
-                                </div>
-                                <div class="w-1/3 h-12 mb-4">
-                                    <label class='block w-full mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='telefone_2'>
-                                        telefone 2 (opcional)
-                                    </label>
-                                    <input x-model="frmEndereco.telefone.telefone_2" id='telefone_2' name='telefone_2' type='text' placeholder='Insira o nº do telefone'
-                                        class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+                            <div class="flex h-24 mt-5 mb-10 row w-100">
+                                @for ($i = 0; $i < 2; $i++)
 
-                                </div>
+                                    <div class="w-1/5 h-12 mb-4 mr-5">
+                                        <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='telefone{{$i}}'>
+                                            telefone {{$i+1}}
+                                        </label>
+                                        <input maxlength="16" x-model="frmEndereco.telefone.telefone{{$i}}" id="telefone{{$i}}" name="telefone{{$i}}" type='text' placeholder='Insira nº do telefone'
+                                            class='inline px-4 py-3 mb-3 leading-tight text-center text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
+
+                                        <input type="hidden" x-model="frmEndereco.telefone.id_telefone{{$i}}" id="id_telefone{{$i}}" name="id_telefone{{$i}}">
+
+                                    </div>
+
+                                @endfor
                             </div>
 
                             <div class="flex flex-wrap mt-5 row">
@@ -349,7 +350,7 @@
 
                                 </div>
                                 <div class="w-1/6 h-12 mb-4 ml-5">
-                                    <label class='block w-20 mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='numero'>
+                                    <label class='block w-20 mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='numeroCorrespondencia'>
                                         Nº
                                     </label>
                                     <input x-model="frmEndereco.correspondencia.numero" id='numeroCorrespondencia' name='numeroCorrespondencia' type='text' placeholder='Insira o número'
@@ -386,7 +387,7 @@
 
                             <div class="flex flex-wrap mt-5 row">
                                 <div class="w-1/4 h-12 mb-4">
-                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='complemento'>
+                                    <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='complementoCorrespondencia'>
                                     Complemento
                                 </label>
                                 <input x-model="frmEndereco.correspondencia.complemento" id='complementoCorrespondencia' name='complementoCorrespondencia' type='text' placeholder='Insira o complemento'
@@ -568,8 +569,7 @@
                         }
                     );
 
-
-                },
+                }
             }
 
         }
@@ -577,7 +577,7 @@
         function endereco(){
 
             return {
-                frmEnder: null,
+                frmEnd: null,
                 frmEndereco: {
                     empresa: {
                         id_endereco: '{{$pessoajuridica->endereco->id_endereco}}',
@@ -611,10 +611,11 @@
                         fk_id_tipologradouro: '{{ $pessoajuridica->correspondencia->fk_id_tipologradouro }}',
                     },
                     telefone:{
-                        telefone_1: '{{$pessoajuridica->telefone1 ?? ""}}',
-                        telefone_2: '{{$pessoajuridica->telefone2 ?? ""}}',
+                        telefone0: "{{ $pessoajuridica->telefone[0]['telefone'] ?? '' }}",
+                        telefone1: "{{ $pessoajuridica->telefone[1]['telefone'] ?? ''}}",
+                        id_telefone0: "{{ $pessoajuridica->telefone[0]['id_telefone'] ?? ''}}",
+                        id_telefone1: "{{ $pessoajuridica->telefone[1]['id_telefone'] ?? ''}}",
                     }
-
 
                 },
                 marcarBox(){
@@ -637,7 +638,7 @@
                 },
                 getEnderecoCep(){
 
-                    endereco = fetch( '/endereco/cep/'+document.getElementById("cep").value ).then( res => res.json() )
+                    endereco = fetch( '/endereco/cep/'+document.getElementById("cep").value ).then( res => res.json())
                     .then( data => {
                         endereco = data;
                         document.getElementById("logradouro").value = endereco.logradouro;
@@ -658,7 +659,7 @@
                         this.frmEndereco.empresa.fk_id_logradouro = endereco.fk_id_logradouro
                         this.frmEndereco.empresa.fk_id_tipologradouro = endereco.fk_id_tipologradouro;
 
-                    } );
+                    });
 
                 },
                 getEnderecoCepCorrespondecia(){
@@ -685,8 +686,6 @@
                         this.frmEndereco.correspondencia.fk_id_tipologradouro = correspondencia.fk_id_tipologradouro;
 
                     });
-
-
 
                 }
 
@@ -788,6 +787,9 @@
         VMasker(document.getElementById("cnpj")).maskPattern('99.999.999/9999-99');
         VMasker(document.getElementById("cep")).maskPattern('99.999-999');
         VMasker(document.getElementById("cepCorrespondencia")).maskPattern('99.999-999');
+
+        VMasker(document.getElementById("telefone0")).maskPattern('(99) 999-999-999');
+        VMasker(document.getElementById("telefone1")).maskPattern('(99) 999-999-999');
 
         VMasker(document.querySelector(".vl-capital-social")).maskMoney({precision: 2, unit: 'R$', separator: ',', delimiter: '.', zeroCents: false });
         VMasker(document.querySelector(".vl-capital-filial")).maskMoney({precision: 2, unit: 'R$', separator: ',', delimiter: '.', zeroCents: false });
