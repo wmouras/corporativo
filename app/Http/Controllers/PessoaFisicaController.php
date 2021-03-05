@@ -27,22 +27,11 @@ class PessoaFisicaController extends Controller
     public function index()
     {
 
-        if (Auth::user()->id == 1)
-        {
-            session(['admin' => true]);
-            return $this->lista();
-        }
-        else
-        {
-            // dd( Auth::user()->id );
-            $pessoa = PessoaFisica::where('fk_id_pessoa', Auth::user()->id)->get()[0];
-            $pessoa['idPessoa'] = Crypt::encryptString($pessoa->fk_id_pessoa);
+        // dd( Auth::user()->id );
+        $pessoa = PessoaFisica::where('fk_id_pessoa', Auth::user()->id)->get()[0];
+        $pessoa['id_pessoa'] = Crypt::encryptString($pessoa->fk_id_pessoa);
+        return view('pf/index', ['pessoa' => $pessoa]);
 
-            // dd( $pessoa );
-            // $pessoa->listaUf = $endereco->;
-            session(['admin' => false]);
-            return view('pf/index', ['pessoa' => $pessoa, 'admin' => false, 'editar' => 'disabled']);
-        }
     }
 
     public function lista(Request $request = null){

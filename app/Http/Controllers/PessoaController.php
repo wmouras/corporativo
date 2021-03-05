@@ -18,25 +18,26 @@ class PessoaController extends Controller
         if (Auth::user()->id == 1)
         {
             session(['admin' => true]);
+            session(['editar' => '']);
             return $this->lista(new Request);
         }
         else
         {
             try {
                 $pessoa = Pessoa::where('fk_id_user', Auth::user()->id)->get()[0];
-                $pessoa['idPessoa'] = Crypt::encryptString($pessoa->fk_id_pessoa);
+                $pessoa->id_pessoa = Crypt::encryptString($pessoa->id_pessoa);
+
             }catch(QueryException $e){
                 return view('nr/index', ['pessoa' => new User(), 'admin' => false, 'editar' => 'disabled']);
             }
 
-            // dd( $pessoa );
-            // $pessoa->listaUf = $endereco->;
             session(['admin' => false]);
-            if( $pessoa->fk_id_tipo_pessoa == 1 )
+            session(['editar' => 'disabled']);
+            if( $pessoa->tipo_pessoa == 1 )
             {
-                return view('pf/index', ['pessoa' => $pessoa, 'admin' => false, 'editar' => 'disabled']);
+                return redirect()->route('pessoafisica.index', ['pessoa' => $pessoa]);
             }else{
-                return view('pj/index', ['pessoa' => $pessoa, 'admin' => false, 'editar' => 'disabled']);
+                return redirect()->route('pf/pessoajuridica/index', ['pessoa' => $pessoa, 'admin' => false, 'editar' => 'disabled']);
             }
         }
 
