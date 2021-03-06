@@ -19,7 +19,7 @@
                 </h2>
             </div>
 
-            <form x-model="frmQuadroTecnico" x-data="registro()" name="frmQuadroTecnico" id="frmQuadroTecnico" x-on-click.prevent = "">
+            <form x-model="frmQT" x-data="registro()" name="frmQuadroTecnico" id="frmQuadroTecnico" x-on-click.prevent = "">
 
                 <div class="w-full h-full py-5 mt-5 overflow-hidden rounded shadow-lg">
 
