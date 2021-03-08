@@ -202,6 +202,25 @@
                                     </div>
                                 <!--/table Card-->
 
+                                 <!--Table Card-->
+                                 <div class="p-3">
+                                    <div class="p-3 border-b">
+                                        <h5 class="font-bold text-black">Documento de Registro</h5>
+                                    </div>
+
+                                    <div class="w-full p-5">
+                                        <div class="flex-shrink">
+                                            <div class="w-64 p-1 bg-blue-600 rounded-full">
+                                                <a href="/pf/pessoafisica/pdf/{{ $pessoa->id_pessoa }}" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm text-lg text-white">
+                                                    <b>Emitir documento</b>&nbsp;&nbsp;<i class="fa fa-file"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            <!--/table Card-->
+
                             </div>
 
                             </div>
