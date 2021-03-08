@@ -15,7 +15,7 @@ class PessoaFisica extends Model
     protected $primaryKey = 'fk_id_pessoa';
 
     protected $fillable = ['fk_id_pessoa', 'nome', 'cpf', 'identidade', 'data_emissao_identidade', 'data_nascimento', 'sexo', 'tipo_sangue','fk_cd_nacionalidade',
-                           'fk_id_naturalidade', 'deficiente', 'titulo_eleitor', 'zona_titulo_eleitor', 'secao_titulo_eleitor', 'observacao', 'nr_pis_pasep'];
+                           'fk_id_naturalidade', 'deficiente', 'titulo_eleitor', 'zona_titulo_eleitor', 'secao_titulo_eleitor', 'observacao', 'pis_pasep'];
 
     public function getPessoaFisica($idPessoa){
         $select = model::select()

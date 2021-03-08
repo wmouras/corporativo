@@ -9,23 +9,24 @@
 
     <div class='py-1'>
 
-        <div x-data="{ tab: 'divConclusao' }" >
+        <div x-data="abas()">
 
                 <div class='mx-auto text-center max-w-7xl sm:px-6 lg:px-8'>
-                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divDescricao' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divDescricao'">
+                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divDescricao' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="{tab = 'divDescricao'}">
                         <b>Descrição</b>
                     </button>
-                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divContato' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divContato'">
+                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divContato' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="{tab = 'divContato'}">
                         <b>Contato</b>
                     </button>
-                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divRegistro' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divRegistro'">
+                    <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divRegistro' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="{tab = 'divRegistro'}">
                         <b>Registro</b>
                     </button>
                      @if(isset($admin) && $admin === true)
-                        <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divConclusao' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divConclusao'">
+                        <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divConclusao' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="{tab = 'divConclusao'}">
                             <b>Conclusão</b>
                         </button>
                     @endif
+
                 </div>
 
             <div class='mx-auto max-w-7xl sm:px-6 lg:px-8' id="divDescricao" ref="divDescricao" x-show="tab === 'divDescricao'">
@@ -93,10 +94,10 @@
                                 <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='tipo_empresa'>
                                     Possui alguma deficência?
                                 </label>
-                                <select {{$editar ?? null}} class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'
-                                    name="id_deficiencia" id="id_deficiencia" >
-                                        <option value="99'">Selecione...</option>
-                                        <option value="1'">SIM</option>
+                                <select {{$editar ?? null}} x-model="frmData.deficiente" class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'
+                                    name="deficiente" id="deficiente" >
+                                        <option value="99">Selecione...</option>
+                                        <option value="1">SIM</option>
                                         <option value="0">NÃO</option>
 
                                 </select>
@@ -219,7 +220,7 @@
                                     <label class='block mb-2 text-xs font-bold tracking-wide text-gray-700 uppercase' for='tipo_sangue'>
                                         Nº PIS/PASEP
                                     </label>
-                                    <input {{$editar ?? null}} x-model="frmData.nr_pis_pasep" id='nr_pis_pasep' name='nr_pis_pasep' type='text' placeholder='Insira PIS/PASEP' value="{{ $pessoafisica->nr_pis_pasep }}"
+                                    <input {{$editar ?? null}} x-model="frmData.pis_pasep" id='pis_pasep' name='pis_pasep' type='text' placeholder='Insira PIS/PASEP' value="{{ $pessoafisica->nr_pis_pasep }}"
                                         class='block px-4 py-3 mb-3 leading-tight text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
 
                                 </div>
@@ -701,6 +702,12 @@
 
     <script type="text/javascript">
 
+        function abas(){
+            return{
+                tab: 'divDescricao'
+            }
+        }
+
         function profissional(pessoa){
 
             return {
@@ -713,8 +720,6 @@
                     data_emissao_identidade: '{{ $pessoafisica->data_emissao_identidade }}',
                     data_nascimento: '{{ $pessoafisica->data_nascimento }}',
                     foto: '{{ $pessoafisica->foto }}',
-                    pai: '{{ $pessoafisica->pai }}',
-                    mae: '{{ $pessoafisica->mae }}',
                     sexo: '{{ $pessoafisica->sexo }}',
                     tipo_sangue: '{{ $pessoafisica->tipo_sangue }}',
                     fk_cd_nacionalidade: '{{ $pessoafisica->fk_cd_nacionalidade ?? "BRA" }}',
@@ -724,10 +729,8 @@
                     zona_titulo_eleitor: '{{ $pessoafisica->zona_titulo_eleitor }}',
                     secao_titulo_eleitor: '{{ $pessoafisica->secao_titulo_eleitor }}',
                     observacao: `{{ $pessoafisica->observacao }}`,
-                    nr_pis_pasep: `{{ $pessoafisica->nr_pis_pasep ?? '' }}`,
+                    pis_pasep: "{{ $pessoafisica->pis_pasep ?? '' }}",
                     email: '{{ $pessoafisica->email }}',
-                    telefone_1: '{{ $pessoafisica->telefone[0]->telefone ?? ''}}',
-                    telefone_2: '{{ $pessoafisica->telefone[1]->telefone ?? '' }}',
                     parentesco1: {
                                     id_parentesco: '{{ $pessoafisica->parentesco1->id_parentesco }}',
                                     nome: '{{ $pessoafisica->parentesco1->nome }}',

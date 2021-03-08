@@ -79,4 +79,8 @@ class User extends Authenticatable
         Log::info($cpf.": ".$pass);
         return $pass;
     }
+
+    public function getUsuario($idPessoa){
+        return DB::select('select * from users where fk_id_user = ?', [$idUsuario]);
+    }
 }

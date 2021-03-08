@@ -33,11 +33,14 @@ class PessoaController extends Controller
 
             session(['admin' => false]);
             session(['editar' => 'disabled']);
+
+            // dd($pessoa);
+
             if( $pessoa->tipo_pessoa == 1 )
             {
                 return redirect()->route('pessoafisica.index', ['pessoa' => $pessoa]);
             }else{
-                return redirect()->route('pf/pessoajuridica/index', ['pessoa' => $pessoa, 'admin' => false, 'editar' => 'disabled']);
+                return redirect()->route('pessoajuridica.index', ['pessoa' => $pessoa]);
             }
         }
 
@@ -69,7 +72,7 @@ class PessoaController extends Controller
                       ->orWhere('tb_pessoa_juridica.cnpj', 'like', '%'.$request->idReceita.'%');
             }
 
-            $lista->take(35)->orderBy('tb_pessoa.id_pessoa', 'desc');
+            $lista->take(40)->orderBy('tb_pessoa.id_pessoa', 'desc');
 
             // dd( $lista->toSql() );
 

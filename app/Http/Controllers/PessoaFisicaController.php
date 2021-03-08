@@ -59,6 +59,23 @@ class PessoaFisicaController extends Controller
         return response()->json($nacionalidade->listaNacionalidade());
     }
 
+    public function emitirCrq(Request $request)
+{
+
+        // retreive all records from db
+        $data = $this->edicao($request, true);
+
+        // share data to view
+        view()->share('pessoafisica', $data);
+
+        PDF::setPaper('A4', 'portrait');
+        $pdf = PDF::loadView('pf.pdf_crq', $data)->setOptions(['defaultFont' => 'sans-serif']);
+
+        // download PDF file with download method
+        return $pdf->download('pdf_registro.pdf');
+
+}
+
     public function imprimirPDF(Request $request){
 
         // retreive all records from db
@@ -199,6 +216,7 @@ class PessoaFisicaController extends Controller
         $data_nascimento = alterarDataBrMysql($request->data_nascimento);
         $request['titulo_eleitor'] = validarTituloEleitor($request->titulo_eleitor);
         $request['cpf'] = preg_replace("/[^0-9]/", "", $request->cpf);
+        $request['pis_pasep'] = preg_replace("/[^0-9]/", "", $request->pis_pasep);
         $request->merge(['usuario' => Auth::id()]);
         $request->merge(['data_emissao_identidade' => $data_emissao_identidade]);
         $request->merge(['data_nascimento' => $data_nascimento]);
@@ -207,10 +225,9 @@ class PessoaFisicaController extends Controller
             $user = new User();
             $pessoa = new Pessoa();
             $idPessoa = null;
-            $cpf = $request['cpf'];
             $usuario['name'] = $request['nome'];
             $usuario['email'] = $request['email'];
-            $usuario['password'] = Hash::make($user->gerarSenhaAleatoria($cpf));
+            $usuario['password'] = Hash::make('12345678');//$user->gerarSenhaAleatoria($request['cpf']));
             $idUsuario = $user->salvarUsuario($usuario);
 
             $pf['fk_id_user'] = $idUsuario;
@@ -222,6 +239,19 @@ class PessoaFisicaController extends Controller
 
         } else {
             $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
+            $user = new User();
+            $pss = new Pessoa();
+            $pessoa = $pss->getPessoa($idPessoa);
+            $usuario['id'] = $pessoa->fk_id_user;
+            $usuario['name'] = $request['nome'];
+            $usuario['email'] = $request['email'];
+            $usuario['password'] = Hash::make('12345678');
+            $user = User::updateOrCreate(['id' => $pessoa->fk_id_user], $usuario);
+            $person['fk_id_user'] = $user->id;
+            $person['tipo_pessoa'] = '1';
+            $peopersonple['id_pessoa'] = $pessoa->id_pessoa;
+            Pessoa::updateOrCreate(['id_pessoa' => $pessoa->id_pessoa], $person);
+
         }
 
         try{
@@ -241,7 +271,7 @@ class PessoaFisicaController extends Controller
             // return redirect()->route('pessoafisica.edit', ['id'=>$request->session()->get('id_pessoa')])->with('suscesso', 'You have no permission for this page!');
 
         }catch(QueryException $e){
-
+            dd( $e );
         }
 
     }

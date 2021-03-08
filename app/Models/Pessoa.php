@@ -26,4 +26,9 @@ class Pessoa extends Model
 
     }
 
+    public function getPessoa($idPessoa)
+    {
+        return model::select()->where('id_pessoa', $idPessoa)->first();
+    }
+
 }
