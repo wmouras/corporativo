@@ -290,7 +290,6 @@
                          @csrf
                         <div class='py-3 row col-md-6'>
 
-
                             <div class="flex h-24 mt-5 mb-10 row w-100">
                                 @for ($i = 0; $i < 2; $i++)
 
@@ -300,9 +299,7 @@
                                         </label>
                                         <input maxlength="16" x-model="frmEndereco.telefone.telefone{{$i}}" id="telefone{{$i}}" name="telefone{{$i}}" type='text' placeholder='Insira nº do telefone'
                                             class='inline px-4 py-3 mb-3 leading-tight text-center text-gray-700 border rounded appearance-none w-44 bg-gray-50 border-blue-50 focus:outline-none focus:bg-white'>
-
                                         <input type="hidden" x-model="frmEndereco.telefone.id_telefone{{$i}}" id="id_telefone{{$i}}" name="id_telefone{{$i}}">
-
                                     </div>
 
                                 @endfor
