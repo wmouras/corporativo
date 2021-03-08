@@ -1,27 +1,27 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
             Dados do profissional
         </h2>
     </x-slot>
 
     <div class="py-3">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg center">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="overflow-hidden bg-white shadow-xl sm:rounded-lg center">
 
-                <div class="flex flex-row flex-wrap flex-1 flex-grow content-start pl-16">
+                <div class="flex flex-row flex-wrap content-start flex-1 flex-grow pl-16">
 
                     <!--Dash Content -->
-                    <div id="dash-content" class="bg-gray-200 py-6 lg:py-0 w-full lg:max-w-sm flex flex-wrap content-start text-center">
+                    <div id="dash-content" class="flex flex-wrap content-start w-full py-6 text-center bg-gray-200 lg:py-0 lg:max-w-sm">
 
                         <div class="w-1/2 lg:w-full">
-                            <div class="border-2 border-gray-400 border-dashed hover:border-transparent hover:bg-white hover:shadow-xl rounded p-6 m-2 md:mx-10 md:my-6">
+                            <div class="p-6 m-2 border-2 border-gray-400 border-dashed rounded hover:border-transparent hover:bg-white hover:shadow-xl md:mx-10 md:my-6">
                                 <div class="flex flex-col items-center">
                                     <div class="flex-shrink">
-                                        <div class="rounded-full p-3 bg-green-300"><i class="fa fa-id-card fa-fw fa-inverse text-indigo-500"></i></div>
+                                        <div class="p-3 bg-green-300 rounded-full"><i class="text-indigo-500 fa fa-id-card fa-fw fa-inverse"></i></div>
                                     </div>
                                     <div class="flex-1">
-                                        <h3 class="font-bold text-3xl">OK<span class="text-green-500"></span></h3>
+                                        <h3 class="text-3xl font-bold">OK<span class="text-green-500"></span></h3>
                                         <h5 class="font-bold text-gray-500">Anuidade</h5>
                                     </div>
                                 </div>
@@ -29,13 +29,13 @@
                         </div>
 
                         <div class="w-1/2 lg:w-full">
-                            <div class="border-2 border-gray-400 border-dashed hover:border-transparent hover:bg-white hover:shadow-xl rounded p-6 m-2 md:mx-10 md:my-6">
+                            <div class="p-6 m-2 border-2 border-gray-400 border-dashed rounded hover:border-transparent hover:bg-white hover:shadow-xl md:mx-10 md:my-6">
                                 <div class="flex flex-col items-center">
                                     <div class="flex-shrink">
-                                        <div class="rounded-full p-3 bg-green-300"><i class="fas fa-building fa-fw fa-inverse text-indigo-500"></i></div>
+                                        <div class="p-3 bg-green-300 rounded-full"><i class="text-indigo-500 fas fa-building fa-fw fa-inverse"></i></div>
                                     </div>
                                     <div class="flex-1">
-                                        <h3 class="font-bold text-3xl">21 <span class="text-orange-500"><i class="fas fa-exchange-alt"></i></span></h3>
+                                        <h3 class="text-3xl font-bold">21 <span class="text-orange-500"><i class="fas fa-exchange-alt"></i></span></h3>
                                         <h5 class="font-bold text-gray-500">Total ARTs</h5>
                                     </div>
                                 </div>
@@ -43,13 +43,13 @@
                         </div>
 
                         <div class="w-1/2 lg:w-full">
-                            <div class="border-2 border-gray-400 border-dashed hover:border-transparent hover:bg-white hover:shadow-xl rounded p-6 m-2 md:mx-10 md:my-6">
+                            <div class="p-6 m-2 border-2 border-gray-400 border-dashed rounded hover:border-transparent hover:bg-white hover:shadow-xl md:mx-10 md:my-6">
                                 <div class="flex flex-col items-center">
                                     <div class="flex-shrink">
-                                        <div class="rounded-full p-3 bg-green-300"><i class="fas fa-money-check-alt fa-fw fa-inverse text-indigo-500"></i></div>
+                                        <div class="p-3 bg-green-300 rounded-full"><i class="text-indigo-500 fas fa-money-check-alt fa-fw fa-inverse"></i></div>
                                     </div>
                                     <div class="flex-1">
-                                        <h3 class="font-bold text-3xl">0 <span class="text-yellow-600"></span></h3>
+                                        <h3 class="text-3xl font-bold">0 <span class="text-yellow-600"></span></h3>
                                         <h5 class="font-bold text-gray-500">Multas</h5>
                                     </div>
                                 </div>
@@ -57,13 +57,13 @@
                         </div>
 
                         <div class="w-1/2 lg:w-full">
-                            <div class="border-2 border-gray-400 border-dashed hover:border-transparent hover:bg-white hover:shadow-xl rounded p-6 m-2 md:mx-10 md:my-6">
+                            <div class="p-6 m-2 border-2 border-gray-400 border-dashed rounded hover:border-transparent hover:bg-white hover:shadow-xl md:mx-10 md:my-6">
                                 <div class="flex flex-col items-center">
                                     <div class="flex-shrink">
-                                        <div class="rounded-full p-3 bg-green-300"><i class="fas fa-history fa-fw fa-inverse text-indigo-500"></i></div>
+                                        <div class="p-3 bg-green-300 rounded-full"><i class="text-indigo-500 fas fa-history fa-fw fa-inverse"></i></div>
                                     </div>
                                     <div class="flex-1">
-                                        <h3 class="font-bold text-3xl">8 anos</h3>
+                                        <h3 class="text-3xl font-bold">8 anos</h3>
                                         <h5 class="font-bold text-gray-500">Tempo de registro</h5>
                                     </div>
                                 </div>
@@ -73,39 +73,37 @@
                     </div>
 
                     <!--Gráfico Content -->
-                    <div id="main-content" class="w-full flex-1">
+                    <div id="main-content" class="flex-1 w-full">
 
-                        <div class="flex flex-1 flex-wrap">
+                        <div class="flex flex-wrap flex-1">
 
-                            <div class="w-full xl:w-2/3 p-6 xl:max-w-6xl">
+                            <div class="w-full p-6 xl:w-2/3 xl:max-w-6xl">
 
                                 <!--"Container" for the Gráficos"-->
                                 <div class="max-w-full lg:max-w-5xl xl:max-w-5xl">
 
                                     <!--Gráfico Card-->
-                                    <div class="border-b p-3">
+                                    <div class="p-3 border-b">
                                         <h5 class="font-bold text-black">Dados Pessoais</h5>
                                     </div>
-                                    <div class="p-5 w-full">
+                                    <div class="w-full p-5">
                                         <ul class="w-full">
-                                            <li class="text-light px-3 w-full mb-2">{{ $pessoa->nome }}</li>
-                                            <li class="text-light px-3 w-44 mb-2">{{ $pessoa->cpf }}</li>
-                                            <li class="text-light px-3 w-44 mb-2">{{ Auth::user()->email }}</li>
+                                            <li class="w-full px-3 mb-2 text-light">{{ $pessoa->nome }}</li>
+                                            <li class="px-3 mb-2 text-light w-44">{{ $pessoa->cpf }}</li>
+                                            <li class="px-3 mb-2 text-light w-44">{{ Auth::user()->email }}</li>
                                         </ul>
                                         <div class="flex-shrink">
-                                            <div class="rounded-full w-56 p-1 bg-green-300">
-                                                <a href="/pf/pessoafisica/edicao/{{ $pessoa->idPessoa }}" class="relative inline-flex items-center ml-3 px-4 py-2 text-sm font-medium text-green-800">
-                                                    <i class="fa fa-edit"></i>&nbsp;&nbsp;Editar meus dados
-                                                </a>
+                                            <div class="p-1 text-center bg-green-300 rounded-full w-60">
+                                                <a href="/pf/pessoafisica/edicao/{{ $pessoa->id_pessoa }}" class="inline-flex items-center px-4 py-2 ml-3 text-sm text-lg text-green-800 w-56relative">
+                                                    <b>Dados Pessoais</b>&nbsp;&nbsp;<i class="fa fa-edit"></i></a>
                                             </div>
                                         </div>
-
-</div>
+                                    </div>
                                     <!--/Gráfico Card-->
 
                                     <!--Table Card-->
                                     <div class="p-3">
-                                        <div class="border-b p-3">
+                                        <div class="p-3 border-b">
                                             <h5 class="font-bold text-black">ARTs</h5>
                                         </div>
                                         <div class="p-5">
@@ -138,7 +136,7 @@
                                                 </tbody>
                                             </table>
 
-                                            <p class="py-2"><a href="http://servicos.creadf.org.br/binn/serv-online-prof.htm" class="no-underline text-blue-700 hover:text-green-400" target="_blank">Acesso às ARTs</a></p>
+                                            <p class="py-2"><a href="http://servicos.creadf.org.br/binn/serv-online-prof.htm" class="text-blue-700 no-underline hover:text-green-400" target="_blank">Acesso às ARTs</a></p>
 
                                         </div>
                                     </div>
@@ -146,7 +144,7 @@
 
                                     <!--Table Card-->
                                     <div class="p-3">
-                                        <div class="border-b p-3">
+                                        <div class="p-3 border-b">
                                             <h5 class="font-bold text-black">Protocolos</h5>
                                         </div>
                                         <div class="p-5">
@@ -179,24 +177,43 @@
                                                 </tbody>
                                             </table>
 
-                                            <p class="py-2"> <a href="http://servicos.creadf.org.br/binn/serv-online-prof.htm" class="no-underline text-blue-700 hover:text-green-400" target="_blank">Acesso aos protocolos</a></p>
+                                            <p class="py-2"> <a href="http://servicos.creadf.org.br/binn/serv-online-prof.htm" class="text-blue-700 no-underline hover:text-green-400" target="_blank">Acesso aos protocolos</a></p>
 
                                         </div>
                                     </div>
                                     <!--/table Card-->
 
-                                </div>
+                                <!--Table Card-->
+                                    <div class="p-3">
+                                        <div class="p-3 border-b">
+                                            <h5 class="font-bold text-black">CRQ</h5>
+                                        </div>
+
+                                        <div class="w-full p-5">
+                                            <div class="flex-shrink">
+                                                <div class="w-48 p-1 bg-blue-600 rounded-full">
+                                                    <a href="/pf/pessoafisica/crq/{{ $pessoa->id_pessoa }}" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm text-lg text-white">
+                                                        <b>Emitir CRQ&nbsp;&nbsp;</b><i class="fa fa-edit"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                <!--/table Card-->
 
                             </div>
 
-                            <div class="w-full xl:w-1/3 p-6 xl:max-w-4xl border-l-1 border-gray-300">
+                            </div>
+
+                            <div class="w-full p-6 border-gray-300 xl:w-1/3 xl:max-w-4xl border-l-1">
 
                                 <!--"Container" for the Gráficos"-->
                                 <div class="max-w-sm lg:max-w-3xl xl:max-w-5xl">
 
                                     <!--Gráfico Card-->
 
-                                    <div class="border-b p-3">
+                                    <div class="p-3 border-b">
                                         <h5 class="font-bold text-black">Gráfico</h5>
                                     </div>
                                     <div class="p-5">
@@ -206,7 +223,7 @@
                                     <!--/Gráfico Card-->
 
                                     <!--Gráfico Card-->
-                                    <div class="border-b p-3">
+                                    <div class="p-3 border-b">
                                         <h5 class="font-bold text-black">Gráfico</h5>
                                     </div>
                                     <div class="p-5">
@@ -217,7 +234,7 @@
 
                                     <!--Gráfico Card-->
 
-                                    <div class="border-b p-3">
+                                    <div class="p-3 border-b">
                                         <h5 class="font-bold text-black">Gráfico</h5>
                                     </div>
                                     <div class="p-5">
@@ -226,7 +243,7 @@
 
                                     <!--/Gráfico Card-->
 
-                                    <div class="border-b p-3">
+                                    <div class="p-3 border-b">
                                         <h5 class="font-bold text-black">Links</h5>
                                     </div>
                                     <div class="p-5">
@@ -238,7 +255,7 @@
                                     </div>
                                     <div class="p-5">
                                         <div class="bg-blue-700 hover:bg-blue-400" >
-                                            <a href="https://www.confea.org.br/" class="no-underline w-full" target="_blank">
+                                            <a href="https://www.confea.org.br/" class="w-full no-underline" target="_blank">
                                                 <img src="{{url('/img/confea.png')}}" alt="Benefícios mutua" width="110%">
                                             </a>
                                         </div>
