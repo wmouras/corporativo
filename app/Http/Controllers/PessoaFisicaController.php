@@ -13,6 +13,7 @@ use App\Models\RegistroProfissional;
 use App\Models\Telefone;
 use App\Models\Titulo;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -58,64 +59,23 @@ class PessoaFisicaController extends Controller
         return response()->json($nacionalidade->listaNacionalidade());
     }
 
-    public function salvarPessoaFisica( Request $request ){
+    public function imprimirPDF(Request $request){
 
-        // if(Auth::id() != ){
+        // retreive all records from db
+        $data = $this->edicao($request, true);
 
-        // }
+        // share data to view
+        view()->share('pessoafisica',$data);
 
-        $data_emissao_identidade = alterarDataBrMysql($request->data_emissao_identidade);
-        $data_nascimento = alterarDataBrMysql($request->data_nascimento);
-        $request['titulo_eleitor'] = validarTituloEleitor($request->titulo_eleitor);
-        $request['cpf'] = preg_replace("/[^0-9]/", "", $request->cpf);
-        $request->merge(['usuario' => Auth::id()]);
-        $request->merge(['data_emissao_identidade' => $data_emissao_identidade]);
-        $request->merge(['data_nascimento' => $data_nascimento]);
+        PDF::setPaper('A4', 'portrait');
+        $pdf = PDF::loadView('pf.pdf_registro', $data)->setOptions(['defaultFont' => 'sans-serif']);
 
-        if(!$request->session()->get('id_pessoa')) {
-            $user = new User();
-            $pessoa = new Pessoa();
-            $idPessoa = null;
-            $cpf = $request['cpf'];
-            $usuario['name'] = $request['nome'];
-            $usuario['email'] = $request['email'];
-            $usuario['password'] = Hash::make($user->gerarSenhaAleatoria($cpf));
-            $idUsuario = $user->salvarUsuario($usuario);
-
-            $pf['fk_id_user'] = $idUsuario;
-            $pf['id_pessoa'] = null;
-            $pf['tipo_pessoa'] = 1;
-            $idPessoa = $pessoa->salvarPessoa($pf);
-            $request->merge(['fk_id_pessoa' => $idPessoa]);
-            session(['id_pessoa' => Crypt::encryptString($idPessoa)]);
-
-        } else {
-            $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
-        }
-
-        try{
-
-            $request->merge(['fk_id_pessoa' => $idPessoa]);
-            $result = PessoaFisica::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());
-
-            $parentesco = array( $request->parentesco1, $request->parentesco2);
-            $modelParentesco = new Parentesco();
-            $modelParentesco->salvarParentesco($parentesco, $idPessoa);
-
-            $registro = new RegistroProfissional();
-            $registro->setRegistroProfissional($idPessoa, false);
-
-            return response()->json(array('status'=>'success', 'msg'=>'Profissional cadastrado com sucesso.' ));
-
-            // return redirect()->route('pessoafisica.edit', ['id'=>$request->session()->get('id_pessoa')])->with('suscesso', 'You have no permission for this page!');
-
-        }catch(QueryException $e){
-
-        }
+        // download PDF file with download method
+        return $pdf->download('pdf_registro.pdf');
 
     }
 
-    public function edicao(Request $request){
+    public function edicao(Request $request, $pdf = false){
 
         session(['id_pessoa' => $request->id]);
         $idPessoa = Crypt::decryptString($request->id);
@@ -213,6 +173,10 @@ class PessoaFisicaController extends Controller
         $atribuicao = new Atribuicao();
         $pf->atribuicoes = $atribuicao->getAtribuicaoProfissional($idPessoa);
 
+        if($pdf === true){
+            return $pf;
+        }
+
         if( $request->session()->get('admin', 0) )
         {
             return view('pf/pessoafisica', ['pessoafisica' => $pf, 'admin' => true, 'editar' => '']);
@@ -221,8 +185,64 @@ class PessoaFisicaController extends Controller
             return view('pf/pessoafisica', ['pessoafisica' => $pf, 'admin' => false, 'editar' => 'disabled']);
         }
 
-        session(['id_pessoa' => $id]);
         return view('pf/pessoafisica', ['pessoafisica' => $pf]);
+
+    }
+
+    public function salvarPessoaFisica( Request $request ){
+
+        // if(Auth::id() != ){
+
+        // }
+
+        $data_emissao_identidade = alterarDataBrMysql($request->data_emissao_identidade);
+        $data_nascimento = alterarDataBrMysql($request->data_nascimento);
+        $request['titulo_eleitor'] = validarTituloEleitor($request->titulo_eleitor);
+        $request['cpf'] = preg_replace("/[^0-9]/", "", $request->cpf);
+        $request->merge(['usuario' => Auth::id()]);
+        $request->merge(['data_emissao_identidade' => $data_emissao_identidade]);
+        $request->merge(['data_nascimento' => $data_nascimento]);
+
+        if(!$request->session()->get('id_pessoa')) {
+            $user = new User();
+            $pessoa = new Pessoa();
+            $idPessoa = null;
+            $cpf = $request['cpf'];
+            $usuario['name'] = $request['nome'];
+            $usuario['email'] = $request['email'];
+            $usuario['password'] = Hash::make($user->gerarSenhaAleatoria($cpf));
+            $idUsuario = $user->salvarUsuario($usuario);
+
+            $pf['fk_id_user'] = $idUsuario;
+            $pf['id_pessoa'] = null;
+            $pf['tipo_pessoa'] = 1;
+            $idPessoa = $pessoa->salvarPessoa($pf);
+            $request->merge(['fk_id_pessoa' => $idPessoa]);
+            session(['id_pessoa' => Crypt::encryptString($idPessoa)]);
+
+        } else {
+            $idPessoa = Crypt::decryptString($request->session()->get('id_pessoa'));
+        }
+
+        try{
+
+            $request->merge(['fk_id_pessoa' => $idPessoa]);
+            $result = PessoaFisica::updateOrCreate(['fk_id_pessoa' => $idPessoa], $request->all());
+
+            $parentesco = array( $request->parentesco1, $request->parentesco2);
+            $modelParentesco = new Parentesco();
+            $modelParentesco->salvarParentesco($parentesco, $idPessoa);
+
+            $registro = new RegistroProfissional();
+            $registro->setRegistroProfissional($idPessoa, false);
+
+            return response()->json(array('status'=>'success', 'msg'=>'Profissional cadastrado com sucesso.' ));
+
+            // return redirect()->route('pessoafisica.edit', ['id'=>$request->session()->get('id_pessoa')])->with('suscesso', 'You have no permission for this page!');
+
+        }catch(QueryException $e){
+
+        }
 
     }
 

@@ -21,7 +21,7 @@
                     <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divRegistro' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divRegistro'">
                         <b>Registro</b>
                     </button>
-                     @if($admin)
+                     @if(isset($admin) && $admin === true)
                         <button :class="{ 'focus:shadow-outline-blue focus:bg-blue-100': tab === 'divConclusao' }" class="inline w-64 px-12 py-3 mb-1 leading-tight border rounded border-grey-100" @click="tab = 'divConclusao'">
                             <b>Conclusão</b>
                         </button>
@@ -265,7 +265,7 @@
 
 
                             <div class='w-full px-3 mb-6 md:w-1/2 md:mb-0'>
-                            @if($admin)
+                            @if(isset($admin) && $admin === true)
                                 <button type='button' {{$editar ?? null}} x-on:click.prevent="salvarProfissional()" class='px-4 py-2 mt-8 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 center'>
                                     Salvar
                                 </button>
@@ -527,7 +527,7 @@
                                     <div class="w-1/6 h-12 py-2 text-center bg-gray-200"><span class="font-bold">Início</span></div>
                                     <div class="w-1/6 h-12 py-2 text-center bg-gray-200"><span class="font-bold">Validade</span></div>
                                     <div class="w-1/6 h-12 py-2 text-center bg-gray-200"><span class="font-bold">Baixa</span></div>
-                                    @if($admin)
+                                    @if(isset($admin) && $admin === true)
                                     <div class="w-1/6 h-12 py-2 text-center bg-gray-200"><span class="font-bold">Ação</span></div>
                                     @endif
                                 </div>
@@ -539,7 +539,7 @@
                                         <div class="w-1/6 h-12 py-3 text-center bg-gray-50">{{$quadro->data_inicio ??  ''}}</div>
                                         <div class="w-1/6 h-12 py-3 text-center bg-gray-50">{{$quadro->data_validade ??  ''}}</div>
                                         <div class="w-1/6 h-12 py-3 text-center bg-gray-50">{{$quadro->data_baixa ??  ''}}</div>
-                                        @if($admin)
+                                        @if(isset($admin) && $admin === true)
                                         <div class="w-1/6 h-12 py-3 text-center bg-gray-50">
 
                                             <button class="font-bold text-red-700 bg-transparent border border-red-500 rounded hover:bg-blue-500 hover:text-white hover:border-transparent">
@@ -569,7 +569,7 @@
 
                                 <div class="px-10 py-4">
                                     <div class="mb-2 text-xl font-bold"  x-data="registro()">Títulos&nbsp;
-                                        @if($admin)
+                                        @if(isset($admin) && $admin === true)
                                             <button id="get-endereco" x-on:click.prevent="showModalTitulo = true" title="Adicionar ao quadro técnico" class="px-1 py-1 font-bold text-white bg-blue-400 rounded-full hover:bg-blue-700 h-9 w-9">
                                                     <i class="fa fa-plus"></i>
 
@@ -587,7 +587,7 @@
                                     <div class="w-1/4 h-12 py-2 text-center bg-gray-200"><span class="font-bold">Título</span></div>
                                     <div class="w-full h-12 py-2 text-center bg-gray-200"><span class="font-bold">Instituição</span></div>
                                     <div class="w-1/6 h-12 py-2 text-center bg-gray-200"><span class="font-bold">Data conclusão</span></div>
-                                    @if($admin)
+                                    @if(isset($admin) && $admin === true)
                                     <div class="h-12 py-2 pr-2 text-center bg-gray-200 w-1/8"><span class="font-bold">Ação</span></div>
                                     @endif
                                 </div>
@@ -599,7 +599,7 @@
                                         <div class="w-full h-12 py-2 text-center bg-gray-50">{{$titulo->instituicao_ensino ??  ''}}</div>
                                         <div class="w-1/6 h-12 py-2 text-center bg-gray-50">{{alterarDataMysqlBr($titulo->data_conclusao_curso) ??  ''}}</div>
 
-                                        @if($admin)
+                                        @if(isset($admin) && $admin === true)
 
                                         <div class="h-12 py-2 pl-5 pr-2 w-1/8 bg-gray-50 center">
                                             <button x-data="registro()" x-on:click.prevent="deletarTitulo({{$titulo->id_titulo_profissional}})" class="font-bold text-red-700 bg-transparent border border-red-500 rounded hover:bg-blue-500 hover:text-white hover:border-transparent">
@@ -627,7 +627,7 @@
                             <div class="px-10 py-4">
                                 <div class="mb-2 text-xl font-bold"  x-data="atribuicao()"> Atribuições&nbsp;
 
-                                 @if($admin)
+                                 @if(isset($admin) && $admin === true)
                                     <button id="get-atribuicao" x-on:click.prevent="showModalAtribuicao = true" title="Adicionar atribuição do profissional" class="px-1 py-1 font-bold text-white bg-blue-400 rounded-full hover:bg-blue-700 h-9 w-9">
                                             <i class="fa fa-plus"></i>
                                     </button>
@@ -642,7 +642,7 @@
                                     <div class="w-24 h-12 py-2 text-center bg-gray-200"><span class="font-bold"></span></div>
                                     <div class="w-full h-12 text-center bg-gray-200"><span class="font-bold">Descrição</span></div>
                                     <div class="w-24 h-12 py-2 text-center bg-gray-200"><span class="font-bold"></span></div>
-                                    @if($admin)
+                                    @if(isset($admin) && $admin === true)
                                     <div class="w-16 h-12 py-2 mr-3 text-center bg-gray-200"><span class="font-bold">Ação</span></div>
                                     @endif
                                 </div>
@@ -654,7 +654,7 @@
                                         <div class="w-full h-12 py-2 text-center bg-gray-50">{{$atribuicao->descricao_atribuicao ??  ''}}</div>
                                         <div class="w-24 h-12 py-2 text-center bg-gray-50"><span class="font-bold"></span></div>
 
-                                        @if($admin)
+                                        @if(isset($admin) && $admin === true)
 
                                             <div class="w-16 h-12 py-2 bg-gray-50 center">
                                             <button x-data="atribuicao()" x-on:click.prevent="deletarAtribuicao({{$atribuicao->codigo_atribuicao}})" class="font-bold text-red-700 bg-transparent border border-red-500 rounded hover:bg-blue-500 hover:text-white hover:border-transparent">
