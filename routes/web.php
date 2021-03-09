@@ -58,6 +58,7 @@ use App\Http\Controllers\LoginController;
     Route::get('/pf/pessoafisica/novo', [PessoaFisicaController::class, 'novo'])->name('pessoafisica.novo')->middleware(['auth:sanctum', 'verified']);
     Route::get('/pf/pessoafisica/index', [PessoaFisicaController::class, 'index'])->name('pessoafisica.index')->middleware(['auth:sanctum', 'verified']);
     Route::get('/pf/pessoafisica/pdf/{id}', [PessoaFisicaController::class, 'imprimirPDF']);
+    Route::get('/pf/pessoafisica/crq/{id}', [PessoaFisicaController::class, 'emitirCrq']);
 
     Route::get('/endereco/cep/{id}', [EnderecoController::class, 'cep'])->name('endereco.get')->middleware(['auth:sanctum', 'verified']);
     Route::get('/endereco/cidade/uf/{id}', [EnderecoController::class, 'cidade'])->name('listacidade')->middleware(['auth:sanctum', 'verified']);

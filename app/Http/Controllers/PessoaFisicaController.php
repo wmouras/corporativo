@@ -60,7 +60,7 @@ class PessoaFisicaController extends Controller
     }
 
     public function emitirCrq(Request $request)
-{
+    {
 
         // retreive all records from db
         $data = $this->edicao($request, true);
@@ -69,12 +69,12 @@ class PessoaFisicaController extends Controller
         view()->share('pessoafisica', $data);
 
         PDF::setPaper('A4', 'portrait');
-        $pdf = PDF::loadView('pf.pdf_crq', $data)->setOptions(['defaultFont' => 'sans-serif']);
+        $pdf = PDF::loadView('pf.crq', $data)->setOptions(['defaultFont' => 'sans-serif']);
 
         // download PDF file with download method
-        return $pdf->download('pdf_registro.pdf');
+        return $pdf->download('crq.pdf');
 
-}
+    }
 
     public function imprimirPDF(Request $request){
 
@@ -88,7 +88,7 @@ class PessoaFisicaController extends Controller
         $pdf = PDF::loadView('pf.pdf_registro', $data)->setOptions(['defaultFont' => 'sans-serif']);
 
         // download PDF file with download method
-        return $pdf->download('pdf_registro.pdf');
+        return $pdf->download('registro_profissional.pdf');
 
     }
 
