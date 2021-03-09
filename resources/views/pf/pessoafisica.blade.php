@@ -756,6 +756,7 @@
                                 $('#msgInfo').text(response.data.msg);
                                 $('#dvInfo').show();
                                 $('#cpf').focus();
+                                this.aba = 'divContato';
                             }else{
                                 $('#msgInfo').text(response.data.msg);
                                 $('#dvInfo').show();

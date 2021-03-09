@@ -69,10 +69,11 @@ class PessoaFisicaController extends Controller
         view()->share('pessoafisica', $data);
 
         PDF::setPaper('A4', 'portrait');
-        $pdf = PDF::loadView('pf.crq', $data)->setOptions(['defaultFont' => 'sans-serif']);
+        $pdf = PDF::loadView('pf.crq', $data)->setOptions(['defaultFont' => 'sans-serif', 'isRemoteEnabled' => true]);
 
         // download PDF file with download method
-        return $pdf->download('crq.pdf');
+        return $pdf->stream('crq.pdf');
+        // return $pdf->download('crq.pdf');
 
     }
 
